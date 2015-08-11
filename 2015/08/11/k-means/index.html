@@ -7,7 +7,8 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="##Lyen
-首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备">
+首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何计算相似度就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。
+1.算法基本简介k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +73,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-11T12:48:38.336Z"><a href="/2015/08/11/k-means/">Mar., Ago. 11 2015, 8:48:38 pm</a></time>
+      <time datetime="2015-08-11T12:52:09.336Z"><a href="/2015/08/11/k-means/">Mar., Ago. 11 2015, 8:52:09 pm</a></time>
 
   
     <h1 class="title">K-Means算法</h1>
@@ -87,13 +88,13 @@
       
         <p>##<div align="right">Lyen<div></div></div></p>
 <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i" target="_blank" rel="external">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
-<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
+<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。<br><a id="more"></a></p>
 <h3 id="2-处理流程">2.处理流程</h3><p>1、从D(数据源)中随机取k个元素，作为k个簇的各自的中心。</p>
 <p>2、分别计算剩下的元素到k个簇中心的相异度，将这些元素分别划归到相异度最低的簇。</p>
 <p>3、根据聚类结果，重新计算k个簇各自的中心，计算方法是取簇中所有元素各自维度的算术平均数。</p>
 <p>4、将D中全部元素按照新的中心重新聚类。</p>
 <p>5、重复第4步，直到聚类结果不再变化，即收敛。</p>
-<p><img src="imgOfK-means/08.png" alt=""></p>
+<p><img src="/imgOfK-means/08.png" alt=""></p>
 <p>ps:算法第一步中是随机的选取任意k个对象作为初始聚类的中心，初始地代表一个簇。该算法在每次迭代中对数据集中剩余的每个对象，<br><br>根据其与各个簇中心的距离将每个对象重新赋给最近的簇。当考察完所有数据对象后，一次迭代运算完成，新的聚类中心被计算出来。<br><br>如果在一次迭代前后，J的值没有发生变化，说明算法已经收敛。</p>
 <p>6、将结果输出。</p>
 <h3 id="3-举例说明">3.举例说明</h3><p>ps:数据位于spark包下的/data/mllib/kmeans_data.txt文件中</p>
@@ -134,15 +135,15 @@
     }
 </code></pre><p>测试结果如下所示：</p>
 <p>1.源数据：</p>
-<p><img src="imgOfK-means/02.png" alt=""></p>
+<p><img src="/imgOfK-means/02.png" alt=""></p>
 <p>2.中心点(k)</p>
-<p><img src="imgOfK-means/03.png" alt=""></p>
+<p><img src="/imgOfK-means/03.png" alt=""></p>
 <p>3.聚集后源数据所对应的簇</p>
-<p><img src="imgOfK-means/04.png" alt=""></p>
+<p><img src="/imgOfK-means/04.png" alt=""></p>
 <p>4.评价聚类计算内设置的平方误差的总和（WSSSE）</p>
-<p><img src="imgOfK-means/06.png" alt=""></p>
+<p><img src="/imgOfK-means/06.png" alt=""></p>
 <p>5.输入4组测试数据得到测试数据所属簇</p>
-<p><img src="imgOfK-means/05.png" alt=""></p>
+<p><img src="/imgOfK-means/05.png" alt=""></p>
 <h3 id="4-K-Means之图解">4.K-Means之图解</h3><p><img src="imgOfK-means/07.png" alt=""></p>
 <p>从上图中，我们可以看到，A，B，C，D，E是五个在图中点。而灰色的点是我们的种子点，也就是我们用来找点群的点。有两个种子点，所以K=2。</p>
 <p>然后，K-Means的算法如下：</p>

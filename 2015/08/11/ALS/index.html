@@ -80,7 +80,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-11T12:46:32.668Z"><a href="/2015/08/11/ALS/">Mar., Ago. 11 2015, 8:46:32 pm</a></time>
+      <time datetime="2015-08-11T12:51:15.124Z"><a href="/2015/08/11/ALS/">Mar., Ago. 11 2015, 8:51:15 pm</a></time>
 
   
     <h1 class="title">ALS协同过滤算法</h1>
@@ -156,14 +156,14 @@
 <p>源数据：</p>
 <p><img src="imgOfAls/002.png" alt=""></p>
 <p>MSE 均方误差</p>
-<p><img src="imgOfAls/1.png" alt=""> </p>
+<p><img src="/imgOfAls/1.png" alt=""> </p>
 <p>RMSE 均方根误差</p>
-<p><img src="imgOfAls/003.png" alt=""></p>
-<p>1.<img src="imgOfAls/01.png" alt=""></p>
-<p>2.<img src="imgOfAls/02.png" alt=""></p>
-<p>3.<img src="imgOfAls/03.png" alt=""></p>
-<p>4.<img src="imgOfAls/04.png" alt=""></p>
-<p>5.<img src="imgOfAls/001.png" alt=""></p>
+<p><img src="/imgOfAls/003.png" alt=""></p>
+<p>1.<img src="/imgOfAls/01.png" alt=""></p>
+<p>2.<img src="/imgOfAls/02.png" alt=""></p>
+<p>3.<img src="/imgOfAls/03.png" alt=""></p>
+<p>4.<img src="/imgOfAls/04.png" alt=""></p>
+<p>5.<img src="/imgOfAls/001.png" alt=""></p>
 <p>图1,2,3,4,5是1,2,3,4,5号用户对名个商品的预测评分，在数据量大的情况下可以根据其各个用户对每个商品的预测评分的高低中选出预测评分最高的几个商品作为对各个用户的推荐商品。比如在图5中5号用户只是对1号商品购买并进行了评分，而经过ALS算法根据相似计算预测出5号用户对2,3,4号商品的评分，这样我们可以根据5号用户所对应的2,3,4号商品的评分值中选取最高的预测的评分所对应的商品为5号用户推荐，即2号和4号商品。</p>
 <p>d.分析与总结</p>
 <p>通常用于推荐引擎评价的指标是称为最小均方根误差( RootMeanSquaredError, RMSE ) 指标 , 它首先计算均方误差的平均值然后取其平方根。如果评级在 1 星到 5 星这个范围内,而我们得到的 RMSE为 1.0, 那么就意味着我们的预测值和用户给出的真实评价相差了一个星级。  </p>
