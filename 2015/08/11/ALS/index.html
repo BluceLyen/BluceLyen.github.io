@@ -6,7 +6,16 @@
   <title>ALS协同过滤算法 | Bluce Lyen</title>
   <meta name="author" content="Lyen">
   
-  <meta name="description" content="Lyen1.简介: 协同过滤常被应用于推荐系统，旨在补充用户-商品关联矩阵中所缺失的部分。MLlib当前支持基于模型的协同过滤，其中用户和商品通过一小组隐语义因子进行表达，并且这些因子也用于预测缺失的元素。Spark MLlib实现了交替最小二乘法 (ALS) 来学习这些隐性语义因子。在 MLlib">
+  <meta name="description" content="Lyen1.简介: 协同过滤常被应用于推荐系统，旨在补充用户-商品关联矩阵中所缺失的部分。MLlib当前支持基于模型的协同过滤，其中用户和商品通过一小组隐语义因子进行表达，并且这些因子也用于预测缺失的元素。Spark MLlib实现了交替最小二乘法 (ALS) 来学习这些隐性语义因子。在 MLlib 中的实现有如下的参数:
+1.numBlocks 是用于并行化计算的分块个数 (设置为-1，为自动配置)。
+2.rank 是模型中隐语义因子的个数。
+   ps: 用户根据对物品的一些属性对物品的评价情况，比如用户买一个商品是因为它美观，实用        
+   那么美观，实用这两个因素就是模型中的隐语因子，即2个隐语因子隐语义模型其实就是用户
+   评价数据的因子分析，得到各个商品的主要因子，用的原理都是SVD(奇异值分解)
+3.iterations 是迭代的次数。
+4.lambda 是ALS的正则化参数。
+5. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
+6.alpha 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -71,7 +80,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-11T12:39:25.584Z"><a href="/2015/08/11/ALS/">Mar., Ago. 11 2015, 8:39:25 pm</a></time>
+      <time datetime="2015-08-11T12:41:26.492Z"><a href="/2015/08/11/ALS/">Mar., Ago. 11 2015, 8:41:26 pm</a></time>
 
   
     <h1 class="title">ALS协同过滤算法</h1>
@@ -94,7 +103,8 @@
 <span class="number">4</span><span class="class">.lambda</span> 是ALS的正则化参数。
 <span class="number">5</span>. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
 <span class="number">6</span><span class="class">.alpha</span> 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。
-</code></pre><p>可以调整这些参数，不断优化结果，使均方差变小。比如：iterations越多，lambda较小，均方差会较小，推荐结果较优。</p>
+</code></pre><a id="more"></a>
+<p>可以调整这些参数，不断优化结果，使均方差变小。比如：iterations越多，lambda较小，均方差会较小，推荐结果较优。</p>
 <h3 id="2-spark_mllib中ALS算法的思想">2.spark mllib中ALS算法的思想</h3><p>a.ALS<a href="http://www.zhihu.com/question/31509438/answer/52268608" target="_blank" rel="external">算法思想</a>详细介绍。</p>
 <p>b.举例说明:<br>在接下来的例子中我们额定载荷数据。每一行包含一个用户、一个产品和一个评级。我们使用默认ALS.train()方法,假设评级是明确的。我们评估推荐模型评级预测均方误差的测量。代码如下：</p>
 <pre><code>  def main<span class="params">(args: Array[String])</span> {

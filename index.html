@@ -99,7 +99,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-11T12:39:25.584Z"><a href="/2015/08/11/ALS/">Mar., Ago. 11 2015, 8:39:25 pm</a></time>
+      <time datetime="2015-08-11T12:41:26.492Z"><a href="/2015/08/11/ALS/">Mar., Ago. 11 2015, 8:41:26 pm</a></time>
 
   
     <h1 class="title"><a href="/2015/08/11/ALS/">ALS协同过滤算法</a></h1>
@@ -122,74 +122,7 @@
 <span class="number">4</span><span class="class">.lambda</span> 是ALS的正则化参数。
 <span class="number">5</span>. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
 <span class="number">6</span><span class="class">.alpha</span> 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。
-</code></pre><p>可以调整这些参数，不断优化结果，使均方差变小。比如：iterations越多，lambda较小，均方差会较小，推荐结果较优。</p>
-<h3 id="2-spark_mllib中ALS算法的思想">2.spark mllib中ALS算法的思想</h3><p>a.ALS<a href="http://www.zhihu.com/question/31509438/answer/52268608" target="_blank" rel="external">算法思想</a>详细介绍。</p>
-<p>b.举例说明:<br>在接下来的例子中我们额定载荷数据。每一行包含一个用户、一个产品和一个评级。我们使用默认ALS.train()方法,假设评级是明确的。我们评估推荐模型评级预测均方误差的测量。代码如下：</p>
-<pre><code>  def main<span class="params">(args: Array[String])</span> {
-          val conf = new SparkConf<span class="params">()</span>.setAppName<span class="params">(<span class="string">"ALS"</span>)</span>.setMaster<span class="params">(<span class="string">"local"</span>)</span>
-          val sc = new SparkContext<span class="params">(conf)</span>
-          <span class="comment">// 加载和解析数据文件</span>
-          val data = sc.textFile<span class="params">(<span class="string">"/home/lyen/conf/spark1.4/data/mllib/als/test.data"</span>)</span>
-          val ratings = data.map<span class="params">(_.split<span class="params">(<span class="string">","</span>)</span>match{
-          case Array<span class="params">(user,item,rate)</span> =&gt; Rating<span class="params">(user.toInt,item.toInt,rate.toDouble)</span> })</span>
-          <span class="comment">//设置迭代次数</span>
-          val numIterations = <span class="number">20</span>
-          <span class="comment">//即将训练的RDD，rank值为10,迭代次数（numIterations），ALS的正则化参数。(目的是为了减小误差)</span>
-          val model = ALS.train<span class="params">(ratings,<span class="number">10</span>,numIterations,<span class="number">0.01</span>)</span>
-          <span class="comment">//对模型进行评分</span>
-          val userProducts = ratings.map<span class="params">({case Rating<span class="params">(user,product,rate)</span> =&gt;<span class="params">(user,product)</span>})</span>
-          val predictions =model.predict<span class="params">(userProducts)</span>.map<span class="params">({caseRating<span class="params">(user,product,rate)</span>=&gt;<span class="params">(<span class="params">(user,product)</span>,rate)</span>})</span>
-          val ratesAndPreds = ratings.map<span class="params">({case Rating<span class="params">(user,product,rate)</span>=&gt;<span class="params">(<span class="params">(user,product)</span>,rate)</span>})</span>.join<span class="params">(predictions)</span>
-          <span class="comment">//MSE 均方误差     ps:一定注意,均方误差不是均方差</span>
-          val MSE = ratesAndPreds.map { case <span class="params">(<span class="params">(user, product)</span>, <span class="params">(r1, r2)</span>)</span> =&gt;       
-                       val err = <span class="params">(r1 - r2)</span>                                                   
-                             err <span class="built_in">*</span> err                                                             
-                       }.mean<span class="params">()</span>                                                                
-         println<span class="params">(<span class="string">"Mean Squared Error = "</span> + MSE)</span> 
-         <span class="comment">/*  均方误差的第二种方式   (第二种方式比较常用)                           
-          val MSE = ratesAndPreds.map({case ((user,product),(r1,r2))=&gt;math.pow((r1-r2),2)}
-          ).reduce(_+_)/ ratesAndPreds.count()
-         println("Mean Squared Error = " + MSE)
-         */</span>
-          <span class="comment">//用户推荐商品</span>
-        <span class="comment">//为每个用户进行推荐，推荐的结果可以以用户id为key</span>
-          val users=data.map<span class="params">(_.split<span class="params">(<span class="string">","</span>)</span> match { case Array<span class="params">(user, product, rate)</span> =&gt; <span class="params">(user)</span>})</span>.distinct<span class="params">()</span>.collect<span class="params">()</span>
-          users.foreach<span class="params">(user =&gt; {
-          //依次为用户推荐商品
-          var rs = model.recommendProducts<span class="params">(user.toInt, numIterations)</span>
-          var value = <span class="string">""</span>
-          var key = <span class="number">0</span>
-          //拼接推荐结果
-          rs.foreach<span class="params">(r =&gt; {
-          key = r.user
-          value = value + r.product + <span class="string">":"</span> + r.rating + <span class="string">","</span>
-          })</span>
-          println<span class="params">(key.toString+<span class="string">"   "</span> + value)</span>
-          //model的加载和保存
-          //model.save<span class="params">(sc, <span class="string">"myModelPath"</span>)</span>
-          //val sameModel = MatrixFactorizationModel.load<span class="params">(sc, <span class="string">"myModelPath"</span>)</span>
-    }  )</span>
-}
-</code></pre><p>c.运行效果图：</p>
-<p>源数据：</p>
-<p><img src="img/002.png" alt=""></p>
-<p>MSE 均方误差</p>
-<p><img src="img/1.png" alt=""> </p>
-<p>RMSE 均方根误差</p>
-<p><img src="img/003.png" alt=""></p>
-<p>1.<img src="img/01.png" alt=""></p>
-<p>2.<img src="img/02.png" alt=""></p>
-<p>3.<img src="img/03.png" alt=""></p>
-<p>4.<img src="img/04.png" alt=""></p>
-<p>5.<img src="img/001.png" alt=""></p>
-<p>图1,2,3,4,5是1,2,3,4,5号用户对名个商品的预测评分，在数据量大的情况下可以根据其各个用户对每个商品的预测评分的高低中选出预测评分最高的几个商品作为对各个用户的推荐商品。比如在图5中5号用户只是对1号商品购买并进行了评分，而经过ALS算法根据相似计算预测出5号用户对2,3,4号商品的评分，这样我们可以根据5号用户所对应的2,3,4号商品的评分值中选取最高的预测的评分所对应的商品为5号用户推荐，即2号和4号商品。</p>
-<p>d.分析与总结</p>
-<p>通常用于推荐引擎评价的指标是称为最小均方根误差( RootMeanSquaredError, RMSE ) 指标 , 它首先计算均方误差的平均值然后取其平方根。如果评级在 1 星到 5 星这个范围内,而我们得到的 RMSE为 1.0, 那么就意味着我们的预测值和用户给出的真实评价相差了一个星级。  </p>
-<p>ALS算法的核心就是将稀疏评分矩阵分解为用户特征向量矩阵和产品特征向量矩阵的乘积交替使用最小二乘法逐步计算用户/产品特征向量，使得差平方和最小通过用户/产品特征向量的矩阵来预测某个用户对某个产品的评分 。       </p>
-<p>由于数学能力有限，在此并没有仔细说明LSA（最小二乘法）的计算方法，只是对这个算法怎么用做了简单介绍，对ALS协同过滤法的工作原理惊醒了剖析。ps:要想理解ALS，则应仔细阅读<a href="http://www.zhihu.com/question/31509438/answer/52268608" target="_blank" rel="external">ALS思想</a>举例介绍（上边已提到过）,其中也包括对最小二乘法的详细计算介绍。</p>
-<h3 id="3-ALS算法应用">3.ALS算法应用</h3><p>近十年来,推荐引擎对因特网用户而言已经不是什么新鲜事物了。 Amazon会根据顾客的购买历史向他们推荐物品, NEtflix会向其用户推荐电影,新闻网站会对用户推荐新闻报道,这样的例子还有很多很多。当然,有很多方法可以实现推荐功能,这里我们只使用一种称为协同过滤( collaborative filtering ) 的 方法。协同 过滤是通过将用户和其他用户的数据进行对比来实现推荐的。</p>
-<p>这里的数据是从概念上组织成了类似图 14-2 所给出的矩阵形式。当数据采用这种方式进行组织 时 ,我们就可以比较用户或物品之间的相似度了。这两种做法都会使用我们很快就介绍到的相似度的概念。当知道了两个用户或两个物品之间的相似度,我们就可以利用已有的数据来预测未知的用户喜好。例 如 ,我们试图对某个用户喜欢的电影进行预测, 推荐引擎会发现有一部电影该用户还没看过。然 后 ,它就会计算该电影和用户看过的电影之间的相似度,如果其相似度很高,推荐算法就会认为用户喜欢这部电影。</p>
-
+</code></pre>
       
     </div>
     <footer>
