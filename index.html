@@ -99,7 +99,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-13T06:57:49.826Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 2:57:49 pm</a></time>
+      <time datetime="2015-08-13T07:00:45.982Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 3:00:45 pm</a></time>
 
   
     <h1 class="title"><a href="/2015/08/13/TriangleCount/">TriangleCount(三角计数)</a></h1>
@@ -114,89 +114,7 @@
       
         <p>计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。</p>
 <p>###1. 有向图转化为无向图<br>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
-<p><img src="/triangleCount/01.png" alt=""></p>
-<p>在具体实现中我们用邻接表来记录无向图。图中每个节点用long值来表示的。在邻接表中我们设置：</p>
-<p>如果A-B &amp; A &lt; B，则将B加入A的邻接表；</p>
-<p>如果A-B &amp; B &lt; A，则将A加入B的邻接表；</p>
-<p>这样得到的邻接表中A : linkNode1, linkNode2, linkNode3,…记录与A节点相邻的节点，并且A &lt; min(linkNode1, linkNode2, …)也即A的邻接表中记录的节点，标志它们long值都比A的long值要大。</p>
-<p><img src="/triangleCount/02.png" alt=""></p>
-<p>分析图（框中各个数字为其定点id，字母为当前定点所拥有的邻表点）</p>
-<p>###2从关系表中寻找三角关系</p>
-<p>对于一个三角关系A,B,C，我们需要寻找到A-B，B-C，C-A才能确认一个三角关系是否存在。从中可以发现节点A需要同时对应A-B以及A-C。所以想到的思路如下： </p>
-<p>对于邻接表中的A：node1,node2,…,noden，A-node1以及A-node2都是相连的，所以想要判断node1与node2是否相连，只需要再查找node1与node2是否相连就可以了。假定node1 &lt; node2，那么只需要在node1: ….中寻找node1的邻接关系中是否存在node2即可。</p>
-<p>TriangleCount算法源码分析：</p>
-<pre><code>package org.apache.spark.graphx.lib
-<span class="built_in">import</span> scala.reflect.ClassTag
-<span class="built_in">import</span> org.apache.spark.graphx._
-
-object TriangleCount {
-
-def run[VD: ClassTag, ED: ClassTag]<span class="params">(graph: Graph[VD,ED])</span>: Graph[Int, ED] = {
-
-<span class="comment">// ClassTag 可以理解为持有类型信息</span>
-<span class="comment">// Graph:返回值,以图的形式包括最终的顶点值(pagerank值)和边值(权重值),进而得到最终的结果</span>
-val g = graph.groupEdges<span class="params">(<span class="params">(a, b)</span> =&gt; a)</span>.cache<span class="params">()</span>
-<span class="comment">//初始化图框架并加入缓存</span>
-<span class="comment">//为每一个顶点计算他的邻居结点集</span>
-<span class="comment">//从起始位置以任意边为方向map目标顶点ID和attribute</span>
-val nbrSets: VertexRDD[VertexSet] =g.collectNeighborIds<span class="params">(EdgeDirection.Either)</span>.mapValues { <span class="params">(vid, nbrs)</span> =&gt;
-                val set = new VertexSet<span class="params">(<span class="number">4</span>)</span>
-                var i = <span class="number">0</span>
-                   while <span class="params">(i &lt; nbrs.size)</span> {
-                  <span class="comment">//防止自我循环</span>
-                  <span class="keyword">if</span><span class="params">(nbrs<span class="params">(i)</span> != vid)</span> {
-                    set.add<span class="params">(nbrs<span class="params">(i)</span>)</span>
-                  }
-                  i += <span class="number">1</span>
-                }
-                set
-      }
-    <span class="comment">// join the sets with the graph将得到的数据集加入Graph构建图表</span>
-    val setGraph: Graph[VertexSet, ED] = g.outerJoinVertices<span class="params">(nbrSets)</span> {
-      <span class="params">(vid, _, optSet)</span> =&gt; optSet.getOrElse<span class="params">(null)</span>
-}
-<span class="comment">//第二步：为每条边的两个点计算集的交集，并发送计算值给这两个点</span>
-    def edgeFunc<span class="params">(et: EdgeTriplet[VertexSet, ED])</span>: Iterator[<span class="params">(VertexId, Int)</span>] = {
-      assert<span class="params">(et.srcAttr != null)</span>
-      assert<span class="params">(et.dstAttr != null)</span>
-<span class="comment">//声明源顶点和目标顶点的attribute不能为空，即确保顶点存在</span>
-      val <span class="params">(smallSet, largeSet)</span> = <span class="keyword">if</span> <span class="params">(et.srcAttr.size &lt; et.dstAttr.size)</span> {
-        <span class="params">(et.srcAttr, et.dstAttr)</span>
-      } <span class="keyword">else</span> {
-        <span class="params">(et.dstAttr, et.srcAttr)</span>
-      }
-      <span class="comment">//确保从attribute较小的顶点开始，对所有顶点进行遍历</span>
-      val iter = smallSet.iterator 
-      var counter: Int = <span class="number">0</span>
-      while <span class="params">(iter.hasNext)</span> { 
-        val vid = iter.next<span class="params">()</span>
-        <span class="keyword">if</span> <span class="params">(vid != et.srcId &amp;&amp; vid != et.dstId &amp;&amp;largeSet.contains<span class="params">(vid)</span>)</span> {
-          counter += <span class="number">1</span>
-        }
-      }
-      Iterator<span class="params">(<span class="params">(et.srcId, counter)</span>, <span class="params">(et.dstId, counter)</span>)</span> 
-<span class="comment">//将得到的counter发送给两个顶点</span>
-    }
-    <span class="comment">//顺着起始边依次计算迭代下去</span>
-    val counters: VertexRDD[Int] = setGraph.mapReduceTriplets<span class="params">(edgeFunc, _ + _)</span>
-    <span class="comment">//第三步：合并图中得到的计算值并除以2，因为每个三角形都是计算的两次</span>
-    g.outerJoinVertices<span class="params">(counters)</span> {
-      <span class="params">(vid, _, optCounter: Option[Int])</span> =&gt;
-        val dblCount = optCounter.getOrElse<span class="params">(<span class="number">0</span>)</span>
-        assert<span class="params">(<span class="params">(dblCount &amp; <span class="number">1</span>)</span> == <span class="number">0</span>)</span>
-        dblCount / <span class="number">2</span>
-    }
-  } 
-}
-</code></pre><p>###3.TriangleCount案例</p>
-<p>a.代码简介</p>
-<p>当顶点周围与有一个其他两个顶点有连线时，这个顶点是三角形的一部分。GraphX 在TriangleCount对象实现了一个三角形计数算法，这个算法计算通过各顶点的三角形数目，从而提供集群的度。我们从PageRank部分计算社交网络数据集的三角形数量。TriangleCount要求边是规范的指向（srcId &lt;dstId），并使用Graph.partitionBy来分割图形。</p>
-<p>b.运行案例以及代码分析</p>
-<p><img src="/triangleCount/03.png" alt=""></p>
-<p><img src="/triangleCount/04.png" alt=""></p>
-<p>数据来源与spark目录下的graphx的data文件夹中，此数据有一点点改动，数据如下图所示：</p>
-<p><img src="/triangleCount/05.png" alt=""></p>
-
+<p><img src="/triangleCount/01.png" alt=""><br>
       
     </div>
     <footer>

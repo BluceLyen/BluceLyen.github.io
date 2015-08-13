@@ -7,7 +7,7 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。
-###1. 有向图转化为无向图如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&amp;gt;B) or (B-&amp;gt;A) THEN A-B。">
+###1. 有向图转化为无向图如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&amp;gt;B) or (B-&amp;gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-13T06:57:49.826Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 2:57:49 pm</a></time>
+      <time datetime="2015-08-13T07:00:45.982Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 3:00:45 pm</a></time>
 
   
     <h1 class="title">TriangleCount(三角计数)</h1>
@@ -87,8 +87,7 @@
       
         <p>计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。</p>
 <p>###1. 有向图转化为无向图<br>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
-<p><img src="/triangleCount/01.png" alt=""></p>
-<p>在具体实现中我们用邻接表来记录无向图。图中每个节点用long值来表示的。在邻接表中我们设置：</p>
+<p><img src="/triangleCount/01.png" alt=""><br><a id="more"></a></p>
 <p>如果A-B &amp; A &lt; B，则将B加入A的邻接表；</p>
 <p>如果A-B &amp; B &lt; A，则将A加入B的邻接表；</p>
 <p>这样得到的邻接表中A : linkNode1, linkNode2, linkNode3,…记录与A节点相邻的节点，并且A &lt; min(linkNode1, linkNode2, …)也即A的邻接表中记录的节点，标志它们long值都比A的long值要大。</p>
