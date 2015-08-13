@@ -3,13 +3,16 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Bluce Lyen</title>
+  <title>TriangleCount(三角计数) | Bluce Lyen</title>
   <meta name="author" content="Lyen">
+  
+  <meta name="description" content="计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。
+###1. 有向图转化为无向图如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&amp;gt;B) or (B-&amp;gt;A) THEN A-B。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="TriangleCount(三角计数)"/>
   <meta property="og:site_name" content="Bluce Lyen"/>
 
   
@@ -52,37 +55,7 @@
 </nav>
   </header>
   <div id="content" class="container">
-    <div id="cover">
-	<div id="profile" alt="http://www.33lc.com/article/UploadPic/2012-7/20127291041962908.jpg">
-		<a href="/">
-			<div class="logo">
-				<img src="/logo.png" alt="Profile Picture">
-			</div>
-			<div id="title">Bluce Lyen</div>
-		</a>
-
-		
-		 <ul class="my-socials">
-  
-  <li>
-  	<a href="https://github.com/BluceLyen" class="github" target="_blank">
-  		<i class="fa fa-github"></i>
-  	</a>
-  </li>
-  
-  <li>
-  	<a href="http://weibo.com/u/2530759420/home?topnav=1&wvr=6" class="weibo" target="_blank">
-  		<i class="fa fa-weibo"></i>
-  	</a>
-  </li>
-  
- 
-</ul>
-	</div>
-</div>
-
-
-  <article class="post">
+    <article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -102,7 +75,7 @@
       <time datetime="2015-08-13T06:57:49.826Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 2:57:49 pm</a></time>
 
   
-    <h1 class="title"><a href="/2015/08/13/TriangleCount/">TriangleCount(三角计数)</a></h1>
+    <h1 class="title">TriangleCount(三角计数)</h1>
   
 
 
@@ -201,159 +174,48 @@ val nbrSets: VertexRDD[VertexSet] =g.collectNeighborIds<span class="params">(Edg
     </div>
     <footer>
       
-        <div class="alignleft">
-            <a href="/2015/08/13/TriangleCount/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/08/13/TriangleCount/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/13/TriangleCount/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
+          
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <span class="jiathis_txt">分享到：</span>
+  <a class="jiathis_button_weixin">微信</a>
+  <a class="jiathis_button_tsina">新浪微博</a>
+  <a class="jiathis_button_renren">人人网</a>
+  <a class="jiathis_button_qzone">QQ空间</a>
+  <a class="jiathis_button_douban">豆瓣</a>
+  <a class="jiathis_button_pocket">Pocket</a>
+  <a href="http://www.jiathis.com/share?uid=901656" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+  <a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=901656" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+          <div class="clearfix"></div>
+          <nav id="pagination">
   
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2015-08-12T02:36:57.464Z"><a href="/2015/08/12/k-means/">Mié., Ago. 12 2015, 10:36:57 am</a></time>
-
   
-    <h1 class="title"><a href="/2015/08/12/k-means/">K-Means算法</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
-<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2015/08/12/k-means/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/08/12/k-means/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/12/k-means/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2015-08-12T02:36:46.508Z"><a href="/2015/08/12/ALS/">Mié., Ago. 12 2015, 10:36:46 am</a></time>
-
-  
-    <h1 class="title"><a href="/2015/08/12/ALS/">ALS协同过滤算法</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h3 id="1-简介:">1.简介:</h3><p> 协同过滤常被应用于推荐系统，旨在补充用户-商品关联矩阵中所缺失的部分。MLlib当前支持基于模型的协同过滤，其中用户和商品通过一小组隐语义因子进行表达，并且这些因子也用于预测缺失的元素。Spark MLlib实现了交替最小二乘法 (ALS) 来学习这些隐性语义因子。在 MLlib 中的实现有如下的参数:</p>
-<pre><code><span class="number">1</span><span class="class">.numBlocks</span> 是用于并行化计算的分块个数 (设置为-<span class="number">1</span>，为自动配置)。
-<span class="number">2</span><span class="class">.rank</span> 是模型中隐语义因子的个数。
-   ps: 用户根据对物品的一些属性对物品的评价情况，比如用户买一个商品是因为它美观，实用        
-   那么美观，实用这两个因素就是模型中的隐语因子，即<span class="number">2</span>个隐语因子隐语义模型其实就是用户
-   评价数据的因子分析，得到各个商品的主要因子，用的原理都是<span class="function"><span class="title">SVD</span><span class="params">(奇异值分解)</span></span>
-<span class="number">3</span><span class="class">.iterations</span> 是迭代的次数。
-<span class="number">4</span><span class="class">.lambda</span> 是ALS的正则化参数。
-<span class="number">5</span>. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
-<span class="number">6</span><span class="class">.alpha</span> 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。
-</code></pre>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2015/08/12/ALS/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/08/12/ALS/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/12/ALS/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-<nav id="pagination">
-  
+    <a href="/2015/08/12/k-means/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
 
-<script src="/js/jquery.anystretch.min.js" type="text/javascript"></script>
-<script src="/js/cover.js" type="text/javascript"></script>
+
+<section id="comment">
+  <h1 class="title">Comentarios</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2015/08/13/TriangleCount/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
 
     <div class="clearfix"></div>
   </div>
