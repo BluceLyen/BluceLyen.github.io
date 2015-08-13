@@ -7,7 +7,7 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。
-###1. 有向图转化为无向图如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&amp;gt;B) or (B-&amp;gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）">
+1. 有向图转化为无向图如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&amp;gt;B) or (B-&amp;gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-13T07:00:45.982Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 3:00:45 pm</a></time>
+      <time datetime="2015-08-13T07:02:48.458Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 3:02:48 pm</a></time>
 
   
     <h1 class="title">TriangleCount(三角计数)</h1>
@@ -86,15 +86,14 @@
     <div class="entry">
       
         <p>计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。</p>
-<p>###1. 有向图转化为无向图<br>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
+<h3 id="1-_有向图转化为无向图">1. 有向图转化为无向图</h3><p>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
 <p><img src="/triangleCount/01.png" alt=""><br><a id="more"></a></p>
 <p>如果A-B &amp; A &lt; B，则将B加入A的邻接表；</p>
 <p>如果A-B &amp; B &lt; A，则将A加入B的邻接表；</p>
 <p>这样得到的邻接表中A : linkNode1, linkNode2, linkNode3,…记录与A节点相邻的节点，并且A &lt; min(linkNode1, linkNode2, …)也即A的邻接表中记录的节点，标志它们long值都比A的long值要大。</p>
 <p><img src="/triangleCount/02.png" alt=""></p>
 <p>分析图（框中各个数字为其定点id，字母为当前定点所拥有的邻表点）</p>
-<p>###2从关系表中寻找三角关系</p>
-<p>对于一个三角关系A,B,C，我们需要寻找到A-B，B-C，C-A才能确认一个三角关系是否存在。从中可以发现节点A需要同时对应A-B以及A-C。所以想到的思路如下： </p>
+<h3 id="2-从关系表中寻找三角关系">2.从关系表中寻找三角关系</h3><p>对于一个三角关系A,B,C，我们需要寻找到A-B，B-C，C-A才能确认一个三角关系是否存在。从中可以发现节点A需要同时对应A-B以及A-C。所以想到的思路如下： </p>
 <p>对于邻接表中的A：node1,node2,…,noden，A-node1以及A-node2都是相连的，所以想要判断node1与node2是否相连，只需要再查找node1与node2是否相连就可以了。假定node1 &lt; node2，那么只需要在node1: ….中寻找node1的邻接关系中是否存在node2即可。</p>
 <p>TriangleCount算法源码分析：</p>
 <pre><code>package org.apache.spark.graphx.lib
@@ -160,8 +159,7 @@ val nbrSets: VertexRDD[VertexSet] =g.collectNeighborIds<span class="params">(Edg
     }
   } 
 }
-</code></pre><p>###3.TriangleCount案例</p>
-<p>a.代码简介</p>
+</code></pre><h3 id="3-TriangleCount案例">3.TriangleCount案例</h3><p>a.代码简介</p>
 <p>当顶点周围与有一个其他两个顶点有连线时，这个顶点是三角形的一部分。GraphX 在TriangleCount对象实现了一个三角形计数算法，这个算法计算通过各顶点的三角形数目，从而提供集群的度。我们从PageRank部分计算社交网络数据集的三角形数量。TriangleCount要求边是规范的指向（srcId &lt;dstId），并使用Graph.partitionBy来分割图形。</p>
 <p>b.运行案例以及代码分析</p>
 <p><img src="/triangleCount/03.png" alt=""></p>
