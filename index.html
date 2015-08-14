@@ -99,10 +99,10 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-13T07:02:48.458Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 3:02:48 pm</a></time>
+      <time datetime="2015-08-14T02:30:24.906Z"><a href="/2015/08/14/k-means/">Vie., Ago. 14 2015, 10:30:24 am</a></time>
 
   
-    <h1 class="title"><a href="/2015/08/13/TriangleCount/">TriangleCount(三角计数)</a></h1>
+    <h1 class="title"><a href="/2015/08/14/k-means/">K-Means算法</a></h1>
   
 
 
@@ -112,21 +112,20 @@
     </header>
     <div class="entry">
       
-        <p>计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。</p>
-<h3 id="1-_有向图转化为无向图">1. 有向图转化为无向图</h3><p>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
-<p><img src="/triangleCount/01.png" alt=""><br>
+        <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
+<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
       
     </div>
     <footer>
       
         <div class="alignleft">
-            <a href="/2015/08/13/TriangleCount/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+            <a href="/2015/08/14/k-means/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
         </div>
         
         
           <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/08/13/TriangleCount/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/13/TriangleCount/">&nbsp;
+            <a href="http://blucelyen.github.io/2015/08/14/k-means/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/14/k-means/">&nbsp;
               </span>
             </a>
           </div>
@@ -157,10 +156,10 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-08-12T02:36:57.464Z"><a href="/2015/08/12/k-means/">Mié., Ago. 12 2015, 10:36:57 am</a></time>
+      <time datetime="2015-08-13T07:02:48.458Z"><a href="/2015/08/13/TriangleCount/">Jue., Ago. 13 2015, 3:02:48 pm</a></time>
 
   
-    <h1 class="title"><a href="/2015/08/12/k-means/">K-Means算法</a></h1>
+    <h1 class="title"><a href="/2015/08/13/TriangleCount/">TriangleCount(三角计数)</a></h1>
   
 
 
@@ -170,20 +169,21 @@
     </header>
     <div class="entry">
       
-        <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
-<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
+        <p>计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。</p>
+<h3 id="1-_有向图转化为无向图">1. 有向图转化为无向图</h3><p>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
+<p><img src="/triangleCount/01.png" alt=""><br>
       
     </div>
     <footer>
       
         <div class="alignleft">
-            <a href="/2015/08/12/k-means/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+            <a href="/2015/08/13/TriangleCount/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
         </div>
         
         
           <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/08/12/k-means/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/12/k-means/">&nbsp;
+            <a href="http://blucelyen.github.io/2015/08/13/TriangleCount/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/08/13/TriangleCount/">&nbsp;
               </span>
             </a>
           </div>
