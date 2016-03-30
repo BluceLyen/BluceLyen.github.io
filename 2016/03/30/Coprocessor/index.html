@@ -6,11 +6,8 @@
   <title>Hbase Coprocessor | Bluce Lyen</title>
   <meta name="author" content="Lyen">
   
-  <meta name="description" content="##1.why Hbase Coprocessor?
-HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&amp;lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。Coprocessor详细介绍. 
-##2.应用场景
-###2.1基于IDC用户网站访问记录系统设计与开发
-1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.
+  <meta name="description" content="1.why Hbase Coprocessor?HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&amp;lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。Coprocessor详细介绍. 
+2.应用场景2.1基于IDC用户网站访问记录系统设计与开发1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.
 Tips:
 HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如Coprocessor详细介绍.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。ptotobuf协议详解,下面将会讲解如何使用新版的Endpoint.">
   
@@ -77,7 +74,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:12:26.579Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:12:26 pm</a></time>
+      <time datetime="2016-03-30T09:15:20.734Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:15:20 pm</a></time>
 
   
     <h1 class="title">Hbase Coprocessor</h1>
@@ -90,17 +87,12 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
     </header>
     <div class="entry">
       
-        <p>##1.why Hbase Coprocessor?</p>
-<p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>. </p>
-<p>##2.应用场景</p>
-<p>###2.1基于IDC用户网站访问记录系统设计与开发</p>
-<p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
+        <h2 id="1-why_Hbase_Coprocessor?">1.why Hbase Coprocessor?</h2><p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>. </p>
+<h2 id="2-应用场景">2.应用场景</h2><h3 id="2-1基于IDC用户网站访问记录系统设计与开发">2.1基于IDC用户网站访问记录系统设计与开发</h3><p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
 <p>Tips:</p>
 <p>HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。<a href="http://blog.csdn.net/caisini_vc/article/details/5599468" target="_blank" rel="external">ptotobuf协议详解</a>,下面将会讲解如何使用新版的Endpoint.</p>
 <a id="more"></a>
-<p>###2.2实现步骤</p>
-<p>####2.2.1protobuf安装与配置</p>
-<p>1.在Ubuntu的终端里输入:wget <a href="http://protobuf.googlecode.com/filesprotobuf-2.5.0.tar.gz" target="_blank" rel="external">http://protobuf.googlecode.com/filesprotobuf-2.5.0.tar.gz</a></p>
+<h3 id="2-2实现步骤">2.2实现步骤</h3><h4 id="2-2-1protobuf安装与配置">2.2.1protobuf安装与配置</h4><p>1.在Ubuntu的终端里输入:wget <a href="http://protobuf.googlecode.com/filesprotobuf-2.5.0.tar.gz" target="_blank" rel="external">http://protobuf.googlecode.com/filesprotobuf-2.5.0.tar.gz</a></p>
 <p>2.下载之后解压:tar -xvzf protobuf-2.5.0.tar.gz </p>
 <p>3.进入到解压后的目录:cd protobuf-2.5.0</p>
 <p>4.执行命令: ./configure –prefix=/usr/local/protobuf</p>
@@ -112,8 +104,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
 <p>export PKG_CONFIG_PATH=/usr/local/protobuf/lib/pkgconfig/</p>
 <p>9.更新~/.profile文件:source ~/.profile</p>
 <p>10.检测是否安装成功:protoc –version 出现libptotoc 2.5.0则安装成功.</p>
-<p>####2.2.2根据项目需求查询条件编写protobuf文件并编译</p>
-<p>1.在此应用场景中用Coprocessor实现查询符合某一时间段内访问网站的记录总数所对应的protobuf文件如下:</p>
+<h4 id="2-2-2根据项目需求查询条件编写protobuf文件并编译">2.2.2根据项目需求查询条件编写protobuf文件并编译</h4><p>1.在此应用场景中用Coprocessor实现查询符合某一时间段内访问网站的记录总数所对应的protobuf文件如下:</p>
 <pre><code><span class="keyword">option</span> java_package = <span class="string">"com.lyen.coprocessor02"</span>;
 <span class="keyword">option</span> java_outer_classname = <span class="string">"ServerCopro02"</span>;
 <span class="keyword">option</span> java_generic_services = <span class="literal">true</span>;
@@ -136,8 +127,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
 <p>2.编译:protoc –java_out=/home/lyen proto2.pro编译后会生成一个包里边包含ServerCopro02.java,将此包复制到你的eclipse工程下即可使用.</p>
 <p>3.RowCountRequest是发送给服务端的消息，这里定义int类型starttime和endtime来存放具体请求消息内容(查询条件)。RowCountResponse是返回的结果，统计的是行数，所以用int类型存放。CopCountService中定义一个方法getCount，传递请求，返回响应.</p>
 <p>Tips:<br>a.不同的查询条件需要编写不同的protobuf文件,这是比较麻烦的,不过有了这个例子其余的都是照着葫芦画瓢.</p>
-<p>####2.2.3实现Edpoint服务端</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyEndpoint02</span> <span class="keyword">extends</span> <span class="title">ServerCopro02</span>.<span class="title">CopCountService</span> <span class="keyword">implements</span> <span class="title">Coprocessor</span>, <span class="title">CoprocessorService</span></span>{
+<h4 id="2-2-3实现Edpoint服务端">2.2.3实现Edpoint服务端</h4><pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyEndpoint02</span> <span class="keyword">extends</span> <span class="title">ServerCopro02</span>.<span class="title">CopCountService</span> <span class="keyword">implements</span> <span class="title">Coprocessor</span>, <span class="title">CoprocessorService</span></span>{
 
 
 <span class="keyword">private</span> RegionCoprocessorEnvironment environment = <span class="keyword">null</span>;
@@ -212,8 +202,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
 <p>a.MyEndpoint02需要继承抽象类ServerCopro02.CopCountService并实现Coprocessor和CoprocessorService接口。CopCountService在刚才生成的包里。</p>
 <p>b.start和stop方法分别负责endpoint执行前的初始化和结束后的清理工作。start方法的参数是一个接口，需要根据实际环境将其转成需要的类型。</p>
 <p>c.主要需要实现的是getCount方法，这也刚才在protobuf中定义的方法。服务端收到请求信息starttime和endtime，那么返回这段时间内符合条件的查询结果；统计region的记录行数并返回。</p>
-<p>####2.2.3实现客户端</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> MyClient02 {
+<h4 id="2-2-3实现客户端">2.2.3实现客户端</h4><pre><code><span class="keyword">public</span> <span class="keyword">class</span> MyClient02 {
 <span class="keyword">public</span> <span class="keyword">static</span>  Configuration conf;
 <span class="keyword">private</span> <span class="keyword">byte</span>[] table_name = <span class="string">"exp"</span>.getBytes();
 <span class="keyword">public</span>  <span class="keyword">Long</span> starttime=<span class="keyword">new</span> <span class="keyword">Long</span>(<span class="number">1451023295513</span>L + <span class="number">2</span>*<span class="number">60</span>*<span class="number">1000</span>);
@@ -260,23 +249,18 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
 <pre><code><span class="keyword">public</span> &lt;T <span class="keyword">extends</span> Service, R&gt; Map&lt;<span class="keyword">byte</span>[],R&gt; coprocessorService(<span class="keyword">final</span> <span class="keyword">Class</span>&lt;T&gt; service,
 <span class="keyword">byte</span>[] startKey, <span class="keyword">byte</span>[] endKey, <span class="keyword">final</span> Batch.<span class="keyword">Call</span>&lt;T,R&gt; callable)
 </code></pre><p>该方法有四个参数，第1个参数是protobuf生成的ServerCopro02.CopCountService.class类对象。第2个和第3个参数分别为起始和结束rowkey，这里的意思是范围内rowkey所在的region都会调用endpoint，这里设为null表明所有的region都会调用。第4个参数为接口，需要重写call方法。</p>
-<p>####2.2.4部署</p>
-<p>1.首先把自己写的服务端MyClient02类和之前用protobuf生成的CopCountService协议类一起打包成一个jar包放在Hbase安装目录的lib目录下,然后重新启动Hbase.并且也要把这个jar包放一份在自己的java工程中.</p>
+<h4 id="2-2-4部署">2.2.4部署</h4><p>1.首先把自己写的服务端MyClient02类和之前用protobuf生成的CopCountService协议类一起打包成一个jar包放在Hbase安装目录的lib目录下,然后重新启动Hbase.并且也要把这个jar包放一份在自己的java工程中.</p>
 <p>2.启动hbase shell通过shell方式(作用于指定)</p>
 <p>import com.lyen.coprocessor02.MyEndpoint02</p>
 <p>alter ‘exp’,’coprocessor’=&gt;’|com.lyen.coprocessor02.MyEndpoint02|1001|’</p>
-<p>####2.2.5运行客户端程序</p>
-<p><img src="/coprocessor/0001.png" alt=""></p>
-<p>##3.总结</p>
-<p>###3.1不足之处</p>
-<p>a.考虑自身笔记本配置的限制,在之前IDC用户网站访问记录系统设计与开发的时候在一台机器上搭建的Hadoop伪分布环境,在Hbase的时候并没有进行数据的散列即预分区,假如说采用预分区散列数据的话,程序的改动也仅仅是在服务端的Endpoint,若采用与分区则我们在写Endpoint时候是需要修改如下代码</p>
+<h4 id="2-2-5运行客户端程序">2.2.5运行客户端程序</h4><p><img src="/coprocessor/0001.png" alt=""></p>
+<h2 id="3-总结">3.总结</h2><h3 id="3-1不足之处">3.1不足之处</h3><p>a.考虑自身笔记本配置的限制,在之前IDC用户网站访问记录系统设计与开发的时候在一台机器上搭建的Hadoop伪分布环境,在Hbase的时候并没有进行数据的散列即预分区,假如说采用预分区散列数据的话,程序的改动也仅仅是在服务端的Endpoint,若采用与分区则我们在写Endpoint时候是需要修改如下代码</p>
 <pre><code><span class="label">HRegion</span> rg = (HRegion) environment.getRegion()<span class="comment">;</span>
 <span class="label">rg.getStartKey</span>(<span class="keyword">byte[] </span><span class="keyword">b); </span>
 <span class="label">rg.getEndKey</span>(<span class="keyword">byte[] </span><span class="keyword">b); </span>
 </code></pre><p>//这两个方法是为了获取分区后的散列号(而且此方法只有habase0.98才有),以免不必要的麻烦推荐Hbase使用0.98版本的.</p>
 <p>然后再重组RowKey,(散列号+timestamp+ip)和最初表结构一致的RowKey.</p>
-<p>###3.1难点</p>
-<p>a.Coprocessor的优点想必在此博客的开始就已经了解过了吧,真正难的地方在于很难调试,毕竟Endpoint放在服务器端运行,一出错就得又改代码并重新部署,而且出错在哪儿只有看日志文件慢慢找,客户端是无法看到的,确实很蛋疼,不过慢慢的还是会习惯的,此博客写的是比较简单的服务器端的求和的小程序,因此调试起来也比较容易,外加了两个开始时间和技术时间这两个参数是为了更容易理解新版Endpoint的写法.关于Coprocessor的更多场景应用还有待深入学习.</p>
+<h3 id="3-1难点">3.1难点</h3><p>a.Coprocessor的优点想必在此博客的开始就已经了解过了吧,真正难的地方在于很难调试,毕竟Endpoint放在服务器端运行,一出错就得又改代码并重新部署,而且出错在哪儿只有看日志文件慢慢找,客户端是无法看到的,确实很蛋疼,不过慢慢的还是会习惯的,此博客写的是比较简单的服务器端的求和的小程序,因此调试起来也比较容易,外加了两个开始时间和技术时间这两个参数是为了更容易理解新版Endpoint的写法.关于Coprocessor的更多场景应用还有待深入学习.</p>
 
       
     </div>
@@ -301,8 +285,10 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
           <div class="clearfix"></div>
           <nav id="pagination">
   
+    <a href="/2016/03/30/IDC/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-    <a href="/2016/03/30/IDC/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+  
+    <a href="/2016/03/30/TriangleCount/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
