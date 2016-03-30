@@ -99,6 +99,65 @@
   <div class="post-content">
     <header>
       
+      <time datetime="2016-03-30T09:19:46.453Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:19:46 pm</a></time>
+
+  
+    <h1 class="title"><a href="/2016/03/30/Coprocessor/">Hbase Coprocessor</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-why_Hbase_Coprocessor?">1.why Hbase Coprocessor?</h2><p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>. </p>
+<h2 id="2-应用场景">2.应用场景</h2><h3 id="2-1基于IDC用户网站访问记录系统设计与开发">2.1基于IDC用户网站访问记录系统设计与开发</h3><p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
+<p>Tips:</p>
+<p>HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。<a href="http://blog.csdn.net/caisini_vc/article/details/5599468">ptotobuf协议详解</a>,下面将会讲解如何使用新版的Endpoint.</p>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/03/30/Coprocessor/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/03/30/Coprocessor/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/Coprocessor/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
       <time datetime="2016-03-30T09:16:28.775Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:16:28 pm</a></time>
 
   
@@ -132,65 +191,6 @@
           <div class="alignright"> 
             <a href="http://blucelyen.github.io/2016/03/30/IDC/#comment" class="comment-link">
               <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/IDC/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-03-30T09:15:20.734Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:15:20 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2016/03/30/Coprocessor/">Hbase Coprocessor</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-why_Hbase_Coprocessor?">1.why Hbase Coprocessor?</h2><p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>. </p>
-<h2 id="2-应用场景">2.应用场景</h2><h3 id="2-1基于IDC用户网站访问记录系统设计与开发">2.1基于IDC用户网站访问记录系统设计与开发</h3><p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
-<p>Tips:</p>
-<p>HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。<a href="http://blog.csdn.net/caisini_vc/article/details/5599468">ptotobuf协议详解</a>,下面将会讲解如何使用新版的Endpoint.</p>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/03/30/Coprocessor/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/03/30/Coprocessor/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/Coprocessor/">&nbsp;
               </span>
             </a>
           </div>
