@@ -78,7 +78,7 @@ b.Coprocessor方法。
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:16:28.775Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:16:28 pm</a></time>
+      <time datetime="2016-03-30T09:21:04.578Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:21:04 pm</a></time>
 
   
     <h1 class="title">IDC用户网站访问记录系统设计与开发</h1>
@@ -91,7 +91,7 @@ b.Coprocessor方法。
     </header>
     <div class="entry">
       
-        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>IDC用户网站访问记录系统设计与开发，顾名思义，本<br>系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
+        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>IDC用户网站访问记录系统设计与开发，顾名思义，本系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
 <h3 id="1-2设计目标">1.2设计目标</h3><h4 id="1-2-1_模拟数据写入模块">1.2.1 模拟数据写入模块</h4><p>在写入数据部分应该实现一个实时机制，在写入数据这一模块中,从数据在客服端产生到上传到hdfs再到将数据写入到Hbase这个过程涉及三个程序,第一个程序每隔一分钟生成模拟数据文件放在本地的一个文件夹中,第二个程序负责将生成的数据文件实时的上传到hdfs,第三个程序负责把hdfs上边的文件实时的写入Hbase中,由于考虑到实时,这三个程序构成一个实时的机制,数据产生即刻上传至hdfs并且即刻通过mapreduce直接写入Hbase。</p>
 <h4 id="1-2-2_数据查询模块">1.2.2 数据查询模块</h4><p>查询部分本系统满足按时间段查询，按时间范围+ip范围查询完整记录，按时间范围+ip范围+协议类型查询完整记录，按时间范围+ip范围+协议类型+url域名查询完整记录。</p>
 <h3 id="1-3_研究思路">1.3 研究思路</h3><h4 id="1-3-1怎样写入Hbase比较科学?">1.3.1怎样写入Hbase比较科学?</h4><p>数据模拟程序每分钟生成一个数据文件，当数据还未生成成功时后缀名为.lock，因此我们需要利用File文件进行遍历目录，将完整文件上传至hdfs指定的变量目录，每上传一个或者多个文件，同时删除本地的文件与此同时执行mapreduce将文件数据写入Hbase，写完这个文件则从hdfs中删除，这样可以保证mapreduce在写程序的时候在这个指定目录下不会mapreduce重复的文件。</p>
@@ -315,10 +315,8 @@ public static void countByLimits<span class="params">(Long stime,int b,int s,Str
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/03/30/Coprocessor/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-  
-    <a href="/2016/03/30/TriangleCount/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/03/30/Coprocessor/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
