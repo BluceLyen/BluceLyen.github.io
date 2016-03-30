@@ -7,7 +7,7 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="##1.why Hbase Coprocessor?
-  HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&amp;lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得">
+HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&amp;lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:04:11.697Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:04:11 pm</a></time>
+      <time datetime="2016-03-30T09:08:54.042Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:08:54 pm</a></time>
 
   
     <h1 class="title">Hbase Coprocessor</h1>
@@ -86,7 +86,7 @@
     <div class="entry">
       
         <p>##1.why Hbase Coprocessor?</p>
-<p>  HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>. </p>
+<p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>. </p>
 <p>##2.应用场景</p>
 <p>###2.1基于IDC用户网站访问记录系统设计与开发</p>
 <p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>

@@ -99,7 +99,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:04:11.697Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:04:11 pm</a></time>
+      <time datetime="2016-03-30T09:08:54.042Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:08:54 pm</a></time>
 
   
     <h1 class="title"><a href="/2016/03/30/Coprocessor/">Hbase Coprocessor</a></h1>
@@ -113,7 +113,7 @@
     <div class="entry">
       
         <p>##1.why Hbase Coprocessor?</p>
-<p>  HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>. </p>
+<p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243" target="_blank" rel="external">Coprocessor详细介绍</a>. </p>
 <p>##2.应用场景</p>
 <p>###2.1基于IDC用户网站访问记录系统设计与开发</p>
 <p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
@@ -341,7 +341,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:03:13.601Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:03:13 pm</a></time>
+      <time datetime="2016-03-30T09:08:09.242Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:08:09 pm</a></time>
 
   
     <h1 class="title"><a href="/2016/03/30/IDC/">IDC用户网站访问记录系统设计与开发</a></h1>
@@ -355,8 +355,7 @@
     <div class="entry">
       
         <p>##1.设计思路</p>
-<p>###1.1问题分析</p>
-<p>IDC用户网站访问记录系统设计与开发，顾名思义，本<br>系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
+<p>###1.1问题分析<br>IDC用户网站访问记录系统设计与开发，顾名思义，本<br>系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
 <p>###1.2设计目标</p>
 <p>####1.2.1 模拟数据写入模块</p>
 <p>在写入数据部分应该实现一个实时机制，在写入数据这一模块中,从数据在客服端产生到上传到hdfs再到将数据写入到Hbase这个过程涉及三个程序,第一个程序每隔一分钟生成模拟数据文件放在本地的一个文件夹中,第二个程序负责将生成的数据文件实时的上传到hdfs,第三个程序负责把hdfs上边的文件实时的写入Hbase中,由于考虑到实时,这三个程序构成一个实时的机制,数据产生即刻上传至hdfs并且即刻通过mapreduce直接写入Hbase。</p>
