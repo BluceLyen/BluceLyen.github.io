@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-05-30T01:49:24.637Z"><a href="/2016/05/30/GraphX应用案例/">Lun., May. 30 2016, 9:49:24 am</a></time>
+      <time datetime="2016-05-30T01:56:51.336Z"><a href="/2016/05/30/GraphX应用案例/">Lun., May. 30 2016, 9:56:51 am</a></time>
 
   
     <h1 class="title">GraphX之微博用户热度和社交稳定度排名</h1>
@@ -144,7 +144,7 @@ ranksByUsername.foreach(println)
 }
 </code></pre><p>3.程序运行图</p>
 <p><img src="/graphx/pagerank.png" alt=""></p>
-<h5 id="连通体算法">连通体算法</h5><ul>
+<h5 id="ConnectedComponents算法">ConnectedComponents算法</h5><ul>
 <li>连通体算法用id标注图中每个连通体,将连通体中序号最小的顶点的id作为连通体的id。例如,在社交网络中,连通体可以近似为集群。</li>
 </ul>
 <p>1.数据文件及其格式:</p>
@@ -175,7 +175,7 @@ ranksByUsername.foreach(println)
 }
 </code></pre><p>3.程序运行图</p>
 <p><img src="/graphx/comp.png" alt=""></p>
-<h5 id="三角形计数算法">三角形计数算法</h5><ul>
+<h5 id="TriangleCount算法">TriangleCount算法</h5><ul>
 <li>一个顶点有两个相邻的顶点以及相邻顶点之间的边时,这个顶点是一个三角形的一部分。GraphX在TriangleCount    object    中实现了一个三角形计数算法,它计算通过每个顶点的三角形的数量。需要注意的是,在计算社交网络数据集的三角形计数时, TriangleCount需要边的方向是规范的方向(srcId    &lt;    dstId),    并且图通过     Graph.partitionBy     分片过。</li>
 </ul>
 <p>1.数据文件及其格式:</p>
@@ -183,6 +183,7 @@ ranksByUsername.foreach(println)
 <p><img src="/graphx/followers.png" alt=""></p>
 <p>2.算法实现</p>
 <pre><code><span class="keyword">package</span> com.graphx.tests
+
 <span class="keyword">import</span> org.apache.spark.graphx.<span class="type">PartitionStrategy</span>
 <span class="keyword">import</span> org.apache.spark.graphx.<span class="type">GraphLoader</span>
 <span class="keyword">import</span> org.apache.spark.<span class="type">SparkConf</span>
@@ -191,19 +192,16 @@ ranksByUsername.foreach(println)
 <span class="class"><span class="keyword">object</span> <span class="title">test06</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">App</span> {</span>
   <span class="function"><span class="keyword">val</span> <span class="title">conf</span> =</span> <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"graphx"</span>).setMaster(<span class="string">"local"</span>)
   <span class="function"><span class="keyword">val</span> <span class="title">sc</span> =</span> <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)
-  <span class="function"><span class="keyword">val</span>    <span class="title">graph</span>    =</span>    <span class="type">GraphLoader</span>.edgeListFile(sc,    <span class="string">"/home/lyen/data/followers.txt"</span>,    
+  <span class="function"><span class="keyword">val</span>    <span class="title">graph</span> =</span> <span class="type">GraphLoader</span>.edgeListFile(sc,<span class="string">"/home/lyen/data/followers.txt"</span>,    
   <span class="literal">true</span>).partitionBy(<span class="type">PartitionStrategy</span>.<span class="type">RandomVertexCut</span>)
-  <span class="comment">//    Find    the    triangle    count    for    each    vertex</span>
- <span class="function"><span class="keyword">val</span>    <span class="title">triCounts</span>    =</span>    graph.triangleCount().vertices
-  <span class="comment">//    Join    the    triangle    counts    with    the    usernames</span>
- <span class="function"><span class="keyword">val</span>    <span class="title">users</span>    =</span>    sc.textFile(<span class="string">"/home/lyen/data/users.txt"</span>).map    {    line    =&gt;
-        <span class="function"><span class="keyword">val</span>    <span class="title">fields</span>    =</span>    line.split(<span class="string">","</span>)
-        (fields(<span class="number">0</span>).toLong,    fields(<span class="number">1</span>))
+  <span class="function"><span class="keyword">val</span> <span class="title">triCounts</span> =</span> graph.triangleCount().vertices
+  <span class="function"><span class="keyword">val</span> <span class="title">users</span> =</span> sc.textFile(<span class="string">"/home/lyen/data/users.txt"</span>).map    { line =&gt;
+        <span class="function"><span class="keyword">val</span> <span class="title">fields</span> =</span> line.split(<span class="string">","</span>)
+        (fields(<span class="number">0</span>).toLong,fields(<span class="number">1</span>))
 }
-<span class="function"><span class="keyword">val</span>    <span class="title">triCountByUsername</span>    =</span>    users.join(triCounts).map    {    <span class="keyword">case</span>    (id,    (username,    tc))    =&gt;
-        (username,    tc)
+   <span class="function"><span class="keyword">val</span>    <span class="title">triCountByUsername</span>    =</span> users.join(triCounts).map{    <span class="keyword">case</span>    (id,(username,tc)) =&gt;
+        (username,tc)
 }
-<span class="comment">//    Print    the    result</span>
 println(triCountByUsername.collect().mkString(<span class="string">"\n"</span>))
 }
 </code></pre><p>3.程序运行图</p>
