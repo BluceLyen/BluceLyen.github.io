@@ -6,6 +6,8 @@
   <title>Bluce Lyen</title>
   <meta name="author" content="Lyen">
   
+  <meta name="description" content="GraphX之微博用户热度和社交稳定度排名1. 功能或场景介绍在社交网络中都存在用户之间的关注关系,可以通过这些关注关系转化为图,这个图的顶点为微博用户,用户之间的关注关系(用户A关注用户B,即A-&amp;gt;B)就是图的边,此案例基于微博用户,用GraphX的PageRank算法进行排名(PageRa">
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -52,37 +54,7 @@
 </nav>
   </header>
   <div id="content" class="container">
-    <div id="cover">
-	<div id="profile" alt="http://www.33lc.com/article/UploadPic/2012-7/20127291041962908.jpg">
-		<a href="/">
-			<div class="logo">
-				<img src="/logo.png" alt="Profile Picture">
-			</div>
-			<div id="title">Bluce Lyen</div>
-		</a>
-
-		
-		 <ul class="my-socials">
-  
-  <li>
-  	<a href="https://github.com/BluceLyen" class="github" target="_blank">
-  		<i class="fa fa-github"></i>
-  	</a>
-  </li>
-  
-  <li>
-  	<a href="http://weibo.com/u/2530759420/home?topnav=1&wvr=6" class="weibo" target="_blank">
-  		<i class="fa fa-weibo"></i>
-  	</a>
-  </li>
-  
- 
-</ul>
-	</div>
-</div>
-
-
-  <article class="post">
+    <article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -102,7 +74,7 @@
       <time datetime="2016-05-30T01:44:26.217Z"><a href="/2016/05/30/GraphX应用案例/">Lun., May. 30 2016, 9:44:26 am</a></time>
 
   
-    <h1 class="title"><a href="/2016/05/30/GraphX应用案例/"></a></h1>
+    <h1 class="title"></h1>
   
 
 
@@ -380,334 +352,48 @@ method
     </div>
     <footer>
       
-        <div class="alignleft">
-            <a href="/2016/05/30/GraphX应用案例/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/05/30/GraphX应用案例/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/05/30/GraphX应用案例/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
+          
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <span class="jiathis_txt">分享到：</span>
+  <a class="jiathis_button_weixin">微信</a>
+  <a class="jiathis_button_tsina">新浪微博</a>
+  <a class="jiathis_button_renren">人人网</a>
+  <a class="jiathis_button_qzone">QQ空间</a>
+  <a class="jiathis_button_douban">豆瓣</a>
+  <a class="jiathis_button_pocket">Pocket</a>
+  <a href="http://www.jiathis.com/share?uid=901656" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+  <a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=901656" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+          <div class="clearfix"></div>
+          <nav id="pagination">
   
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-03-30T09:26:21.165Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:26:21 pm</a></time>
-
   
-    <h1 class="title"><a href="/2016/03/30/Coprocessor/">Hbase Coprocessor</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-Why_Hbase_Coprocessor?">1.Why Hbase Coprocessor?</h2><p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>. </p>
-<h2 id="2-应用场景">2.应用场景</h2><h3 id="2-1基于IDC用户网站访问记录系统设计与开发">2.1基于IDC用户网站访问记录系统设计与开发</h3><p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
-<p>Tips:</p>
-<p>HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。<a href="http://blog.csdn.net/caisini_vc/article/details/5599468">ptotobuf协议详解</a>,下面将会讲解如何使用新版的Endpoint.</p>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/03/30/Coprocessor/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/03/30/Coprocessor/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/Coprocessor/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-03-30T09:22:52.411Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:22:52 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2016/03/30/IDC/">IDC用户网站访问记录系统设计与开发</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>IDC用户网站访问记录系统设计与开发，顾名思义，本系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
-<h3 id="1-2设计目标">1.2设计目标</h3><h4 id="1-2-1_模拟数据写入模块">1.2.1 模拟数据写入模块</h4><p>在写入数据部分应该实现一个实时机制，在写入数据这一模块中,从数据在客服端产生到上传到hdfs再到将数据写入到Hbase这个过程涉及三个程序,第一个程序每隔一分钟生成模拟数据文件放在本地的一个文件夹中,第二个程序负责将生成的数据文件实时的上传到hdfs,第三个程序负责把hdfs上边的文件实时的写入Hbase中,由于考虑到实时,这三个程序构成一个实时的机制,数据产生即刻上传至hdfs并且即刻通过mapreduce直接写入Hbase。</p>
-<h4 id="1-2-2_数据查询模块">1.2.2 数据查询模块</h4><p>查询部分本系统满足按时间段查询，按时间范围+ip范围查询完整记录，按时间范围+ip范围+协议类型查询完整记录，按时间范围+ip范围+协议类型+url域名查询完整记录。<br>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/03/30/IDC/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/03/30/IDC/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/IDC/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-03-30T02:05:38.757Z"><a href="/2016/03/30/TriangleCount/">Mié., Mar. 30 2016, 10:05:38 am</a></time>
-
-  
-    <h1 class="title"><a href="/2016/03/30/TriangleCount/">TriangleCount(三角计数)</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <p>计算出关系图中，相互联系的三角结构（三顶点中任意两个顶点都可到达）个数。其个数衡量可用作个人或社区群体的稳定程度。</p>
-<h3 id="1-_有向图转化为无向图">1. 有向图转化为无向图</h3><p>如下图所示，社交网络中的关注关系一般为有向图，这里需要转化为无向图。转化思路为：如果IF (A-&gt;B) or (B-&gt;A) THEN A-B。只要A与B在有向图中存在一条有向边，便认为A与B在无向图中存在边。（有向图弱化为无向图，即顶点间有关系即可）</p>
-<p><img src="/triangleCount/01.png" alt=""><br>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/03/30/TriangleCount/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/03/30/TriangleCount/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/TriangleCount/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2015-09-29T07:10:01.185Z"><a href="/2015/09/29/k-means/">Mar., Sep. 29 2015, 3:10:01 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2015/09/29/k-means/">K-Means算法</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
-<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2015/09/29/k-means/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/09/29/k-means/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/09/29/k-means/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2015-09-29T07:10:01.177Z"><a href="/2015/09/29/ALS/">Mar., Sep. 29 2015, 3:10:01 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2015/09/29/ALS/">ALS协同过滤算法</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h3 id="1-简介:">1.简介:</h3><p> 协同过滤常被应用于推荐系统，旨在补充用户-商品关联矩阵中所缺失的部分。MLlib当前支持基于模型的协同过滤，其中用户和商品通过一小组隐语义因子进行表达，并且这些因子也用于预测缺失的元素。Spark MLlib实现了交替最小二乘法 (ALS) 来学习这些隐性语义因子。在 MLlib 中的实现有如下的参数:</p>
-<pre><code><span class="number">1</span><span class="class">.numBlocks</span> 是用于并行化计算的分块个数 (设置为-<span class="number">1</span>，为自动配置)。
-<span class="number">2</span><span class="class">.rank</span> 是模型中隐语义因子的个数。
-   ps: 用户根据对物品的一些属性对物品的评价情况，比如用户买一个商品是因为它美观，实用        
-   那么美观，实用这两个因素就是模型中的隐语因子，即<span class="number">2</span>个隐语因子隐语义模型其实就是用户
-   评价数据的因子分析，得到各个商品的主要因子，用的原理都是<span class="function"><span class="title">SVD</span><span class="params">(奇异值分解)</span></span>
-<span class="number">3</span><span class="class">.iterations</span> 是迭代的次数。
-<span class="number">4</span><span class="class">.lambda</span> 是ALS的正则化参数。
-<span class="number">5</span>. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
-<span class="number">6</span><span class="class">.alpha</span> 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。
-</code></pre>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2015/09/29/ALS/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/09/29/ALS/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/09/29/ALS/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-<nav id="pagination">
-  
+    <a href="/2016/03/30/Coprocessor/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
 
-<script src="/js/jquery.anystretch.min.js" type="text/javascript"></script>
-<script src="/js/cover.js" type="text/javascript"></script>
+
+<section id="comment">
+  <h1 class="title">Comentarios</h1>
+
+  
+      <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-thread-key="/2016/05/30/GraphX应用案例/"></div>
+<!-- Duoshuo Comment END -->
+  
+</section>
+
+
 
     <div class="clearfix"></div>
   </div>
