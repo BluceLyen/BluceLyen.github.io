@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-05-30T02:00:42.227Z"><a href="/2016/05/30/GraphX应用案例/">Lun., May. 30 2016, 10:00:42 am</a></time>
+      <time datetime="2016-05-30T02:09:32.753Z"><a href="/2016/05/30/GraphX应用案例/">Lun., May. 30 2016, 10:09:32 am</a></time>
 
   
     <h1 class="title">GraphX之微博用户热度和社交稳定度排名</h1>
@@ -90,20 +90,20 @@
 <h2 id="3-_GraphX介绍,案例的原理,流程以及主要语句说明">3. GraphX介绍,案例的原理,流程以及主要语句说明</h2><h3 id="3-1图计算">3.1图计算</h3><h4 id="3-1-1_GraphX图简单介绍">3.1.1 GraphX图简单介绍</h4><p>GraphX有很多方式从一个原始文件、RDD构造一个属性图。下面的代码从RDD集合生成属性并构建图</p>
 <pre><code>val    sc:    SparkContext
 <span class="comment">//    为GraphX图的定点及其属性创建一个RDD</span>
-val    users:    RDD[<span class="params">(VertexId,    <span class="params">(String,    String)</span>)</span>] =
+val    users:    RDD[<span class="params">(VertexId,<span class="params">(String,String)</span>)</span>] =
 sc.parallelize<span class="params">(Array<span class="params">(<span class="params">(<span class="number">3</span>L,    <span class="params">(<span class="string">"rxin"</span>,    <span class="string">"student"</span>)</span>)</span>,
-    <span class="params">(<span class="number">7</span>L,    <span class="params">(<span class="string">"jgonzal"</span>,    <span class="string">"postdoc"</span>)</span>)</span>,
-    <span class="params">(<span class="number">5</span>L,    <span class="params">(<span class="string">"franklin"</span>,    <span class="string">"prof"</span>)</span>)</span>,    <span class="params">(<span class="number">2</span>L,    <span class="params">(<span class="string">"istoica"</span>,    <span class="string">"prof"</span>)</span>)</span>)</span>)</span>
+    <span class="params">(<span class="number">7</span>L,<span class="params">(<span class="string">"jgonzal"</span>,<span class="string">"postdoc"</span>)</span>)</span>,
+    <span class="params">(<span class="number">5</span>L,<span class="params">(<span class="string">"franklin"</span>,<span class="string">"prof"</span>)</span>)</span>,<span class="params">(<span class="number">2</span>L,<span class="params">(<span class="string">"istoica"</span>,<span class="string">"prof"</span>)</span>)</span>)</span>)</span>
 <span class="comment">//    为GraphX图的边及其属性创建一个RDD</span>
 val    relationships:    RDD[Edge[String]] =
-sc.parallelize<span class="params">(Array<span class="params">(Edge<span class="params">(<span class="number">3</span>L,    <span class="number">7</span>L,    <span class="string">"collab"</span>)</span>,    
-Edge<span class="params">(<span class="number">5</span>L,    <span class="number">3</span>L,    <span class="string">"advisor"</span>)</span>,
-    Edge<span class="params">(<span class="number">2</span>L,    <span class="number">5</span>L,    <span class="string">"colleague"</span>)</span>,
-    Edge<span class="params">(<span class="number">5</span>L,    <span class="number">7</span>L,    <span class="string">"pi"</span>)</span>)</span>)</span>
+sc.parallelize<span class="params">(Array<span class="params">(Edge<span class="params">(<span class="number">3</span>L,    <span class="number">7</span>L,<span class="string">"collab"</span>)</span>,    
+Edge<span class="params">(<span class="number">5</span>L,<span class="number">3</span>L,<span class="string">"advisor"</span>)</span>,
+    Edge<span class="params">(<span class="number">2</span>L,<span class="number">5</span>L,<span class="string">"colleague"</span>)</span>,
+    Edge<span class="params">(<span class="number">5</span>L,<span class="number">7</span>L,<span class="string">"pi"</span>)</span>)</span>)</span>
 <span class="comment">//定义一个默认的用户,避免该用户不存在</span>
-val    defaultUser    =    <span class="params">(<span class="string">"John    Doe"</span>,    <span class="string">"Missing"</span>)</span>
+val defaultUser = <span class="params">(<span class="string">"John Doe"</span>,<span class="string">"Missing"</span>)</span>
 <span class="comment">//构建图</span>
-val    graph    =    Graph<span class="params">(users,    relationships,    defaultUser)</span>
+val graph    = Graph<span class="params">(users,relationships,defaultUser)</span>
 </code></pre><p>在GraphX项目中,假设我们想构造一个包括不同合作者的属性图。顶点属性可能包含用户名和职业。我们可以用描述合作者之间关系的字符串标注边缘。</p>
 <p><img src="/graphx/graphx01.png" alt=""></p>
 <h4 id="3-1-2_GraphX从边关系加载一个图">3.1.2 GraphX从边关系加载一个图</h4><p>1.GraphLoader.edgeListFile:Graph[Int,Int])    提供了一个方式从磁盘上的边列表中加载一个图。它解析如下形式(源顶点ID,目标顶点ID)的连接表.</p>
@@ -132,14 +132,14 @@ val    graph    =    Graph<span class="params">(users,    relationships,    defa
   <span class="comment">//运行PageRank</span>
   <span class="function"><span class="keyword">val</span> <span class="title">ranks</span> =</span> graph.pageRank(<span class="number">0.01</span>).vertices
   <span class="comment">//合并用户名和rank值</span>
-  <span class="function"><span class="keyword">val</span>    <span class="title">users</span> =</span> sc.textFile(<span class="string">"/home/lyen/data/users.txt"</span>).map{line    =&gt;
-        <span class="function"><span class="keyword">val</span> <span class="title">fields</span> =</span> line.split(<span class="string">","</span>)
-        (fields(<span class="number">0</span>).toLong,fields(<span class="number">1</span>))
+   <span class="function"><span class="keyword">val</span> <span class="title">users</span> =</span> sc.textFile(<span class="string">"/home/lyen/data/users.txt"</span>).map{ line =&gt;
+       <span class="function"><span class="keyword">val</span> <span class="title">fields</span> =</span> line.split(<span class="string">","</span>)
+    (fields(<span class="number">0</span>).toLong,fields(<span class="number">1</span>))
 }
-<span class="function"><span class="keyword">val</span> <span class="title">ranksByUsername</span> =</span>    users.join(ranks).map    {
-        <span class="keyword">case</span>    (id,(username,rank)) =&gt;    (username,    rank)
+ <span class="function"><span class="keyword">val</span> <span class="title">ranksByUsername</span> =</span> users.join(ranks).map{
+    <span class="keyword">case</span>(id,(username,rank)) =&gt;    (username,rank)
 }
-ranksByUsername.foreach(println)
+ ranksByUsername.foreach(println)
 
 }
 </code></pre><p>3.程序运行图</p>
@@ -196,11 +196,11 @@ ranksByUsername.foreach(println)
   <span class="literal">true</span>).partitionBy(<span class="type">PartitionStrategy</span>.<span class="type">RandomVertexCut</span>)
   <span class="function"><span class="keyword">val</span> <span class="title">triCounts</span> =</span> graph.triangleCount().vertices
   <span class="function"><span class="keyword">val</span> <span class="title">users</span> =</span> sc.textFile(<span class="string">"/home/lyen/data/users.txt"</span>).map    { line =&gt;
-        <span class="function"><span class="keyword">val</span> <span class="title">fields</span> =</span> line.split(<span class="string">","</span>)
-        (fields(<span class="number">0</span>).toLong,fields(<span class="number">1</span>))
+      <span class="function"><span class="keyword">val</span> <span class="title">fields</span> =</span> line.split(<span class="string">","</span>)
+      (fields(<span class="number">0</span>).toLong,fields(<span class="number">1</span>))
 }
-   <span class="function"><span class="keyword">val</span>    <span class="title">triCountByUsername</span>    =</span> users.join(triCounts).map{    <span class="keyword">case</span>    (id,(username,tc)) =&gt;
-        (username,tc)
+  <span class="function"><span class="keyword">val</span> <span class="title">triCountByUsername</span>    =</span> users.join(triCounts).map{    <span class="keyword">case</span>    (id,(username,tc)) =&gt;
+      (username,tc)
 }
 println(triCountByUsername.collect().mkString(<span class="string">"\n"</span>))
 }
