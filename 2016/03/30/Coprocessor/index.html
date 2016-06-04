@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hbase Coprocessor | Bluce Lyen</title>
+  <title>Hbase Coprocessor | LyenCc</title>
   <meta name="author" content="Lyen">
   
   <meta name="description" content="1.Why Hbase Coprocessor?HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&amp;lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。Coprocessor详细介绍. 
@@ -15,14 +15,14 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <meta property="og:title" content="Hbase Coprocessor"/>
-  <meta property="og:site_name" content="Bluce Lyen"/>
+  <meta property="og:site_name" content="LyenCc"/>
 
   
     <meta property="og:image" content="undefined"/>
   
 
   <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Bluce Lyen" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="LyenCc" type="application/atom+xml">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
@@ -362,7 +362,7 @@ Powered by <a href="http://zespia.tw/hexo/" title="Hexo" target="_blank" rel="ex
 
     
     <script type="text/javascript">
-      var duoshuoQuery = {short_name:"BluceLyen"};
+      var duoshuoQuery = {short_name:"LyenCc"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;
