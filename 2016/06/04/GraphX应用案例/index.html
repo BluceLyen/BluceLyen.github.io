@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-06-04T02:15:28.564Z"><a href="/2016/06/04/GraphX应用案例/">Sáb., Jun. 4 2016, 10:15:28 am</a></time>
+      <time datetime="2016-06-04T11:31:15.107Z"><a href="/2016/06/04/GraphX应用案例/">Sáb., Jun. 4 2016, 7:31:15 pm</a></time>
 
   
     <h1 class="title">GraphX之微博用户热度和社交稳定度排名</h1>
@@ -246,7 +246,7 @@ userrelation.txt"</span>)</span>.cache<span class="params">()</span>
 
 <span class="comment">//加载用户数据并解析为用户id和用户名属性列表的元组</span>
 val usersData = sc.textFile<span class="params">(<span class="string">"/home/lyen/data/weibo/user.txt"</span>)</span>
-val usersDataFormat = usersData.map { x =&gt; val tmp = x.split<span class="params">(<span class="string">"\t"</span>)</span>; <span class="params">(tmp<span class="params">(<span class="number">0</span>)</span>.toLong, <span class="params">(tmp<span class="params">(<span class="number">1</span>)</span>)</span>)</span>       
+val usersDataFormat = usersData.map { x =&gt; val tmp = x.split<span class="params">(<span class="string">"\t"</span>,<span class="number">2</span>)</span>; <span class="params">(tmp<span class="params">(<span class="number">0</span>)</span>.toLong, <span class="params">(tmp<span class="params">(<span class="number">1</span>)</span>)</span>)</span>       
 }.cache
 
 <span class="comment">//添加用户属性</span>
@@ -306,7 +306,7 @@ method
     <span class="function"><span class="keyword">val</span> <span class="title">userReGraph</span> =</span> <span class="type">GraphLoader</span>.edgeListFile(sc, <span class="string">"/home/lyen/data/weibo/userrelation.txt"</span>,<span class="literal">true</span>).partitionBy(<span class="type">PartitionStrategy</span>.<span class="type">RandomVertexCut</span>).cache()
     <span class="comment">//加载用户数据并解析为用户id和用户名属性列表的元组</span>
     <span class="function"><span class="keyword">val</span> <span class="title">usersData</span> =</span> sc.textFile(<span class="string">"/home/lyen/data/weibo/user.txt"</span>)
-    <span class="function"><span class="keyword">val</span> <span class="title">usersDataFormat</span> =</span> usersData.map { x =&gt; <span class="function"><span class="keyword">val</span> <span class="title">tmp</span> =</span> x.split(<span class="string">"\t"</span>); (tmp(<span class="number">0</span>).toLong, (tmp(<span class="number">1</span>))) }.cache
+    <span class="function"><span class="keyword">val</span> <span class="title">usersDataFormat</span> =</span> usersData.map { x =&gt; <span class="function"><span class="keyword">val</span> <span class="title">tmp</span> =</span> x.split(<span class="string">"\t"</span>,<span class="number">2</span>); (tmp(<span class="number">0</span>).toLong, (tmp(<span class="number">1</span>))) }.cache
     <span class="comment">//添加用户属性</span>
     <span class="function"><span class="keyword">val</span> <span class="title">graph</span> =</span> userReGraph.outerJoinVertices(usersDataFormat) {
       <span class="keyword">case</span> (id, sds, <span class="type">Some</span>(userName)) =&gt; userName
@@ -344,7 +344,8 @@ method
 <p><img src="/graphx/graphx04.png" alt=""></p>
 <p>2.微博用户社交稳定度</p>
 <p><img src="/graphx/graphx010.png" alt=""></p>
-<h3 id="3-5_性能指标">3.5 性能指标</h3><p>Graphx之PageRank算法微博用户热度排名,数据包括63641个新浪微博用户信息,1391718条用户好友关系,在本机运行次程序计算排名前20的微博用户耗时8s.<br>Graphx之TriangleCount算法微博用户社交稳定度排名,数据包括63641个新浪微博用户信息,1391718条用户好友关系,在本机运行次程序计算排名前20的微博用户耗时4s.</p>
+<h3 id="3-5_性能指标">3.5 性能指标</h3><p>Graphx之PageRank算法微博用户热度排名,数据包括63641个新浪微博用户信息,1391718条用户好友关系,在本机运行次程序计算排名前20的微博用户耗时52s.</p>
+<p>Graphx之TriangleCount算法微博用户社交稳定度排名,数据包括63641个新浪微博用户信息,1391718条用户好友关系,在本机运行次程序计算排名前20的微博用户耗时24s.</p>
 <h2 id="4-_总结">4. 总结</h2><p>本文档简单介绍了图计算及其三个图算法,重点实现了GraphX的PageRank算法微博用户热度排名和Trianle算法微博用户社交稳定度,PageRank算法主要用于热度排名,TriangleCount主要用途之一是用于社区发现,没有涉及到更多关于GraphX对图的顶点以及边操作,当然在对GraphX的性能调优更是没有过多接触,值得一提的是了解并掌握GraphX的简单应用,并且相信在以后的图计算处理方面会更广,希望这个简单的例子能够帮助大家走上GraphX的学习之路.</p>
 
       
