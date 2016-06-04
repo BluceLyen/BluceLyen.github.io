@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>GraphX之微博用户热度和社交稳定度排名 | LyenCc</title>
+  <title>GraphX之微博用户热度和社交稳定度排名 | Lyen Cc</title>
   <meta name="author" content="Lyen">
   
   <meta name="description" content="1. 功能或场景介绍在社交网络中都存在用户之间的关注关系,可以通过这些关注关系转化为图,这个图的顶点为微博用户,用户之间的关注关系(用户A关注用户B,即A-&amp;gt;B)就是图的边,此案例基于微博用户,用GraphX的PageRank算法进行排名(PageRank度量一个图中每个顶点的重要程度,假定从u到v的一条边代表v的重要性标签。例如,一个微博用户被许多其它人粉,该用户排名很高),与此同时计算图的入度和出度得到每个用户的微博粉丝数和关注数.除此之外还可以用GraphX的TriangleCount算法计算出每个用户的社交稳定程度(在微博上你关注的人也互相关注，大家的关注关系中就会有很多三角形，这说明社区很强很稳定，大家的联系都比较紧密；如果说只是你一个人关注很多人，这说明你的社交群体是非常小的。)
@@ -13,14 +13,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <meta property="og:title" content="GraphX之微博用户热度和社交稳定度排名"/>
-  <meta property="og:site_name" content="LyenCc"/>
+  <meta property="og:site_name" content="Lyen Cc"/>
 
   
     <meta property="og:image" content="undefined"/>
   
 
   <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="LyenCc" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="Lyen Cc" type="application/atom+xml">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
