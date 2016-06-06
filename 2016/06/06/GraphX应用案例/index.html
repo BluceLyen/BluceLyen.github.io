@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-06-04T11:33:09.724Z"><a href="/2016/06/04/GraphX应用案例/">Sáb., Jun. 4 2016, 7:33:09 pm</a></time>
+      <time datetime="2016-06-06T10:44:39.009Z"><a href="/2016/06/06/GraphX应用案例/">Lun., Jun. 6 2016, 6:44:39 pm</a></time>
 
   
     <h1 class="title">GraphX之微博用户热度和社交稳定度排名</h1>
@@ -114,7 +114,7 @@ val graph    = Graph<span class="params">(users,relationships,defaultUser)</span
 它从指定的边创建一个图,自动地创建边提及的所有顶点。所有的顶点和边的属性默认都是<span class="number">1</span>。
 </code></pre><h4 id="3-1-3_GraphX算法简介">3.1.3 GraphX算法简介</h4><h5 id="PageRank算法">PageRank算法</h5><ul>
 <li><a href="http://baike.baidu.com/link?url=ueAN5zxhYXQ-OCrj8pU-0QCjyySKgJwQvv0smPAgngj2AFyzvrvd6W6_TGtBQTK_algdI8dhuiI1iP18uuSdXkyNA92PeW5RuMDd5Ih0Bcs2s1yppW78177A3Qmwmc5Bb4QBaz223232t0c7tcXJDq" target="_blank" rel="external">PageRank</a>度量一个图中每个顶点的重要程度,假定从u到v的一条边代表v的重要性标签。例如,一个Twitter用户被许多其它人粉,该用户排名很高。GraphX带有静态和动态PageRank的实现方法    ,这些方法在PageRank    object中。静态的PageRank运行固定次数的迭代,而动态的PageRank一直运行,直到收敛。GraphOps允许直接调用这些算法作为图上的方法。GraphX包含一个我们可以运行PageRank的社交网络数据集的例子。用户集在graphx/data/users.txt中,用户之间的关系在 graphx/data/followers.txt中。同样的测试数据可用户下面的另外两种算法!</li>
-<li><a href="http://pan.baidu.com/s/1slnDk2D" target="_blank" rel="external">数据文件</a></li>
+<li><a href="http://pan.baidu.com/s/1nuA5NJF" target="_blank" rel="external">数据文件</a></li>
 </ul>
 <p>1.数据文件及其格式:</p>
 <p><img src="/graphx/users.png" alt=""></p>
@@ -331,8 +331,8 @@ method
   }
 }
 </code></pre><h3 id="3-4_工程运行">3.4 工程运行</h3><h4 id="3-4-1_数据准备与说明">3.4.1 数据准备与说明</h4><ul>
-<li><a href="http://pan.baidu.com/s/1hsubjz2" target="_blank" rel="external">数据下载</a></li>
-<li><a href="http://www.datatang.com/data/46758/" target="_blank" rel="external">数据源于</a>,经过处理得到我们本案例所需数据集</li>
+<li><a href="http://pan.baidu.com/s/1nuA5NJF" target="_blank" rel="external">数据下载</a></li>
+<li><a href="http://www.datatang.com/data/46758/" target="_blank" rel="external">数据源于</a>数据堂一名博主,经过处理得到我们本案例所需数据集</li>
 </ul>
 <p>1.用户关注关系userrelation文件及其格式</p>
 <p>63641个新浪微博用户信息</p>
@@ -346,7 +346,7 @@ method
 <p><img src="/graphx/graphx010.png" alt=""></p>
 <h3 id="3-5_性能指标">3.5 性能指标</h3><p>Graphx之PageRank算法微博用户热度排名,数据包括63641个新浪微博用户信息,1391718条用户好友关系,在本机运行次程序计算排名前20的微博用户耗时52s.</p>
 <p>Graphx之TriangleCount算法微博用户社交稳定度排名,数据包括63641个新浪微博用户信息,1391718条用户好友关系,在本机运行次程序计算稳定度前20的微博用户耗时24s.</p>
-<h2 id="4-_总结">4. 总结</h2><p>本文档简单介绍了图计算及其三个图算法,重点实现了GraphX的PageRank算法微博用户热度排名和Trianle算法微博用户社交稳定度,PageRank算法主要用于热度排名,TriangleCount主要用途之一是用于社区发现,没有涉及到更多关于GraphX对图的顶点以及边操作,当然在对GraphX的性能调优更是没有过多接触,值得一提的是了解并掌握GraphX的简单应用,并且相信在以后的图计算处理方面会更广,希望这个简单的例子能够帮助大家走上GraphX的学习之路.</p>
+<h2 id="4-_总结">4. 总结</h2><p>本文档简单介绍了图计算及其三个图算法,重点实现了GraphX的PageRank算法微博用户热度排名和Triangle算法微博用户社交稳定度,PageRank算法主要用于热度排名,TriangleCount主要用途之一是用于社区发现,没有涉及到更多关于GraphX对图的顶点以及边操作,当然在对GraphX的性能调优更是没有过多接触,值得一提的是了解并掌握GraphX的简单应用,并且相信在以后的图计算处理方面会更广,希望这个简单的例子能够帮助大家走上GraphX的学习之路.</p>
 
       
     </div>
@@ -388,7 +388,7 @@ method
 
   
       <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="/2016/06/04/GraphX应用案例/"></div>
+<div class="ds-thread" data-thread-key="/2016/06/06/GraphX应用案例/"></div>
 <!-- Duoshuo Comment END -->
   
 </section>
