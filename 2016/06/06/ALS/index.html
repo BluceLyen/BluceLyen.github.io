@@ -80,7 +80,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2015-09-29T07:10:01.177Z"><a href="/2015/09/29/ALS/">Mar., Sep. 29 2015, 3:10:01 pm</a></time>
+      <time datetime="2016-06-06T11:05:41.414Z"><a href="/2016/06/06/ALS/">Lun., Jun. 6 2016, 7:05:41 pm</a></time>
 
   
     <h1 class="title">ALS协同过滤算法</h1>
@@ -154,7 +154,7 @@
 }
 </code></pre><p>c.运行效果图：</p>
 <p>源数据：</p>
-<p><img src="imgOfAls/002.png" alt=""></p>
+<p><img src="/imgOfAls/002.png" alt=""></p>
 <p>MSE 均方误差</p>
 <p><img src="/imgOfAls/1.png" alt=""> </p>
 <p>RMSE 均方根误差</p>
@@ -168,7 +168,7 @@
 <p>d.分析与总结</p>
 <p>通常用于推荐引擎评价的指标是称为最小均方根误差( RootMeanSquaredError, RMSE ) 指标 , 它首先计算均方误差的平均值然后取其平方根。如果评级在 1 星到 5 星这个范围内,而我们得到的 RMSE为 1.0, 那么就意味着我们的预测值和用户给出的真实评价相差了一个星级。  </p>
 <p>ALS算法的核心就是将稀疏评分矩阵分解为用户特征向量矩阵和产品特征向量矩阵的乘积交替使用最小二乘法逐步计算用户/产品特征向量，使得差平方和最小通过用户/产品特征向量的矩阵来预测某个用户对某个产品的评分 。       </p>
-<p>由于数学能力有限，在此并没有仔细说明LSA（最小二乘法）的计算方法，只是对这个算法怎么用做了简单介绍，对ALS协同过滤法的工作原理惊醒了剖析。ps:要想理解ALS，则应仔细阅读<a href="http://www.zhihu.com/question/31509438/answer/52268608" target="_blank" rel="external">ALS思想</a>举例介绍（上边已提到过）,其中也包括对最小二乘法的详细计算介绍。</p>
+<p>由于数学能力有限，在此并没有仔细说明LSA（最小二乘法）的计算方法，只是对这个算法怎么用做了简单介绍，对ALS协同过滤法的工作原理进行了剖析。ps:要想理解ALS，则应仔细阅读<a href="http://www.zhihu.com/question/31509438/answer/52268608" target="_blank" rel="external">ALS思想</a>举例介绍（上边已提到过）,其中也包括对最小二乘法的详细计算介绍。</p>
 <h3 id="3-ALS算法应用">3.ALS算法应用</h3><p>近十年来,推荐引擎对因特网用户而言已经不是什么新鲜事物了。 Amazon会根据顾客的购买历史向他们推荐物品, NEtflix会向其用户推荐电影,新闻网站会对用户推荐新闻报道,这样的例子还有很多很多。当然,有很多方法可以实现推荐功能,这里我们只使用一种称为协同过滤( collaborative filtering ) 的 方法。协同 过滤是通过将用户和其他用户的数据进行对比来实现推荐的。</p>
 <p>这里的数据是从概念上组织成了类似图 14-2 所给出的矩阵形式。当数据采用这种方式进行组织 时 ,我们就可以比较用户或物品之间的相似度了。这两种做法都会使用我们很快就介绍到的相似度的概念。当知道了两个用户或两个物品之间的相似度,我们就可以利用已有的数据来预测未知的用户喜好。例 如 ,我们试图对某个用户喜欢的电影进行预测, 推荐引擎会发现有一部电影该用户还没看过。然 后 ,它就会计算该电影和用户看过的电影之间的相似度,如果其相似度很高,推荐算法就会认为用户喜欢这部电影。</p>
 
@@ -195,8 +195,8 @@
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2015/09/29/k-means/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
+    <a href="/2016/06/06/GraphX应用案例/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
@@ -212,7 +212,7 @@
 
   
       <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="/2015/09/29/ALS/"></div>
+<div class="ds-thread" data-thread-key="/2016/06/06/ALS/"></div>
 <!-- Duoshuo Comment END -->
   
 </section>

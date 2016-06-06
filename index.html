@@ -99,6 +99,72 @@
   <div class="post-content">
     <header>
       
+      <time datetime="2016-06-06T11:05:41.414Z"><a href="/2016/06/06/ALS/">Lun., Jun. 6 2016, 7:05:41 pm</a></time>
+
+  
+    <h1 class="title"><a href="/2016/06/06/ALS/">ALS协同过滤算法</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h3 id="1-简介:">1.简介:</h3><p> 协同过滤常被应用于推荐系统，旨在补充用户-商品关联矩阵中所缺失的部分。MLlib当前支持基于模型的协同过滤，其中用户和商品通过一小组隐语义因子进行表达，并且这些因子也用于预测缺失的元素。Spark MLlib实现了交替最小二乘法 (ALS) 来学习这些隐性语义因子。在 MLlib 中的实现有如下的参数:</p>
+<pre><code><span class="number">1</span><span class="class">.numBlocks</span> 是用于并行化计算的分块个数 (设置为-<span class="number">1</span>，为自动配置)。
+<span class="number">2</span><span class="class">.rank</span> 是模型中隐语义因子的个数。
+   ps: 用户根据对物品的一些属性对物品的评价情况，比如用户买一个商品是因为它美观，实用        
+   那么美观，实用这两个因素就是模型中的隐语因子，即<span class="number">2</span>个隐语因子隐语义模型其实就是用户
+   评价数据的因子分析，得到各个商品的主要因子，用的原理都是<span class="function"><span class="title">SVD</span><span class="params">(奇异值分解)</span></span>
+<span class="number">3</span><span class="class">.iterations</span> 是迭代的次数。
+<span class="number">4</span><span class="class">.lambda</span> 是ALS的正则化参数。
+<span class="number">5</span>. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
+<span class="number">6</span><span class="class">.alpha</span> 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。
+</code></pre>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/06/06/ALS/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/06/06/ALS/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/06/06/ALS/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
       <time datetime="2016-06-06T10:55:14.109Z"><a href="/2016/06/06/GraphX应用案例/">Lun., Jun. 6 2016, 6:55:14 pm</a></time>
 
   
@@ -358,72 +424,6 @@
           <div class="alignright"> 
             <a href="http://blucelyen.github.io/2015/09/29/k-means/#comment" class="comment-link">
               <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/09/29/k-means/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2015-09-29T07:10:01.177Z"><a href="/2015/09/29/ALS/">Mar., Sep. 29 2015, 3:10:01 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2015/09/29/ALS/">ALS协同过滤算法</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h3 id="1-简介:">1.简介:</h3><p> 协同过滤常被应用于推荐系统，旨在补充用户-商品关联矩阵中所缺失的部分。MLlib当前支持基于模型的协同过滤，其中用户和商品通过一小组隐语义因子进行表达，并且这些因子也用于预测缺失的元素。Spark MLlib实现了交替最小二乘法 (ALS) 来学习这些隐性语义因子。在 MLlib 中的实现有如下的参数:</p>
-<pre><code><span class="number">1</span><span class="class">.numBlocks</span> 是用于并行化计算的分块个数 (设置为-<span class="number">1</span>，为自动配置)。
-<span class="number">2</span><span class="class">.rank</span> 是模型中隐语义因子的个数。
-   ps: 用户根据对物品的一些属性对物品的评价情况，比如用户买一个商品是因为它美观，实用        
-   那么美观，实用这两个因素就是模型中的隐语因子，即<span class="number">2</span>个隐语因子隐语义模型其实就是用户
-   评价数据的因子分析，得到各个商品的主要因子，用的原理都是<span class="function"><span class="title">SVD</span><span class="params">(奇异值分解)</span></span>
-<span class="number">3</span><span class="class">.iterations</span> 是迭代的次数。
-<span class="number">4</span><span class="class">.lambda</span> 是ALS的正则化参数。
-<span class="number">5</span>. implicitPrefs 决定了是用显性反馈ALS的版本还是用适用隐性反馈数据集的版本。
-<span class="number">6</span><span class="class">.alpha</span> 是一个针对于隐性反馈 ALS 版本的参数，这个参数决定了偏好行为强度的基准。
-</code></pre>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2015/09/29/ALS/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/09/29/ALS/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/09/29/ALS/">&nbsp;
               </span>
             </a>
           </div>
