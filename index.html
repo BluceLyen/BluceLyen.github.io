@@ -99,6 +99,63 @@
   <div class="post-content">
     <header>
       
+      <time datetime="2016-06-15T01:42:52.978Z"><a href="/2016/06/15/k-means/">Mié., Jun. 15 2016, 9:42:52 am</a></time>
+
+  
+    <h1 class="title"><a href="/2016/06/15/k-means/">K-Means算法</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
+<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/06/15/k-means/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/06/15/k-means/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/06/15/k-means/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
       <time datetime="2016-06-07T14:35:34.697Z"><a href="/2016/06/07/GraphX应用案例/">Mar., Jun. 7 2016, 10:35:34 pm</a></time>
 
   
@@ -367,63 +424,6 @@
           <div class="alignright"> 
             <a href="http://blucelyen.github.io/2016/03/30/TriangleCount/#comment" class="comment-link">
               <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/TriangleCount/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2015-09-29T07:10:01.185Z"><a href="/2015/09/29/k-means/">Mar., Sep. 29 2015, 3:10:01 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2015/09/29/k-means/">K-Means算法</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <p>首先要来了解的一个概念就是聚类，简单地说就是把相似的东西分到一组，同 Classification (分类)不同， 对于一个 classifier ，通常需要你告诉它“这个东西被分为某某类”这样一些例子，理想情况下，一个 classifier 会从它得到的训练集中进行“学习”，从而具备对未知数据进行分类的能力，这种提供训练数据的过程通常叫做 supervised learning (监督学习)，而在聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起，因此，一个聚类算法通常只需要知道如何<a href="http://wenku.baidu.com/link?url=D6Anniohd8zD0KF7HfUZEDeUxtXj6RwWt5UDYmDdvLIibuOWDhOSW1DVVugOAT9HOnr3rKL3rZ-UMLPexQngSQ9Jyv83X_yR33HgC-HQM-i">计算相似度</a>就可以开始工作了。ps:（不同的相似度计算方法应用于不同的场景，在聚类中应充分考虑使用哪一种相似度计算方法）。因此 clustering 通常并不需要使用训练数据进行学习，这在 Machine Learning 中被称作 unsupervised learning (无监督学习)。</p>
-<h3 id="1-算法基本简介">1.算法基本简介</h3><p>k-means 算法接受输入量 k ；然后将n个数据对象划分为 k个聚类以便使得所获得的聚类满足：同一聚类中的对象相似度较高；而不同聚类中的对象相似度较小。聚类相似度是利用各聚类中对象的均值所获得一个“中心对象”（引力中心）来进行计算的。</p>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2015/09/29/k-means/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2015/09/29/k-means/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2015/09/29/k-means/">&nbsp;
               </span>
             </a>
           </div>
