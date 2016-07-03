@@ -7,7 +7,7 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="关联分析1.关联分析又称关联挖掘，就是在交易数据、关系数据或其他信息载体中，查找存在于项目集合或对象集合之间的频繁模式、关联、相关性或因果结构。或者说，关联分析是发现交易数据库中不同商品（项）之间的联系。
-关联分析之FP-growth算法算法简介基于频繁模式树（Frequent Pattern Tr">
+关联分析之FP-growth算法算法简介基于频繁模式树（Frequent Pattern Tree，简称为FP-tree）的发现频繁模式的算法FP-growth。在FP-growth算法中，通过两次扫描事务数据库，把每个事务所包含的频繁项目按其支持度降序压缩存储到FP—tree中。在以后发现频繁模式的过程中，不需要再扫描事务数据库，而仅在FP-Tree中进行查找即可，并通过递归调用FP-growth的方法来直接产生频繁模式，因此在整个发现过程中也不需产生候选模式。该算法克服了Apriori算法中存在的可能产生大量的候选集,以及可能需要重复扫描数据库两个问题．在执行效率上也明显好于Apriori算法。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-03T02:52:14.397Z"><a href="/2016/07/03/FPGrowth/">Dom., Jul. 3 2016, 10:52:14 am</a></time>
+      <time datetime="2016-07-03T05:32:29.770Z"><a href="/2016/07/03/FPGrowth/">Dom., Jul. 3 2016, 1:32:29 pm</a></time>
 
   
     <h1 class="title">FPGrowth算法</h1>
@@ -86,7 +86,7 @@
     <div class="entry">
       
         <h3 id="关联分析">关联分析</h3><p>1.关联分析又称关联挖掘，就是在交易数据、关系数据或其他信息载体中，查找存在于项目集合或对象集合之间的频繁模式、关联、相关性或因果结构。或者说，关联分析是发现交易数据库中不同商品（项）之间的联系。</p>
-<h3 id="关联分析之FP-growth算法">关联分析之FP-growth算法</h3><h4 id="算法简介">算法简介</h4><p>基于频繁模式树（Frequent Pattern Tree，简称为FP-tree）的发现频繁模式的算法FP-growth。在FP-growth算法中，通过两次扫描事务数据库，把每个事务所包含的频繁项目按其支持度降序压缩存储到FP—tree中。在以后发现频繁模式的过程中，不需要再扫描事务数据库，而仅在FP-Tree中进行查找即可，并通过递归调用FP-growth的方法来直接产生频繁模式，因此在整个发现过程中也不需产生候选模式。该算法克服了<a href="http://baike.baidu.com/link?url=_a3umNjFJ9FBuvd6jJO5N8Q7cdX5Q2VZT0hnQ9sJb3kgYOmvfL-NkSI19Ia2MZo4kNExoy1E_LhysZUNX6eqtK" target="_blank" rel="external">Apriori算法</a>中存在的可能产生大量的候选集,以及可能需要重复扫描数据库两个问题．在执行效率上也明显好于Apriori算法。</p>
+<h3 id="关联分析之FP-growth算法">关联分析之FP-growth算法</h3><h4 id="算法简介">算法简介</h4><p>基于频繁模式树（Frequent Pattern Tree，简称为FP-tree）的发现频繁模式的算法FP-growth。在FP-growth算法中，通过两次扫描事务数据库，把每个事务所包含的频繁项目按其支持度降序压缩存储到FP—tree中。在以后发现频繁模式的过程中，不需要再扫描事务数据库，而仅在FP-Tree中进行查找即可，并通过递归调用FP-growth的方法来直接产生频繁模式，因此在整个发现过程中也不需产生候选模式。该算法克服了<a href="http://baike.baidu.com/link?url=_a3umNjFJ9FBuvd6jJO5N8Q7cdX5Q2VZT0hnQ9sJb3kgYOmvfL-NkSI19Ia2MZo4kNExoy1E_LhysZUNX6eqtK" target="_blank" rel="external">Apriori算法</a>中存在的可能产生大量的候选集,以及可能需要重复扫描数据库两个问题．在执行效率上也明显好于Apriori算法。<br><a id="more"></a></p>
 <h4 id="关联规则的相关术语">关联规则的相关术语</h4><p>1.项与项集</p>
 <p>这是一个集合的概念，在一篮子商品中的一件消费品即为一项（Item），则若干项的集合为项集，如{啤酒，尿布}构成一个二元项集。<br>2.关联规则</p>
 <p>一般记为的形式，X为先决条件，Y为相应的关联结果，用于表示数据内隐含的关联性。如：表示购买了尿布的消费者往往也会购买啤酒。</p>
@@ -107,9 +107,8 @@
 <p>2.第二次扫描数据库是利用一维频繁项集过滤数据</p>
 <p>3.挖掘FP树,即针对FP树挖掘频繁模式和关联规则</p>
 <h5 id="算法举例">算法举例</h5><p>a.假设频繁项集阀值为3,第一次扫描数据库时计算每个项目的出现的次数并过滤</p>
-<p><img src="/FPpic/fp01" alt=""></p>
-<p>b.把达到阀值的项目按照出现的次数从多到少排序,如果几个项目出现的次数相同,就随机排列得到一维频繁项集:</p>
-<p>##&lt;(f:4),(c:4),(a:3),(b:3)(m:3),(p:3)&gt;<br>c.建立FP树</p>
+<p><img src="/FPpic/fp01.png" alt=""></p>
+<p>b.把达到阀值的项目按照出现的次数从多到少排序,如果几个项目出现的次数相同,就随机排列得到一维频繁项集:<br>&lt;(f:4),(c:4),(a:3),(b:3)(m:3),(p:3)&gt;<br>c.建立FP树</p>
 <ul>
 <li>根节点定义为null</li>
 <li>针对事务集的每条事务进行插入节点操作,每条事务的项目作为一个节点,每个节点包含一个名称,一个次数属性</li>
@@ -183,10 +182,8 @@
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/07/03/caculating/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-  
-    <a href="/2016/06/16/k-means/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/07/03/caculating/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
