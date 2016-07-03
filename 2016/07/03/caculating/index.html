@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-03T05:19:31.482Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:19:31 pm</a></time>
+      <time datetime="2016-07-03T05:28:26.157Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:28:26 pm</a></time>
 
   
     <h1 class="title">能源分项计量流式处理系统设计与开发</h1>
@@ -188,13 +188,8 @@ error属性:该功能出现错误的状态码，0表示没有错误
     }  }
 }
 </code></pre><h3 id="2-3数据封装">2.3数据封装</h3><h4 id="2-3-1_xmlToObject">2.3.1 xmlToObject</h4><ul>
-<li><p>将xml数据转化为java对象封装在一个Root类中与xml文件结构相对应</p>
-<h4 id="2-3-2_核心代码">2.3.2 核心代码</h4><p>  import java.io.Serializable;<br>  import java.util.ArrayList;<br>  import java.util.List;<br>  import com.thoughtworks.xstream.XStream;<br>  import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;<br>  import com.thoughtworks.xstream.io.xml.StaxDriver;</p>
-<p>  public class ParseXml implements Serializable{</p>
-<pre><code>private <span class="literal">static</span> <span class="keyword">final</span> long serialVersionUID = <span class="number">1</span>L;
-
-public Root xmlToObject(<span class="built_in">String</span> xml){
-    <span class="comment">// 通过它传递一个StaxDriver创建XStream对象。StaxDriver使用SAX解析器(可从Java6)，一个快速的XML解析器。</span>
+<li>xml数据转化为java对象封装在一个Root类中与xml文件结构相对应<h4 id="2-3-2_核心代码">2.3.2 核心代码</h4>  import java.io.Serializable;<br>  import java.util.ArrayList;<br>  import java.util.List;<br>  import com.thoughtworks.xstream.XStream;<br>  import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;<br>  import com.thoughtworks.xstream.io.xml.StaxDriver;<br>  public class ParseXml implements Serializable{        <pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1</span>L;
+</code></pre>  public Root xmlToObject(String xml){<pre><code>    <span class="comment">// 通过它传递一个StaxDriver创建XStream对象。StaxDriver使用SAX解析器(可从Java6)，一个快速的XML解析器。</span>
     XStream xstream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> StaxDriver());
     <span class="comment">//类混叠是用来创建一个类的XML完全限定名称的别名。</span>
     xstream.alias(<span class="string">"root"</span>, Root.<span class="keyword">class</span>);
@@ -243,14 +238,14 @@ public Root xmlToObject(<span class="built_in">String</span> xml){
     <span class="built_in">String</span> error;
     <span class="built_in">String</span> coding;
     <span class="built_in">String</span> value;
-}
-</code></pre><p>  }</p>
+ }
+ }
+</code></pre></li>
+</ul>
 <h3 id="2-4备份数据">2.4备份数据</h3><h4 id="2-4-1Hbase_RowKey设计">2.4.1Hbase RowKey设计</h4><p>meter_id + time + function_id</p>
-<h4 id="2-4-2columnFamilys设计">2.4.2columnFamilys设计</h4><p>列族:fuinction族和data族</p>
-</li>
-<li><p>function族包括(“error”,”coding”,”value”)</p>
-</li>
-<li>data族包括(“sequence”,”parser”,”operation”,”total”,”current”,”type”)</li>
+<h4 id="2-4-2columnFamilys设计">2.4.2columnFamilys设计</h4><ul>
+<li>function族:包括(“error”,”coding”,”value”)</li>
+<li>data族:包括(“sequence”,”parser”,”operation”,”total”,”current”,”type”)</li>
 </ul>
 <h4 id="2-4-3核心代码">2.4.3核心代码</h4><pre><code>def inputData<span class="params">(tableName: String, rowKey: String, columnFamily: Array[String], columns: Array[String], values: Array[String])</span> = {
   val table = new HTable<span class="params">(config, tableName)</span>;
@@ -275,7 +270,7 @@ public Root xmlToObject(<span class="built_in">String</span> xml){
 }
 </code></pre><h3 id="2-5_数据拆分与计算">2.5 数据拆分与计算</h3><h4 id="2-5-1数据拆分">2.5.1数据拆分</h4><ul>
 <li>接收到的xml文件格式的数据转化成了类的对象</li>
-<li>拆分所要做的就是从封装的对象中获取我们即将计算所需要需要的元素<h4 id="2-5-2拆分核心代码">2.5.2拆分核心代码</h4>   //定义一个缓冲数据存放拆分所获取的值<br>   val dataParsed = new ArrayBuffer<a href="">Calculating</a><br>   val xmlObject = ParseXml.xmlToObject(xmlOb)<br>   val <code>type</code> = xmlObject.common.<code>type</code><br>   val building_id = xmlObject.common.building_id<br>   val operation = xmlObject.data.operation<br>   val sequence = xmlObject.data.sequence<br>   val parser = xmlObject.data.parser<br>   val time = xmlObject.data.time<br>   val total = xmlObject.data.total<br>   val current = xmlObject.data.current<br>   //遍历meter和function取得相应值<br>   val meterList: java.util.List[Meter] = xmlObject.data.meters<br>   var meter: Meter = null<br>   var function: Function = null<br>   val meterIter = meterList.iterator()<br>   while (meterIter.hasNext) {<pre><code> meter = meterIter.next()
+<li>拆分所要做的就是从封装的对象中获取我们即将计算所需要需要的元素<h4 id="2-5-2拆分核心代码">2.5.2拆分核心代码</h4>   val dataParsed = new ArrayBuffer<a href="">Calculating</a><br>   val xmlObject = ParseXml.xmlToObject(xmlOb)<br>   val <code>type</code> = xmlObject.common.<code>type</code><br>   val building_id = xmlObject.common.building_id<br>   val operation = xmlObject.data.operation<br>   val sequence = xmlObject.data.sequence<br>   val parser = xmlObject.data.parser<br>   val time = xmlObject.data.time<br>   val total = xmlObject.data.total<br>   val current = xmlObject.data.current<br>   //遍历meter和function取得相应值<br>   val meterList: java.util.List[Meter] = xmlObject.data.meters<br>   var meter: Meter = null<br>   var function: Function = null<br>   val meterIter = meterList.iterator()<br>   while (meterIter.hasNext) {<pre><code> meter = meterIter.next()
  val funIter = meter.functions.iterator()
  <span class="keyword">while</span> (funIter.hasNext) {
    <span class="function"><span class="keyword">function</span></span> = funIter.next()
@@ -288,15 +283,14 @@ public Root xmlToObject(<span class="built_in">String</span> xml){
 </code></pre><h4 id="2-5-3数据更新计算">2.5.3数据更新计算</h4></li>
 <li>将建筑id/能源代号/能源分项号/采集表表号<strong>作为Key</strong>,时间/能耗数据<strong>作为Value</strong>,这样就能保证每一次接收过来的数据与上一次的数据<strong>一一对应</strong></li>
 <li>更新分项能耗数据,将此次的值与上一次的值做减法即可得到<strong>当前能耗数据</strong></li>
-<li><p>将建筑id/能源代号/能源分项号/时间<strong>作为Key</strong>,能耗数据<strong>作为Value</strong>,目的是为了合并同当前一个数据源中不同表的能耗数据,得到最终能耗数据更新值</p>
-<h4 id="2-5-4计算核心代码">2.5.4计算核心代码</h4><p>   def runningStream = {<br>  // 创建一个新的StreamingContext</p>
-<pre><code>val ssc = new <span class="function"><span class="title">StreamingContext</span><span class="params">(sc, Seconds(<span class="number">5</span>)</span></span>)
-ssc.<span class="function"><span class="title">checkpoint</span><span class="params">(<span class="string">"hdfs://master:9000/test"</span>)</span></span>
-val lines = ssc.<span class="function"><span class="title">receiverStream</span><span class="params">(new CustomReceiver(<span class="number">25535</span>)</span></span>).<span class="function"><span class="title">cache</span><span class="params">()</span></span>
-</code></pre><p>  //解析xml返回所需数据</p>
-<pre><code>  val dataComputing = lines.glom<span class="params">()</span>.map { x =&gt;
-<span class="comment">//glom 把每个分区的数据合并成一个Array,目的在于把DStream[String]离散流转变为DStream[Array[String]]</span>
-<span class="comment">//fold 把离散流的字符串聚合成原本的xml格式的字符串</span>
+<li>将建筑id/能源代号/能源分项号/时间<strong>作为Key</strong>,能耗数据<strong>作为Value</strong>,目的是为了合并同当前一个数据源中不同表的能耗数据,得到最终能耗数据更新值<h4 id="2-5-4计算核心代码">2.5.4计算核心代码</h4>  def runningStream = {<pre><code>  <span class="comment">// 创建一个新的StreamingContext</span>
+  val ssc = new StreamingContext<span class="params">(sc, Seconds<span class="params">(<span class="number">5</span>)</span>)</span>
+  ssc.checkpoint<span class="params">(<span class="string">"hdfs://master:9000/test"</span>)</span>
+  val lines = ssc.receiverStream<span class="params">(new CustomReceiver<span class="params">(<span class="number">25535</span>)</span>)</span>.cache<span class="params">()</span>
+  <span class="comment">//解析xml返回所需数据</span>
+  val dataComputing = lines.glom<span class="params">()</span>.map { x =&gt;
+  <span class="comment">//glom 把每个分区的数据合并成一个Array,目的在于把DStream[String]离散流转变为DStream[Array[String]]</span>
+  <span class="comment">//fold 把离散流的字符串聚合成原本的xml格式的字符串</span>
     x.foldLeft<span class="params">(<span class="string">""</span>)</span><span class="params">(<span class="params">(a, b)</span> =&gt; a + <span class="string">"\n"</span> + b)</span>.trim<span class="params">()</span>
   }.flatMap<span class="params">(splitXml<span class="params">(_)</span>)</span>.map { x =&gt;
     <span class="params">(<span class="params">(x.building_id, x.energyItemCode, x.function_id, x.merter_id)</span>, <span class="params">(x.time, x.function_value)</span>)</span>
@@ -306,52 +300,47 @@ val lines = ssc.<span class="function"><span class="title">receiverStream</span>
   }
  ssc.start<span class="params">()</span>
  ssc.awaitTermination<span class="params">()</span>
-</code></pre><p>   }</p>
-<p>  //更新函数<br>   def updateFunction(newValues: Seq[(Long, Float)], preValue: Option[(Long, Float)]): Option[((Long, Float))] = {</p>
-<pre><code>  val prevalue = preValue.map<span class="params">(x =&gt; x._2)</span>.getOrElse<span class="params">(<span class="number">0</span>F)</span>
-  val newvalue = newValues.map<span class="params">(x =&gt; x._2)</span>.sum
-  val interval = newvalue - prevalue
-  var re = <span class="params">(<span class="number">0</span>l,<span class="number">0</span>f)</span>
-  <span class="comment">//5秒,15秒,1小时等更新一次</span>
-  <span class="keyword">if</span> <span class="params">(interval == <span class="number">5</span>l)</span> {
-     re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
-  }<span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(interval == <span class="number">90</span>l)</span> {
-     re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
-  }<span class="keyword">else</span> <span class="keyword">if</span><span class="params">(interval == <span class="number">3600</span>l)</span>{
-       re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
-  }
-  Some<span class="params">(re)</span>
+} 
+</code></pre>   def updateFunction(newValues: Seq[(Long, Float)], preValue: Option[(Long, Float)]): Option[((Long, Float))] = {<pre><code> val prevalue = preValue.map<span class="params">(x =&gt; x._2)</span>.getOrElse<span class="params">(<span class="number">0</span>F)</span>
+ val newvalue = newValues.map<span class="params">(x =&gt; x._2)</span>.sum
+ val interval = newvalue - prevalue
+ var re = <span class="params">(<span class="number">0</span>l,<span class="number">0</span>f)</span>
+ <span class="comment">//5秒,15秒,1小时等更新一次</span>
+ <span class="keyword">if</span> <span class="params">(interval == <span class="number">5</span>l)</span> {
+    re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
+ }<span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(interval == <span class="number">90</span>l)</span> {
+    re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
+ }<span class="keyword">else</span> <span class="keyword">if</span><span class="params">(interval == <span class="number">3600</span>l)</span>{
+      re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
+ }
+ Some<span class="params">(re)</span>
 }
-</code></pre><h3 id="2-6_数据持久化">2.6 数据持久化</h3><h4 id="2-6-1Mysql_数据库设计">2.6.1Mysql 数据库设计</h4><p><img src="/caculating/database.png" alt=""></p>
-<h4 id="2-6-2核心代码">2.6.2核心代码</h4><p>   def insertData(data:Array[String]) = {</p>
-<pre><code> var conn: Connection = null
- var ps: PreparedStatement = null
- <span class="comment">//F_ResultID建筑代码10位+"1"+9位流水号,总长度为20</span>
- val sql = <span class="string">"insert into t_ec_energyitemresulttest(F_ResultID,F_BuildID,F_EnergyItemCode,F_StartTime,F_EndTime,F_Value,F_EquValue,F_state) values (?,?,?,?,?,?,?,?)"</span>
- try {
-   <span class="comment">//mysql 用户名为root,密码为空(没设置密码)</span>
-   conn = DriverManager.getConnection<span class="params">(<span class="string">"jdbc:mysql://master:3306/fromXml?user=root"</span>, new Properties<span class="params">()</span>)</span>
-   ps = conn.prepareStatement<span class="params">(sql)</span>
-   ps.setString<span class="params">(<span class="number">1</span>, data<span class="params">(<span class="number">0</span>)</span>)</span><span class="comment">//F_ResultID</span>
-   ps.setString<span class="params">(<span class="number">2</span>, data<span class="params">(<span class="number">1</span>)</span>)</span><span class="comment">//F_BuildID</span>
-   <span class="comment">//F_EnergyItemCode = function.coding.substring(function.coding.length() - 5, function.coding.length())</span>
-   ps.setString<span class="params">(<span class="number">3</span>, data<span class="params">(<span class="number">2</span>)</span>)</span><span class="comment">//F_EnergyItemCode</span>
-   ps.setTimestamp<span class="params">(<span class="number">4</span>, new Timestamp<span class="params">(data<span class="params">(<span class="number">3</span>)</span>.toLong)</span>)</span>
-   ps.setTimestamp<span class="params">(<span class="number">5</span>, new Timestamp<span class="params">(data<span class="params">(<span class="number">3</span>)</span>.toLong + <span class="number">5</span>)</span>)</span>
-   ps.setFloat<span class="params">(<span class="number">6</span>, data<span class="params">(<span class="number">4</span>)</span>.toFloat)</span>
-   ps.setFloat<span class="params">(<span class="number">7</span>, data<span class="params">(<span class="number">4</span>)</span>.toFloat * <span class="number">0.1229</span>f)</span>
-   ps.setInt<span class="params">(<span class="number">8</span>, new Integer<span class="params">(<span class="number">1</span>)</span>)</span><span class="comment">//0无效数据,1有效数据</span>
-   ps.executeUpdate<span class="params">()</span>
-} catch {
- case e: Exception =&gt; println<span class="params">(e.fillInStackTrace<span class="params">()</span>)</span>
-} finally {
-   <span class="keyword">if</span> <span class="params">(ps != null)</span> ps.close<span class="params">()</span>
-   <span class="keyword">if</span> <span class="params">(conn != null)</span> conn.close<span class="params">()</span>
+</code></pre><h3 id="2-6_数据持久化">2.6 数据持久化</h3><h4 id="2-6-1Mysql_数据库设计">2.6.1Mysql 数据库设计</h4><img src="/caculating/database.png" alt=""><h4 id="2-6-2核心代码">2.6.2核心代码</h4>   def insertData(data:Array[String]) = {<pre><code>  var conn: Connection = null
+  var ps: PreparedStatement = null
+  <span class="comment">//F_ResultID建筑代码10位+"1"+9位流水号,总长度为20</span>
+  val sql = <span class="string">"insert into t_ec_energyitemresulttest(F_ResultID,F_BuildID,F_EnergyItemCode,F_StartTime,F_EndTime,F_Value,F_EquValue,F_state) values (?,?,?,?,?,?,?,?)"</span>
+  try {
+    <span class="comment">//mysql 用户名为root,密码为空(没设置密码)</span>
+    conn = DriverManager.getConnection<span class="params">(<span class="string">"jdbc:mysql://master:3306/fromXml?user=root"</span>, new Properties<span class="params">()</span>)</span>
+    ps = conn.prepareStatement<span class="params">(sql)</span>
+    ps.setString<span class="params">(<span class="number">1</span>, data<span class="params">(<span class="number">0</span>)</span>)</span><span class="comment">//F_ResultID</span>
+    ps.setString<span class="params">(<span class="number">2</span>, data<span class="params">(<span class="number">1</span>)</span>)</span><span class="comment">//F_BuildID</span>
+    <span class="comment">//F_EnergyItemCode = function.coding.substring(function.coding.length() - 5, function.coding.length())</span>
+    ps.setString<span class="params">(<span class="number">3</span>, data<span class="params">(<span class="number">2</span>)</span>)</span><span class="comment">//F_EnergyItemCode</span>
+    ps.setTimestamp<span class="params">(<span class="number">4</span>, new Timestamp<span class="params">(data<span class="params">(<span class="number">3</span>)</span>.toLong)</span>)</span>
+    ps.setTimestamp<span class="params">(<span class="number">5</span>, new Timestamp<span class="params">(data<span class="params">(<span class="number">3</span>)</span>.toLong + <span class="number">5</span>)</span>)</span>
+    ps.setFloat<span class="params">(<span class="number">6</span>, data<span class="params">(<span class="number">4</span>)</span>.toFloat)</span>
+    ps.setFloat<span class="params">(<span class="number">7</span>, data<span class="params">(<span class="number">4</span>)</span>.toFloat * <span class="number">0.1229</span>f)</span>
+    ps.setInt<span class="params">(<span class="number">8</span>, new Integer<span class="params">(<span class="number">1</span>)</span>)</span><span class="comment">//0无效数据,1有效数据</span>
+    ps.executeUpdate<span class="params">()</span>
+ } catch {
+  case e: Exception =&gt; println<span class="params">(e.fillInStackTrace<span class="params">()</span>)</span>
+ } finally {
+    <span class="keyword">if</span> <span class="params">(ps != null)</span> ps.close<span class="params">()</span>
+    <span class="keyword">if</span> <span class="params">(conn != null)</span> conn.close<span class="params">()</span>
+ }
 }
-</code></pre><p>   }</p>
-<h4 id="2-7_数据流处理运行效果">2.7 数据流处理运行效果</h4><p><img src="/caculating/exp.png" alt=""></p>
-<h2 id="3-总结">3.总结</h2><p>Spark Streaming数据流式处理,通过Spark Streaming接收数据,设置数据检查点(CheckPoint目的是为了发生突发状况时帮助数据恢复更快的恢复计算),拆分数据,数据处理及计算,了解了Spark Streaming的详细工作流程除此之外还涉及到了Hbase数据存储此处用于备份(备份原始数据可用于数据灾难恢复和数据挖掘与分析)和Mysql持久化处理好的数据用于上报相关部门,存在的不足是在Hbase数据存储方面没有详细设计预分区和数据散列,因为单机实验与分区没有什么区别,若是在集群中就要并且必须设计好与分区和散列防止数据写入热点.</p>
-</li>
+</code></pre><h4 id="2-7_数据流处理运行效果">2.7 数据流处理运行效果</h4><img src="/caculating/exp.png" alt=""><h2 id="3-总结">3.总结</h2>Spark Streaming数据流式处理,通过Spark Streaming接收数据,设置数据检查点(CheckPoint目的是为了发生突发状况时帮助数据恢复更快的恢复计算),拆分数据,数据处理及计算,了解了Spark Streaming的详细工作流程除此之外还涉及到了Hbase数据存储此处用于备份(备份原始数据可用于数据灾难恢复和数据挖掘与分析)和Mysql持久化处理好的数据用于上报相关部门,存在的不足是在Hbase数据存储方面没有详细设计预分区和数据散列,因为单机实验与分区没有什么区别,若是在集群中就要并且必须设计好与分区和散列防止数据写入热点.</li>
 </ul>
 
       
