@@ -7,7 +7,41 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="1.设计思路1.1问题分析分项计量,对每隔5s(可扩展为15s,15min,1h,1d,1month)从服务器端发送过来的格式为xml的能耗数据信息进行解析,备份原始数据信息并实时计算分项能耗的更新值并且对更新信息做持久化.
-1.2设计目标1.2.1 数据接收数据接收采用Spark Streamin">
+1.2设计目标1.2.1 数据接收数据接收采用Spark Streaming自定义Receiver,Kafka,Flume + Kafka,此处采用Spark Streaming自定义Receiver
+1.2.2 数据备份将从服务器端接收到的xml数据信息进行解析,提取重要信息存入Hbase实现原始数据备份也可以用于数据挖掘与分析
+1.2.3 数据拆分计算将服务器端接收到的xml数据信息进行解析,提取数据信息中的分项能耗并进行计算其更新值.
+1.2.4 数据持久化将每个时间段计算的分项能耗更新值持久化于Mysql.
+2.系统实现2.1结构设计图
+2.2接收数据
+服务器端每隔5s发送一次数据,数据为xml文件2.2.1数据格式 &amp;lt;root&amp;gt;
+     &amp;lt;common&amp;gt;
+         &amp;lt;building_id&amp;gt;510107D004&amp;lt;/building_id&amp;gt;
+         &amp;lt;gateway_id&amp;gt;510107D00401&amp;lt;/gateway_id&amp;gt;
+         &amp;lt;type&amp;gt;peroid&amp;lt;/type&amp;gt;
+     &amp;lt;/common&amp;gt;
+     &amp;lt;data operation=&quot; query/reply/report/continuous/continuous_ack&quot;&amp;gt;
+         &amp;lt;sequence&amp;gt;2016-05-24-10-56-46&amp;lt;/sequence&amp;gt;
+         &amp;lt;parser&amp;gt;no&amp;lt;/parser&amp;gt;
+         &amp;lt;time&amp;gt;1464058606&amp;lt;/time&amp;gt;
+         &amp;lt;total&amp;gt;0&amp;lt;/total&amp;gt;
+         &amp;lt;current&amp;gt;0&amp;lt;/current&amp;gt;
+         &amp;lt;meter id=&quot;510107D004010002&quot;&amp;gt;
+              &amp;lt;function id=&quot;51010700000101&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;0.037370&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000102&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;223.499924&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000103&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;205.601120&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000104&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;98.742043&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000105&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;2.788278&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000106&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;0.323411&amp;lt;/function&amp;gt;
+         &amp;lt;/meter&amp;gt;&amp;lt;meter id=&quot;510107D004010001&quot;&amp;gt;
+              &amp;lt;function id=&quot;51010700000101&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;0.013402&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000102&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;224.974243&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000103&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;208.038010&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000104&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;98.111786&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000105&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;2.786295&amp;lt;/function&amp;gt;
+              &amp;lt;function id=&quot;51010700000106&quot; error=&quot;0&quot; coding=&quot;510107D00401A10&quot;&amp;gt;0.307666&amp;lt;/function&amp;gt;
+         &amp;lt;/meter&amp;gt;
+     &amp;lt;/data&amp;gt;
+&amp;lt;/root&amp;gt;">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +106,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-03T05:39:44.345Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:39:44 pm</a></time>
+      <time datetime="2016-07-03T05:43:18.018Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:43:18 pm</a></time>
 
   
     <h1 class="title">能源分项计量流式处理系统设计与开发</h1>
@@ -121,7 +155,8 @@
          &lt;/meter&gt;
      &lt;/data&gt;
 &lt;/root&gt;
-</code></pre><h3 id="2-2-2数据说明">2.2.2数据说明</h3><pre><code>building_id:楼栋编号
+</code></pre><a id="more"></a>
+<h3 id="2-2-2数据说明">2.2.2数据说明</h3><pre><code>building_id:楼栋编号
 gateway_id:采集器编号
 type:能耗远传数据包的类型
 能耗远传 
