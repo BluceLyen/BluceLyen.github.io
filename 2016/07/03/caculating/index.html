@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-03T05:37:37.388Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:37:37 pm</a></time>
+      <time datetime="2016-07-03T05:39:44.345Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:39:44 pm</a></time>
 
   
     <h1 class="title">能源分项计量流式处理系统设计与开发</h1>
@@ -188,57 +188,66 @@ error属性:该功能出现错误的状态码，0表示没有错误
     }  }
 }
 </code></pre><h3 id="2-3数据封装">2.3数据封装</h3><h4 id="2-3-1_xmlToObject">2.3.1 xmlToObject</h4><ul>
-<li>xml数据转化为java对象封装在一个Root类中与xml文件结构相对应<h4 id="2-3-2_核心代码">2.3.2 核心代码</h4>   import java.io.Serializable;<br>   import java.util.ArrayList;<br>   import java.util.List;<br>   import com.thoughtworks.xstream.XStream;<br>   import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;<br>   import com.thoughtworks.xstream.io.xml.StaxDriver;<br>   public class ParseXml implements Serializable{<br>   private static final long serialVersionUID = 1L;<br>   public Root xmlToObject(String xml){<pre><code>    <span class="comment">// 通过它传递一个StaxDriver创建XStream对象。StaxDriver使用SAX解析器(可从Java6)，一个快速的XML解析器。</span>
-    XStream xstream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> StaxDriver());
-    <span class="comment">//类混叠是用来创建一个类的XML完全限定名称的别名。</span>
-    xstream.alias(<span class="string">"root"</span>, Root.<span class="keyword">class</span>);
-    xstream.alias(<span class="string">"common"</span>, Common.<span class="keyword">class</span>);
-    xstream.alias(<span class="string">"data"</span>, Data.<span class="keyword">class</span>);
-    xstream.alias(<span class="string">"meter"</span>, Meter.<span class="keyword">class</span>);
-    xstream.alias(<span class="string">"function"</span>, <span class="built_in">Function</span>.<span class="keyword">class</span>);
-    <span class="comment">//ps通过此方法才能获得每个function的值</span>
-    xstream.registerConverter(<span class="keyword">new</span> ToAttributedValueConverter(<span class="built_in">Function</span>.<span class="keyword">class</span>, xstream.getMapper(),xstream.getReflectionProvider(), xstream.getConverterLookup(), <span class="string">"value"</span>));
-  <span class="comment">//隐式集合混叠时使用的集合是表示在XML无需显示根</span>
-    xstream.addImplicitCollection(Data.<span class="keyword">class</span>, <span class="string">"meters"</span>);
-    xstream.addImplicitCollection(Meter.<span class="keyword">class</span>, <span class="string">"functions"</span>);
-    <span class="comment">// 属性混叠用于创建一个成员变量作为XML属性序列化</span>
-    xstream.useAttributeFor(Data.<span class="keyword">class</span>, <span class="string">"operation"</span>);
-    xstream.useAttributeFor(Meter.<span class="keyword">class</span>, <span class="string">"id"</span>);
-    xstream.useAttributeFor(<span class="built_in">Function</span>.<span class="keyword">class</span>, <span class="string">"id"</span>);
-    xstream.useAttributeFor(<span class="built_in">Function</span>.<span class="keyword">class</span>, <span class="string">"error"</span>);
-    xstream.useAttributeFor(<span class="built_in">Function</span>.<span class="keyword">class</span>, <span class="string">"coding"</span>);
-    Root root = (Root) xstream.fromXML(xml);
-    <span class="keyword">return</span> root;
-}
-<span class="class"><span class="keyword">class</span> <span class="title">Root</span> </span>{
-    Common common;
-    Data data;
-}
-<span class="class"><span class="keyword">class</span> <span class="title">Common</span> </span>{
-    <span class="built_in">String</span> building_id;
-    <span class="built_in">String</span> gateway_id;
-    <span class="built_in">String</span> type;
-}
-<span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>{
-    <span class="built_in">String</span> operation;
-    <span class="built_in">String</span> sequence;
-    <span class="built_in">String</span> parser;
-    Long time;
-    Long total;
-    Long current;
-    <span class="built_in">List</span>&lt;Meter&gt; meters = <span class="keyword">new</span> ArrayList&lt;Meter&gt;();
-}
-<span class="class"><span class="keyword">class</span> <span class="title">Meter</span> </span>{
-    <span class="built_in">String</span> id;
-    <span class="built_in">List</span>&lt;<span class="built_in">Function</span>&gt; functions = <span class="keyword">new</span> ArrayList&lt;<span class="built_in">Function</span>&gt;();
-}
-<span class="class"><span class="keyword">class</span> <span class="title">Function</span> </span>{
-    <span class="built_in">String</span> id;
-    <span class="built_in">String</span> error;
-    <span class="built_in">String</span> coding;
-    <span class="built_in">String</span> value;
+<li>xml数据转化为java对象封装在一个Root类中与xml文件结构相对应<h4 id="2-3-2_核心代码">2.3.2 核心代码</h4><pre><code><span class="literal">import</span> java.io.Serializable;
+<span class="literal">import</span> java.util.ArrayList;
+<span class="literal">import</span> java.util.<span class="built_in">List</span>;
+<span class="literal">import</span> com.thoughtworks.xstream.XStream;
+<span class="literal">import</span> com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
+<span class="literal">import</span> com.thoughtworks.xstream.io.xml.StaxDriver;    
+public <span class="class"><span class="keyword">class</span> <span class="title">ParseXml</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>{        
+private <span class="literal">static</span> <span class="keyword">final</span> long serialVersionUID = <span class="number">1</span>L;
+public Root xmlToObject(<span class="built_in">String</span> xml){
+     <span class="comment">// 通过它传递一个StaxDriver创建XStream对象。StaxDriver使用SAX解析器(可从Java6)，一个快速的XML解析器。</span>
+     XStream xstream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> StaxDriver());
+     <span class="comment">//类混叠是用来创建一个类的XML完全限定名称的别名。</span>
+     xstream.alias(<span class="string">"root"</span>, Root.<span class="keyword">class</span>);
+     xstream.alias(<span class="string">"common"</span>, Common.<span class="keyword">class</span>);
+     xstream.alias(<span class="string">"data"</span>, Data.<span class="keyword">class</span>);
+     xstream.alias(<span class="string">"meter"</span>, Meter.<span class="keyword">class</span>);
+     xstream.alias(<span class="string">"function"</span>, <span class="built_in">Function</span>.<span class="keyword">class</span>);
+     <span class="comment">//ps通过此方法才能获得每个function的值</span>
+     xstream.registerConverter(<span class="keyword">new</span> ToAttributedValueConverter(<span class="built_in">Function</span>.<span class="keyword">class</span>, xstream.getMapper(),xstream.getReflectionProvider(), xstream.getConverterLookup(), <span class="string">"value"</span>));
+   <span class="comment">//隐式集合混叠时使用的集合是表示在XML无需显示根</span>
+     xstream.addImplicitCollection(Data.<span class="keyword">class</span>, <span class="string">"meters"</span>);
+     xstream.addImplicitCollection(Meter.<span class="keyword">class</span>, <span class="string">"functions"</span>);
+     <span class="comment">// 属性混叠用于创建一个成员变量作为XML属性序列化</span>
+     xstream.useAttributeFor(Data.<span class="keyword">class</span>, <span class="string">"operation"</span>);
+     xstream.useAttributeFor(Meter.<span class="keyword">class</span>, <span class="string">"id"</span>);
+     xstream.useAttributeFor(<span class="built_in">Function</span>.<span class="keyword">class</span>, <span class="string">"id"</span>);
+     xstream.useAttributeFor(<span class="built_in">Function</span>.<span class="keyword">class</span>, <span class="string">"error"</span>);
+     xstream.useAttributeFor(<span class="built_in">Function</span>.<span class="keyword">class</span>, <span class="string">"coding"</span>);
+     Root root = (Root) xstream.fromXML(xml);
+     <span class="keyword">return</span> root;
  }
+ <span class="class"><span class="keyword">class</span> <span class="title">Root</span> </span>{
+     Common common;
+     Data data;
  }
+ <span class="class"><span class="keyword">class</span> <span class="title">Common</span> </span>{
+     <span class="built_in">String</span> building_id;
+     <span class="built_in">String</span> gateway_id;
+     <span class="built_in">String</span> type;
+ }
+ <span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>{
+     <span class="built_in">String</span> operation;
+     <span class="built_in">String</span> sequence;
+     <span class="built_in">String</span> parser;
+     Long time;
+     Long total;
+     Long current;
+     <span class="built_in">List</span>&lt;Meter&gt; meters = <span class="keyword">new</span> ArrayList&lt;Meter&gt;();
+ }
+ <span class="class"><span class="keyword">class</span> <span class="title">Meter</span> </span>{
+     <span class="built_in">String</span> id;
+     <span class="built_in">List</span>&lt;<span class="built_in">Function</span>&gt; functions = <span class="keyword">new</span> ArrayList&lt;<span class="built_in">Function</span>&gt;();
+ }
+ <span class="class"><span class="keyword">class</span> <span class="title">Function</span> </span>{
+     <span class="built_in">String</span> id;
+     <span class="built_in">String</span> error;
+     <span class="built_in">String</span> coding;
+     <span class="built_in">String</span> value;
+  }
+  }
 </code></pre></li>
 </ul>
 <h3 id="2-4备份数据">2.4备份数据</h3><h4 id="2-4-1Hbase_RowKey设计">2.4.1Hbase RowKey设计</h4><p>meter_id + time + function_id</p>
