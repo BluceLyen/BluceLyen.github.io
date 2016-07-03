@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-03T05:28:26.157Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:28:26 pm</a></time>
+      <time datetime="2016-07-03T05:37:37.388Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:37:37 pm</a></time>
 
   
     <h1 class="title">能源分项计量流式处理系统设计与开发</h1>
@@ -188,8 +188,7 @@ error属性:该功能出现错误的状态码，0表示没有错误
     }  }
 }
 </code></pre><h3 id="2-3数据封装">2.3数据封装</h3><h4 id="2-3-1_xmlToObject">2.3.1 xmlToObject</h4><ul>
-<li>xml数据转化为java对象封装在一个Root类中与xml文件结构相对应<h4 id="2-3-2_核心代码">2.3.2 核心代码</h4>  import java.io.Serializable;<br>  import java.util.ArrayList;<br>  import java.util.List;<br>  import com.thoughtworks.xstream.XStream;<br>  import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;<br>  import com.thoughtworks.xstream.io.xml.StaxDriver;<br>  public class ParseXml implements Serializable{        <pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1</span>L;
-</code></pre>  public Root xmlToObject(String xml){<pre><code>    <span class="comment">// 通过它传递一个StaxDriver创建XStream对象。StaxDriver使用SAX解析器(可从Java6)，一个快速的XML解析器。</span>
+<li>xml数据转化为java对象封装在一个Root类中与xml文件结构相对应<h4 id="2-3-2_核心代码">2.3.2 核心代码</h4>   import java.io.Serializable;<br>   import java.util.ArrayList;<br>   import java.util.List;<br>   import com.thoughtworks.xstream.XStream;<br>   import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;<br>   import com.thoughtworks.xstream.io.xml.StaxDriver;<br>   public class ParseXml implements Serializable{<br>   private static final long serialVersionUID = 1L;<br>   public Root xmlToObject(String xml){<pre><code>    <span class="comment">// 通过它传递一个StaxDriver创建XStream对象。StaxDriver使用SAX解析器(可从Java6)，一个快速的XML解析器。</span>
     XStream xstream = <span class="keyword">new</span> XStream(<span class="keyword">new</span> StaxDriver());
     <span class="comment">//类混叠是用来创建一个类的XML完全限定名称的别名。</span>
     xstream.alias(<span class="string">"root"</span>, Root.<span class="keyword">class</span>);
@@ -270,20 +269,37 @@ error属性:该功能出现错误的状态码，0表示没有错误
 }
 </code></pre><h3 id="2-5_数据拆分与计算">2.5 数据拆分与计算</h3><h4 id="2-5-1数据拆分">2.5.1数据拆分</h4><ul>
 <li>接收到的xml文件格式的数据转化成了类的对象</li>
-<li>拆分所要做的就是从封装的对象中获取我们即将计算所需要需要的元素<h4 id="2-5-2拆分核心代码">2.5.2拆分核心代码</h4>   val dataParsed = new ArrayBuffer<a href="">Calculating</a><br>   val xmlObject = ParseXml.xmlToObject(xmlOb)<br>   val <code>type</code> = xmlObject.common.<code>type</code><br>   val building_id = xmlObject.common.building_id<br>   val operation = xmlObject.data.operation<br>   val sequence = xmlObject.data.sequence<br>   val parser = xmlObject.data.parser<br>   val time = xmlObject.data.time<br>   val total = xmlObject.data.total<br>   val current = xmlObject.data.current<br>   //遍历meter和function取得相应值<br>   val meterList: java.util.List[Meter] = xmlObject.data.meters<br>   var meter: Meter = null<br>   var function: Function = null<br>   val meterIter = meterList.iterator()<br>   while (meterIter.hasNext) {<pre><code> meter = meterIter.next()
- val funIter = meter.functions.iterator()
- <span class="keyword">while</span> (funIter.hasNext) {
-   <span class="function"><span class="keyword">function</span></span> = funIter.next()
-   val energyItemCode = <span class="function"><span class="keyword">function</span>.<span class="title">coding</span></span>.substring(<span class="function"><span class="keyword">function</span>.<span class="title">coding</span></span>.length() - <span class="number">5</span>, <span class="function"><span class="keyword">function</span>.<span class="title">coding</span></span>.length())
-   //建筑id,能源代号,能源分项号,采集表表号,时间,能源分项数据
-   val computeData = Calculating(building_id, energyItemCode, <span class="function"><span class="keyword">function</span>.<span class="title">id</span></span>, meter.id, time, <span class="function"><span class="keyword">function</span>.<span class="title">value</span></span>.toFloat)
-   dataParsed += computeData
-}
-}
+<li>拆分所要做的就是从封装的对象中获取我们即将计算所需要需要的元素<h4 id="2-5-2拆分核心代码">2.5.2拆分核心代码</h4><pre><code><span class="function"><span class="keyword">val</span> <span class="title">dataParsed</span> =</span> <span class="keyword">new</span> <span class="type">ArrayBuffer</span>[<span class="type">Calculating</span>]()
+<span class="function"><span class="keyword">val</span> <span class="title">xmlObject</span> =</span> <span class="type">ParseXml</span>.xmlToObject(xmlOb)
+<span class="function"><span class="keyword">val</span> `<span class="title">type</span>` =</span> xmlObject.common.`<span class="class"><span class="keyword">type</span>`
+</span><span class="function"><span class="keyword">val</span> <span class="title">building_id</span> =</span> xmlObject.common.building_id
+<span class="function"><span class="keyword">val</span> <span class="title">operation</span> =</span> xmlObject.data.operation
+<span class="function"><span class="keyword">val</span> <span class="title">sequence</span> =</span> xmlObject.data.sequence
+<span class="function"><span class="keyword">val</span> <span class="title">parser</span> =</span> xmlObject.data.parser
+<span class="function"><span class="keyword">val</span> <span class="title">time</span> =</span> xmlObject.data.time
+<span class="function"><span class="keyword">val</span> <span class="title">total</span> =</span> xmlObject.data.total
+<span class="function"><span class="keyword">val</span> <span class="title">current</span> =</span> xmlObject.data.current
+     <span class="comment">//遍历meter和function取得相应值</span>
+<span class="function"><span class="keyword">val</span> <span class="title">meterList</span>:</span> java.util.<span class="type">List</span>[<span class="type">Meter</span>] = xmlObject.data.meters 
+<span class="keyword">var</span> meter: <span class="type">Meter</span> = <span class="literal">null</span>
+<span class="keyword">var</span> function: <span class="type">Function</span> = <span class="literal">null</span>
+<span class="function"><span class="keyword">val</span> <span class="title">meterIter</span> =</span> meterList.iterator()
+<span class="keyword">while</span> (meterIter.hasNext) {
+   meter = meterIter.next()
+   <span class="function"><span class="keyword">val</span> <span class="title">funIter</span> =</span> meter.functions.iterator()
+   <span class="keyword">while</span> (funIter.hasNext) {
+     function = funIter.next()
+     <span class="function"><span class="keyword">val</span> <span class="title">energyItemCode</span> =</span> function.coding.substring(function.coding.length() - <span class="number">5</span>, function.coding.length())
+      <span class="comment">//建筑id,能源代号,能源分项号,采集表表号,时间,能源分项数据</span>
+     <span class="function"><span class="keyword">val</span> <span class="title">computeData</span> =</span> <span class="type">Calculating</span>(building_id, energyItemCode, function.id, meter.id, time, function.value.toFloat)
+    dataParsed += computeData
+ }
+ }
 </code></pre><h4 id="2-5-3数据更新计算">2.5.3数据更新计算</h4></li>
 <li>将建筑id/能源代号/能源分项号/采集表表号<strong>作为Key</strong>,时间/能耗数据<strong>作为Value</strong>,这样就能保证每一次接收过来的数据与上一次的数据<strong>一一对应</strong></li>
 <li>更新分项能耗数据,将此次的值与上一次的值做减法即可得到<strong>当前能耗数据</strong></li>
-<li>将建筑id/能源代号/能源分项号/时间<strong>作为Key</strong>,能耗数据<strong>作为Value</strong>,目的是为了合并同当前一个数据源中不同表的能耗数据,得到最终能耗数据更新值<h4 id="2-5-4计算核心代码">2.5.4计算核心代码</h4>  def runningStream = {<pre><code>  <span class="comment">// 创建一个新的StreamingContext</span>
+<li>将建筑id/能源代号/能源分项号/时间<strong>作为Key</strong>,能耗数据<strong>作为Value</strong>,目的是为了合并同当前一个数据源中不同表的能耗数据,得到最终能耗数据更新值<h4 id="2-5-4计算核心代码">2.5.4计算核心代码</h4><pre><code>def runningStream = {
+     <span class="comment">// 创建一个新的StreamingContext</span>
   val ssc = new StreamingContext<span class="params">(sc, Seconds<span class="params">(<span class="number">5</span>)</span>)</span>
   ssc.checkpoint<span class="params">(<span class="string">"hdfs://master:9000/test"</span>)</span>
   val lines = ssc.receiverStream<span class="params">(new CustomReceiver<span class="params">(<span class="number">25535</span>)</span>)</span>.cache<span class="params">()</span>
@@ -301,21 +317,23 @@ error属性:该功能出现错误的状态码，0表示没有错误
  ssc.start<span class="params">()</span>
  ssc.awaitTermination<span class="params">()</span>
 } 
-</code></pre>   def updateFunction(newValues: Seq[(Long, Float)], preValue: Option[(Long, Float)]): Option[((Long, Float))] = {<pre><code> val prevalue = preValue.map<span class="params">(x =&gt; x._2)</span>.getOrElse<span class="params">(<span class="number">0</span>F)</span>
- val newvalue = newValues.map<span class="params">(x =&gt; x._2)</span>.sum
- val interval = newvalue - prevalue
- var re = <span class="params">(<span class="number">0</span>l,<span class="number">0</span>f)</span>
- <span class="comment">//5秒,15秒,1小时等更新一次</span>
- <span class="keyword">if</span> <span class="params">(interval == <span class="number">5</span>l)</span> {
-    re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
- }<span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(interval == <span class="number">90</span>l)</span> {
-    re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
- }<span class="keyword">else</span> <span class="keyword">if</span><span class="params">(interval == <span class="number">3600</span>l)</span>{
-      re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
- }
- Some<span class="params">(re)</span>
-}
-</code></pre><h3 id="2-6_数据持久化">2.6 数据持久化</h3><h4 id="2-6-1Mysql_数据库设计">2.6.1Mysql 数据库设计</h4><img src="/caculating/database.png" alt=""><h4 id="2-6-2核心代码">2.6.2核心代码</h4>   def insertData(data:Array[String]) = {<pre><code>  var conn: Connection = null
+ def updateFunction<span class="params">(newValues: Seq[<span class="params">(Long, Float)</span>], preValue: Option[<span class="params">(Long, Float)</span>])</span>: Option[<span class="params">(<span class="params">(Long, Float)</span>)</span>] = {
+    val prevalue = preValue.map<span class="params">(x =&gt; x._2)</span>.getOrElse<span class="params">(<span class="number">0</span>F)</span>
+    val newvalue = newValues.map<span class="params">(x =&gt; x._2)</span>.sum
+    val interval = newvalue - prevalue
+    var re = <span class="params">(<span class="number">0</span>l,<span class="number">0</span>f)</span>
+      <span class="comment">//5秒,15秒,1小时等更新一次</span>
+    <span class="keyword">if</span> <span class="params">(interval == <span class="number">5</span>l)</span> {
+       re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
+    }<span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(interval == <span class="number">90</span>l)</span> {
+       re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
+    }<span class="keyword">else</span> <span class="keyword">if</span><span class="params">(interval == <span class="number">3600</span>l)</span>{
+       re = <span class="params">(newValues.map<span class="params">(x =&gt; x._1)</span>.sum, <span class="params">(interval)</span>)</span>
+    }
+    Some<span class="params">(re)</span>
+  }
+</code></pre><h3 id="2-6_数据持久化">2.6 数据持久化</h3><h4 id="2-6-1Mysql_数据库设计">2.6.1Mysql 数据库设计</h4><img src="/caculating/database.png" alt=""><h4 id="2-6-2核心代码">2.6.2核心代码</h4><pre><code>def insertData<span class="params">(data:Array[String])</span> = {
+  var conn: Connection = null
   var ps: PreparedStatement = null
   <span class="comment">//F_ResultID建筑代码10位+"1"+9位流水号,总长度为20</span>
   val sql = <span class="string">"insert into t_ec_energyitemresulttest(F_ResultID,F_BuildID,F_EnergyItemCode,F_StartTime,F_EndTime,F_Value,F_EquValue,F_state) values (?,?,?,?,?,?,?,?)"</span>
@@ -366,10 +384,8 @@ error属性:该功能出现错误的状态码，0表示没有错误
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/07/03/FPGrowth/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-  
-    <a href="/2016/06/16/k-means/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/07/03/FPGrowth/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
