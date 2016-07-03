@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-03T05:08:36.094Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:08:36 pm</a></time>
+      <time datetime="2016-07-03T05:12:31.599Z"><a href="/2016/07/03/caculating/">Dom., Jul. 3 2016, 1:12:31 pm</a></time>
 
   
     <h1 class="title">能源分项计量流式处理系统设计与开发</h1>
@@ -124,37 +124,14 @@
 &lt;/root&gt;
 </code></pre><h3 id="2-2-2数据说明">2.2.2数据说明</h3><p>  &lt;?xml version=”1.0” encoding=”utf-8” ?&gt;</p>
 <pre><code><span class="tag">&lt;<span class="title">root</span>&gt;</span>
-  <span class="comment">&lt;!--通用部分 --&gt;</span>
-              <span class="comment">&lt;!--
 building_id:楼栋编号
 gateway_id:采集器编号
-type:能耗远传数据包的类型</span>
-</code></pre><p>   –&gt;</p>
-<pre><code><span class="tag">&lt;<span class="title">common</span>&gt;</span>
+type:能耗远传数据包的类型
+<span class="tag">&lt;<span class="title">common</span>&gt;</span>
 <span class="tag">&lt;<span class="title">building_id</span>&gt;</span>XXXXXX<span class="tag">&lt;/<span class="title">building_id</span> &gt;</span>
   <span class="tag">&lt;<span class="title">gateway_id</span>&gt;</span>XXX<span class="tag">&lt;/<span class="title">gateway_id</span> &gt;</span>
  <span class="tag">&lt;<span class="title">type</span>&gt;</span>以下5种操作类型之一<span class="tag">&lt;/<span class="title">type</span>&gt;</span>
-</code></pre><p>   </p>
-   <!--能耗远传 -->
-   <!--操作有4种类型
-  query:服务器查询数据采集器，不需要子元素
-  reply:采集器对服务器查询的应答
-  report:采集器定时上报的能耗数据
-  continuous:采集器断点续传的能耗数据
-  continuous_ack:全部续传数据包接收完成后，服务器对断点续传的应答，不需要子元素
-  元素有5种类型
-  sequence元素:采集器向服务器发送数据的序号
-  parser元素:向服务器发送的数据是否经采集器解析过
-  time元素:数据采集时间
-  total元素:断点续传时有效，表示需要断点续传数据包的总数
-  current元素:断点续传时有效，表示当前断点续传数据包的编号
-  port元素:计量装置的设备号，具有id属性
-  function元素:每个计量装置的具体采集功能，具有下列3种属性，
-  id属性:计量装置的数据采集功能编号（供多功能电能表使用）
-  coding属性:能耗数据分类/分项编码
-  error属性:该功能出现错误的状态码，0表示没有错误
-  -->
-<p>  <data operation="query/reply/report/continuous/continuous_ack"></data></p>
+</code></pre><p>   <br>   能耗远传<br>   操作有4种类型<br>  query:服务器查询数据采集器，不需要子元素<br>  reply:采集器对服务器查询的应答<br>  report:采集器定时上报的能耗数据<br>  continuous:采集器断点续传的能耗数据<br>  continuous_ack:全部续传数据包接收完成后，服务器对断点续传的应答，不需要子元素<br>  元素有5种类型<br>  sequence元素:采集器向服务器发送数据的序号<br>  parser元素:向服务器发送的数据是否经采集器解析过<br>  time元素:数据采集时间<br>  total元素:断点续传时有效，表示需要断点续传数据包的总数<br>  current元素:断点续传时有效，表示当前断点续传数据包的编号<br>  port元素:计量装置的设备号，具有id属性<br>  function元素:每个计量装置的具体采集功能，具有下列3种属性，<br>  id属性:计量装置的数据采集功能编号（供多功能电能表使用）<br>  coding属性:能耗数据分类/分项编码<br>  error属性:该功能出现错误的状态码，0表示没有错误<br>  <data operation="query/reply/report/continuous/continuous_ack"></data></p>
 <pre><code><span class="tag">&lt;<span class="title">sequence</span>&gt;</span>XXXXXXXX<span class="tag">&lt;/<span class="title">sequence</span>&gt;</span>
 <span class="tag">&lt;<span class="title">parser</span>&gt;</span>yes/no<span class="tag">&lt;/<span class="title">parser</span>&gt;</span>
 <span class="tag">&lt;<span class="title">time</span>&gt;</span> YYYYMMDDHHMMSS <span class="tag">&lt;/<span class="title">time</span>&gt;</span>
