@@ -99,6 +99,122 @@
   <div class="post-content">
     <header>
       
+      <time datetime="2016-07-17T01:58:03.747Z"><a href="/2016/07/17/GraphX应用案例/">Dom., Jul. 17 2016, 9:58:03 am</a></time>
+
+  
+    <h1 class="title"><a href="/2016/07/17/GraphX应用案例/">GraphX之微博用户热度和社交稳定度排名</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-_功能或场景介绍">1. 功能或场景介绍</h2><p>在社交网络中都存在用户之间的关注关系,可以通过这些关注关系转化为图,这个图的顶点为微博用户,用户之间的关注关系(用户A关注用户B,即A-&gt;B)就是图的边,此案例基于微博用户,用GraphX的PageRank算法进行排名(PageRank度量一个图中每个顶点的重要程度,假定从u到v的一条边代表v的重要性标签。例如,一个微博用户被许多其它人粉,该用户排名很高),与此同时计算图的入度和出度得到每个用户的微博粉丝数和关注数.除此之外还可以用GraphX的TriangleCount算法计算出每个用户的社交稳定程度(在微博上你关注的人也互相关注，大家的关注关系中就会有很多三角形，这说明社区很强很稳定，大家的联系都比较紧密；如果说只是你一个人关注很多人，这说明你的社交群体是非常小的。)</p>
+<h2 id="2-_实验环境">2. 实验环境</h2><p>Hadoop2.6,Spark 1.4<br>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/07/17/GraphX应用案例/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/07/17/GraphX应用案例/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/07/17/GraphX应用案例/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2016-07-17T01:56:02.454Z"><a href="/2016/07/17/Coprocessor/">Dom., Jul. 17 2016, 9:56:02 am</a></time>
+
+  
+    <h1 class="title"><a href="/2016/07/17/Coprocessor/">Hbase Coprocessor</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-Why_Hbase_Coprocessor?">1.Why Hbase Coprocessor?</h2><p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>. </p>
+<h2 id="2-应用场景">2.应用场景</h2><h3 id="2-1基于IDC用户网站访问记录系统设计与开发">2.1基于IDC用户网站访问记录系统设计与开发</h3><p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
+<p>Tips:</p>
+<p>HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。<a href="http://blog.csdn.net/caisini_vc/article/details/5599468">ptotobuf协议详解</a>,下面将会讲解如何使用新版的Endpoint.</p>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/07/17/Coprocessor/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/07/17/Coprocessor/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/07/17/Coprocessor/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
       <time datetime="2016-07-04T05:02:39.503Z"><a href="/2016/07/04/caculating/">Lun., Jul. 4 2016, 1:02:39 pm</a></time>
 
   
@@ -305,63 +421,6 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-06-07T14:35:34.697Z"><a href="/2016/06/07/GraphX应用案例/">Mar., Jun. 7 2016, 10:35:34 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2016/06/07/GraphX应用案例/">GraphX之微博用户热度和社交稳定度排名</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-_功能或场景介绍">1. 功能或场景介绍</h2><p>在社交网络中都存在用户之间的关注关系,可以通过这些关注关系转化为图,这个图的顶点为微博用户,用户之间的关注关系(用户A关注用户B,即A-&gt;B)就是图的边,此案例基于微博用户,用GraphX的PageRank算法进行排名(PageRank度量一个图中每个顶点的重要程度,假定从u到v的一条边代表v的重要性标签。例如,一个微博用户被许多其它人粉,该用户排名很高),与此同时计算图的入度和出度得到每个用户的微博粉丝数和关注数.除此之外还可以用GraphX的TriangleCount算法计算出每个用户的社交稳定程度(在微博上你关注的人也互相关注，大家的关注关系中就会有很多三角形，这说明社区很强很稳定，大家的联系都比较紧密；如果说只是你一个人关注很多人，这说明你的社交群体是非常小的。)</p>
-<h2 id="2-_实验环境">2. 实验环境</h2><p>Hadoop2.6,Spark 1.4<br>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/06/07/GraphX应用案例/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/06/07/GraphX应用案例/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/06/07/GraphX应用案例/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
       <time datetime="2016-06-06T11:12:28.158Z"><a href="/2016/06/06/ALS/">Lun., Jun. 6 2016, 7:12:28 pm</a></time>
 
   
@@ -398,65 +457,6 @@
           <div class="alignright"> 
             <a href="http://blucelyen.github.io/2016/06/06/ALS/#comment" class="comment-link">
               <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/06/06/ALS/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-03-30T09:26:21.165Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:26:21 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2016/03/30/Coprocessor/">Hbase Coprocessor</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-Why_Hbase_Coprocessor?">1.Why Hbase Coprocessor?</h2><p>HBase作为列族数据库最经常被人诟病的特性包括：无法轻易建立“二级索引”，难以执行求和、计数、排序等操作。比如，在旧版(&lt;0.92)Hbase中，统计数据表的总行数，需要使用Counter方法，执行一次MapReduce Job才能得到。虽然HBase在数据存储层中集成了MapReduce，能够有效用于数据表的分布式计算。然而在很多情况下，做一些简单的相加或者聚合计算的时候，如果直接将计算过程放置在server端，能够减少通讯开销，从而获得很好的性能提升。于是，HBase在0.92之后引入了协处理器(coprocessors)，实现一些激动人心的新特性：能够轻易建立二次索引、复杂过滤器(谓词下推)以及访问控制等。<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>. </p>
-<h2 id="2-应用场景">2.应用场景</h2><h3 id="2-1基于IDC用户网站访问记录系统设计与开发">2.1基于IDC用户网站访问记录系统设计与开发</h3><p>1.用Coprocessor实现查询符合某一时间段内访问网站的记录总数.</p>
-<p>Tips:</p>
-<p>HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于触发器，EndPoint相当于存储过程。其中Observer的代码部署在服务端，相当于对API调用的代理。介绍这方面的文章不少,例如<a href="http://blog.csdn.net/hljlzc2007/article/details/12652243">Coprocessor详细介绍</a>.  但是关于EndPoint的使用。0.94.x之前使用EndPoint需要实现CoprocessorProtocol接口，而0.96.x的EndPoint改为用protobufs作为RPC的协议。<a href="http://blog.csdn.net/caisini_vc/article/details/5599468">ptotobuf协议详解</a>,下面将会讲解如何使用新版的Endpoint.</p>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/03/30/Coprocessor/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/03/30/Coprocessor/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/Coprocessor/">&nbsp;
               </span>
             </a>
           </div>

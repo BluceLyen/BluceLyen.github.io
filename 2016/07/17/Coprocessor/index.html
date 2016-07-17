@@ -74,7 +74,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:26:21.165Z"><a href="/2016/03/30/Coprocessor/">Mié., Mar. 30 2016, 5:26:21 pm</a></time>
+      <time datetime="2016-07-17T01:56:02.454Z"><a href="/2016/07/17/Coprocessor/">Dom., Jul. 17 2016, 9:56:02 am</a></time>
 
   
     <h1 class="title">Hbase Coprocessor</h1>
@@ -253,7 +253,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
 <p>2.启动hbase shell通过shell方式(作用于指定)</p>
 <p>import com.lyen.coprocessor02.MyEndpoint02</p>
 <p>alter ‘exp’,’coprocessor’=&gt;’|com.lyen.coprocessor02.MyEndpoint02|1001|’</p>
-<h4 id="2-2-5运行客户端程序">2.2.5运行客户端程序</h4><p><img src="/coprocessor/0001.png" alt=""></p>
+<h4 id="2-2-5运行客户端程序">2.2.5运行客户端程序</h4><p><img src="/coprocessor/00001.png" alt=""></p>
 <h2 id="3-总结">3.总结</h2><h3 id="3-1不足之处">3.1不足之处</h3><p>a.考虑自身笔记本配置的限制,在之前IDC用户网站访问记录系统设计与开发的时候在一台机器上搭建的Hadoop伪分布环境,在Hbase的时候并没有进行数据的散列即预分区,假如说采用预分区散列数据的话,程序的改动也仅仅是在服务端的Endpoint,若采用与分区则我们在写Endpoint时候是需要修改如下代码</p>
 <pre><code><span class="label">HRegion</span> rg = (HRegion) environment.getRegion()<span class="comment">;</span>
 <span class="label">rg.getStartKey</span>(<span class="keyword">byte[] </span><span class="keyword">b); </span>
@@ -285,10 +285,10 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/06/06/ALS/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
+    <a href="/2016/07/17/GraphX应用案例/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
   
-    <a href="/2016/03/30/IDC/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/07/04/caculating/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
@@ -304,7 +304,7 @@ HBase的coprocessor分为两类，Observer和EndPoint。其中Observer相当于�
 
   
       <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="/2016/03/30/Coprocessor/"></div>
+<div class="ds-thread" data-thread-key="/2016/07/17/Coprocessor/"></div>
 <!-- Duoshuo Comment END -->
   
 </section>
