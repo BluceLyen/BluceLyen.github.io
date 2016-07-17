@@ -7,7 +7,7 @@
   <meta name="author" content="Lyen">
   
   <meta name="description" content="1. 功能或场景介绍在社交网络中都存在用户之间的关注关系,可以通过这些关注关系转化为图,这个图的顶点为微博用户,用户之间的关注关系(用户A关注用户B,即A-&amp;gt;B)就是图的边,此案例基于微博用户,用GraphX的PageRank算法进行排名(PageRank度量一个图中每个顶点的重要程度,假定从u到v的一条边代表v的重要性标签。例如,一个微博用户被许多其它人粉,该用户排名很高),与此同时计算图的入度和出度得到每个用户的微博粉丝数和关注数.除此之外还可以用GraphX的TriangleCount算法计算出每个用户的社交稳定程度(在微博上你关注的人也互相关注，大家的关注关系中就会有很多三角形，这说明社区很强很稳定，大家的联系都比较紧密；如果说只是你一个人关注很多人，这说明你的社交群体是非常小的。)
-2. 实验环境Hadoop2.6,Spark 1.4">
+2. 实验环境Hadoop2.6   Spark 1.4">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-07-17T01:58:03.747Z"><a href="/2016/07/17/GraphX应用案例/">Dom., Jul. 17 2016, 9:58:03 am</a></time>
+      <time datetime="2016-07-17T02:26:42.365Z"><a href="/2016/07/17/GraphX应用案例/">Dom., Jul. 17 2016, 10:26:42 am</a></time>
 
   
     <h1 class="title">GraphX之微博用户热度和社交稳定度排名</h1>
@@ -86,7 +86,7 @@
     <div class="entry">
       
         <h2 id="1-_功能或场景介绍">1. 功能或场景介绍</h2><p>在社交网络中都存在用户之间的关注关系,可以通过这些关注关系转化为图,这个图的顶点为微博用户,用户之间的关注关系(用户A关注用户B,即A-&gt;B)就是图的边,此案例基于微博用户,用GraphX的PageRank算法进行排名(PageRank度量一个图中每个顶点的重要程度,假定从u到v的一条边代表v的重要性标签。例如,一个微博用户被许多其它人粉,该用户排名很高),与此同时计算图的入度和出度得到每个用户的微博粉丝数和关注数.除此之外还可以用GraphX的TriangleCount算法计算出每个用户的社交稳定程度(在微博上你关注的人也互相关注，大家的关注关系中就会有很多三角形，这说明社区很强很稳定，大家的联系都比较紧密；如果说只是你一个人关注很多人，这说明你的社交群体是非常小的。)</p>
-<h2 id="2-_实验环境">2. 实验环境</h2><p>Hadoop2.6,Spark 1.4<br><a id="more"></a></p>
+<h2 id="2-_实验环境">2. 实验环境</h2><p>Hadoop2.6   Spark 1.4<br><a id="more"></a></p>
 <h2 id="3-_GraphX介绍,案例的原理,流程以及主要语句说明">3. GraphX介绍,案例的原理,流程以及主要语句说明</h2><h3 id="3-1图计算">3.1图计算</h3><h4 id="3-1-1_GraphX图简单介绍">3.1.1 GraphX图简单介绍</h4><p>GraphX有很多方式从一个原始文件、RDD构造一个属性图。下面的代码从RDD集合生成属性并构建图</p>
 <pre><code>val    sc:    SparkContext
 <span class="comment">//    为GraphX图的定点及其属性创建一个RDD</span>
@@ -104,7 +104,7 @@ Edge<span class="params">(<span class="number">5</span>L,<span class="number">3<
 val defaultUser = <span class="params">(<span class="string">"John Doe"</span>,<span class="string">"Missing"</span>)</span>
 <span class="comment">//构建图</span>
 val graph    = Graph<span class="params">(users,relationships,defaultUser)</span>
-</code></pre><p>在GraphX项目中,假设我们想构造一个包括不同合作者的属性图。顶点属性可能包含用户名和职业。我们可以用描述合作者之间关系的字符串标注边缘。</p>
+</code></pre><p>GraphX项目中,假设我们想构造一个包括不同合作者的属性图。顶点属性可能包含用户名和职业。我们可以用描述合作者之间关系的字符串标注边缘。</p>
 <p><img src="/graphx/graphx01.png" alt=""></p>
 <h4 id="3-1-2_GraphX从边关系加载一个图">3.1.2 GraphX从边关系加载一个图</h4><p>1.GraphLoader.edgeListFile:Graph[Int,Int])    提供了一个方式从磁盘上的边列表中加载一个图。它解析如下形式(源顶点ID,目标顶点ID)的连接表.</p>
 <pre><code><span class="number">2</span>    <span class="number">1</span>
@@ -371,10 +371,8 @@ method
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/07/17/Coprocessor/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-  
-    <a href="/2016/07/04/caculating/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/07/17/IDC/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
