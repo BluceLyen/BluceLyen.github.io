@@ -73,7 +73,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-30T09:22:52.411Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:22:52 pm</a></time>
+      <time datetime="2016-07-17T02:25:43.228Z"><a href="/2016/07/17/IDC/">Dom., Jul. 17 2016, 10:25:43 am</a></time>
 
   
     <h1 class="title">IDC用户网站访问记录系统设计与开发</h1>
@@ -285,7 +285,7 @@ public static void countByLimits<span class="params">(Long stime,int b,int s,Str
 <p><img src="/IDC/06.png" alt=""></p>
 <h2 id="3-详细设计">3.详细设计</h2><h3 id="3-1_数据库分析与设计">3.1 数据库分析与设计</h3><p><img src="/IDC/07.png" alt=""></p>
 <h3 id="3-2_Rowkey设计">3.2 Rowkey设计</h3><p>rowkey的设计会根据项目的需求进行详细设计，一般高位用于预分区，防止数据写入热点，节点中负载不均衡，由于此次实验在单节点环境下进行，所以并没有下去预分区，而是将timestamp设计在高位，由于对时间范围作范围查询要求，这样设计可以大大提高查询效率， rowkey中ip正好可以使其rowkey保持唯一性，因为会对ip进行范围查询，因此还是单独的放在了column family中。除此之外需要注意的是，rowkey要遵循唯一性，rowkey是一个二进制码流，在此项目中，我们需要把ip转化二进制的byte类型。保证rowkey的长度唯一。</p>
-<h2 id="4-分析和总结">4.分析和总结</h2><h3 id="4-1_系统存在的问题及解决方案">4.1 系统存在的问题及解决方案</h3><p>1.负载均衡<br>Rowkey是按时间戳的方式递增，一般不要将时间戳放在二进制码的前面，建议将Rowkey的高位作为散列字段，由程序循环生成，低位放时间字段，这样将提高数据均衡分布在每个Regionserver实现负载均衡的几率。如果没有散列字段，首字段直接是时间信息将产生所有新数据都在一个 RegionServer上堆积的热点现象，这样在做数据检索的时候负载将会集中在个别RegionServer，降低查询效率。由于，这次此次实验室在单节点环境中，所以没有也没法考虑热点写入，也没有进行分区，但有一点根据查询要求能很快的获取乐观的结果花费很少的时间。<br>2.程序查询<br>在查询方面暂且用的Scan和Filte，查询效率一般，除此之外还可以用mapreduce进行数据查询以及用更好的方法coprocessor二级索引，由于能力有限，暂且用比较简单的方法，虽然和coprocessor二级索引不能相提并论，但在小数据集中已经够用。在接下来的学习中会花时间去了解并学习如何使用coprocessor完成条件查询。</p>
+<h2 id="4-分析和总结">4.分析和总结</h2><h3 id="4-1_系统存在的问题及解决方案">4.1 系统存在的问题及解决方案</h3><p>1.负载均衡<br>Rowkey是按时间戳的方式递增，不建议将时间戳放在二进制码的起始位置，建议将Rowkey的高位作为散列字段，由程序循环生成，低位放时间字段，这样将提高数据均衡分布在每个Regionserver实现负载均衡的几率。如果没有散列字段，首字段直接是时间信息将产生所有新数据都在一个 RegionServer上堆积的热点现象，这样在做数据检索的时候负载将会集中在个别RegionServer，降低查询效率。由于，这次此次实验室在单节点环境中，所以没有也没法考虑热点写入，也没有进行分区，但有一点根据查询要求能很快的获取乐观的结果花费很少的时间。<br>2.程序查询<br>在查询方面暂且用的Scan和Filte，查询效率一般，除此之外还可以用mapreduce进行数据查询以及用更好的方法coprocessor二级索引，由于能力有限，暂且用比较简单的方法，虽然和coprocessor二级索引不能相提并论，但在小数据集中已经够用。在接下来的学习中会花时间去了解并学习如何使用coprocessor完成条件查询。</p>
 
       
     </div>
@@ -310,10 +310,8 @@ public static void countByLimits<span class="params">(Long stime,int b,int s,Str
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/06/06/ALS/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-  
-    <a href="/2016/03/30/TriangleCount/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/07/17/Coprocessor/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
@@ -329,7 +327,7 @@ public static void countByLimits<span class="params">(Long stime,int b,int s,Str
 
   
       <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="/2016/03/30/IDC/"></div>
+<div class="ds-thread" data-thread-key="/2016/07/17/IDC/"></div>
 <!-- Duoshuo Comment END -->
   
 </section>

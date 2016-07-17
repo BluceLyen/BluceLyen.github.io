@@ -99,6 +99,64 @@
   <div class="post-content">
     <header>
       
+      <time datetime="2016-07-17T02:25:43.228Z"><a href="/2016/07/17/IDC/">Dom., Jul. 17 2016, 10:25:43 am</a></time>
+
+  
+    <h1 class="title"><a href="/2016/07/17/IDC/">IDC用户网站访问记录系统设计与开发</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>IDC用户网站访问记录系统设计与开发，顾名思义，本系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
+<h3 id="1-2设计目标">1.2设计目标</h3><h4 id="1-2-1_模拟数据写入模块">1.2.1 模拟数据写入模块</h4><p>在写入数据部分应该实现一个实时机制，在写入数据这一模块中,从数据在客服端产生到上传到hdfs再到将数据写入到Hbase这个过程涉及三个程序,第一个程序每隔一分钟生成模拟数据文件放在本地的一个文件夹中,第二个程序负责将生成的数据文件实时的上传到hdfs,第三个程序负责把hdfs上边的文件实时的写入Hbase中,由于考虑到实时,这三个程序构成一个实时的机制,数据产生即刻上传至hdfs并且即刻通过mapreduce直接写入Hbase。</p>
+<h4 id="1-2-2_数据查询模块">1.2.2 数据查询模块</h4><p>查询部分本系统满足按时间段查询，按时间范围+ip范围查询完整记录，按时间范围+ip范围+协议类型查询完整记录，按时间范围+ip范围+协议类型+url域名查询完整记录。<br>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/07/17/IDC/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/07/17/IDC/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/07/17/IDC/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
       <time datetime="2016-07-17T02:12:58.289Z"><a href="/2016/07/17/Coprocessor/">Dom., Jul. 17 2016, 10:12:58 am</a></time>
 
   
@@ -457,64 +515,6 @@
           <div class="alignright"> 
             <a href="http://blucelyen.github.io/2016/06/06/ALS/#comment" class="comment-link">
               <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/06/06/ALS/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-03-30T09:22:52.411Z"><a href="/2016/03/30/IDC/">Mié., Mar. 30 2016, 5:22:52 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2016/03/30/IDC/">IDC用户网站访问记录系统设计与开发</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>IDC用户网站访问记录系统设计与开发，顾名思义，本系统是为了分析用户某段时间内浏览网页的行为，我们需要计算哪些用户访问了哪些网页，对他们的行为进行分析，反映出网站的的热度等，程序设计思路理所应当是高效写入和查询数据。</p>
-<h3 id="1-2设计目标">1.2设计目标</h3><h4 id="1-2-1_模拟数据写入模块">1.2.1 模拟数据写入模块</h4><p>在写入数据部分应该实现一个实时机制，在写入数据这一模块中,从数据在客服端产生到上传到hdfs再到将数据写入到Hbase这个过程涉及三个程序,第一个程序每隔一分钟生成模拟数据文件放在本地的一个文件夹中,第二个程序负责将生成的数据文件实时的上传到hdfs,第三个程序负责把hdfs上边的文件实时的写入Hbase中,由于考虑到实时,这三个程序构成一个实时的机制,数据产生即刻上传至hdfs并且即刻通过mapreduce直接写入Hbase。</p>
-<h4 id="1-2-2_数据查询模块">1.2.2 数据查询模块</h4><p>查询部分本系统满足按时间段查询，按时间范围+ip范围查询完整记录，按时间范围+ip范围+协议类型查询完整记录，按时间范围+ip范围+协议类型+url域名查询完整记录。<br>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/03/30/IDC/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/03/30/IDC/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/30/IDC/">&nbsp;
               </span>
             </a>
           </div>
