@@ -99,6 +99,98 @@
   <div class="post-content">
     <header>
       
+      <time datetime="2016-07-17T02:29:21.750Z"><a href="/2016/07/17/caculating/">Dom., Jul. 17 2016, 10:29:21 am</a></time>
+
+  
+    <h1 class="title"><a href="/2016/07/17/caculating/">能源分项计量Streaming流式处理系统设计与开发</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>分项计量,对每隔5s(可扩展为15s,15min,1h,1d,1month)从服务器端发送过来的格式为xml的能耗数据信息进行解析,备份原始数据信息并实时计算分项能耗的更新值并且对更新信息做持久化.</p>
+<h3 id="1-2设计目标">1.2设计目标</h3><h4 id="1-2-1_数据接收">1.2.1 数据接收</h4><p>数据接收采用Spark Streaming自定义Receiver,Kafka,Flume + Kafka,此处采用Spark Streaming自定义Receiver</p>
+<h4 id="1-2-2_数据备份">1.2.2 数据备份</h4><p>将从服务器端接收到的xml数据信息进行解析,提取重要信息存入Hbase实现原始数据备份也可以用于数据挖掘与分析</p>
+<h4 id="1-2-3_数据拆分计算">1.2.3 数据拆分计算</h4><p>将服务器端接收到的xml数据信息进行解析,提取数据信息中的分项能耗并进行计算其更新值.</p>
+<h4 id="1-2-4_数据持久化">1.2.4 数据持久化</h4><p>将每个时间段计算的分项能耗更新值持久化于Mysql.</p>
+<h2 id="2-系统实现">2.系统实现</h2><h3 id="2-1结构设计图">2.1结构设计图</h3><p><img src="/caculating/design.png" alt=""></p>
+<h3 id="2-2接收数据">2.2接收数据</h3><ul>
+<li>服务器端每隔5s发送一次数据,数据为xml文件<h3 id="2-2-1数据格式">2.2.1数据格式</h3><pre><code> &lt;root&gt;
+     &lt;common&gt;
+         &lt;building_id&gt;<span class="number">510107</span>D004&lt;/building_id&gt;
+         &lt;gateway_id&gt;<span class="number">510107</span>D00401&lt;/gateway_id&gt;
+         &lt;type&gt;peroid&lt;/type&gt;
+     &lt;/common&gt;
+     &lt;data operation=<span class="string">" query/reply/report/continuous/continuous_ack"</span>&gt;
+         &lt;sequence&gt;<span class="number">2016</span>-<span class="number">05</span>-<span class="number">24</span>-<span class="number">10</span>-<span class="number">56</span>-<span class="number">46</span>&lt;/sequence&gt;
+         &lt;parser&gt;no&lt;/parser&gt;
+         &lt;time&gt;<span class="number">1464058606</span>&lt;/time&gt;
+         &lt;total&gt;<span class="number">0</span>&lt;/total&gt;
+         &lt;current&gt;<span class="number">0</span>&lt;/current&gt;
+         &lt;meter id=<span class="string">"510107D004010002"</span>&gt;
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000101"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.037370</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000102"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">223.499924</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000103"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">205.601120</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000104"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">98.742043</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000105"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">2.788278</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000106"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.323411</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+         &lt;/meter&gt;&lt;meter id=<span class="string">"510107D004010001"</span>&gt;
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000101"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.013402</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000102"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">224.974243</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000103"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">208.038010</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000104"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">98.111786</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000105"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">2.786295</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000106"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.307666</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
+         &lt;/meter&gt;
+     &lt;/data&gt;
+&lt;/root&gt;
+</code></pre>
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/07/17/caculating/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://blucelyen.github.io/2016/07/17/caculating/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/07/17/caculating/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
       <time datetime="2016-07-17T02:26:42.365Z"><a href="/2016/07/17/GraphX应用案例/">Dom., Jul. 17 2016, 10:26:42 am</a></time>
 
   
@@ -243,98 +335,6 @@
           <div class="alignright"> 
             <a href="http://blucelyen.github.io/2016/07/17/Coprocessor/#comment" class="comment-link">
               <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/07/17/Coprocessor/">&nbsp;
-              </span>
-            </a>
-          </div>
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-    <header>
-      
-      <time datetime="2016-07-04T05:02:39.503Z"><a href="/2016/07/04/caculating/">Lun., Jul. 4 2016, 1:02:39 pm</a></time>
-
-  
-    <h1 class="title"><a href="/2016/07/04/caculating/">能源分项计量流式处理系统设计与开发</a></h1>
-  
-
-
-
-<div class="clear"></div>
-      
-    </header>
-    <div class="entry">
-      
-        <h2 id="1-设计思路">1.设计思路</h2><h3 id="1-1问题分析">1.1问题分析</h3><p>分项计量,对每隔5s(可扩展为15s,15min,1h,1d,1month)从服务器端发送过来的格式为xml的能耗数据信息进行解析,备份原始数据信息并实时计算分项能耗的更新值并且对更新信息做持久化.</p>
-<h3 id="1-2设计目标">1.2设计目标</h3><h4 id="1-2-1_数据接收">1.2.1 数据接收</h4><p>数据接收采用Spark Streaming自定义Receiver,Kafka,Flume + Kafka,此处采用Spark Streaming自定义Receiver</p>
-<h4 id="1-2-2_数据备份">1.2.2 数据备份</h4><p>将从服务器端接收到的xml数据信息进行解析,提取重要信息存入Hbase实现原始数据备份也可以用于数据挖掘与分析</p>
-<h4 id="1-2-3_数据拆分计算">1.2.3 数据拆分计算</h4><p>将服务器端接收到的xml数据信息进行解析,提取数据信息中的分项能耗并进行计算其更新值.</p>
-<h4 id="1-2-4_数据持久化">1.2.4 数据持久化</h4><p>将每个时间段计算的分项能耗更新值持久化于Mysql.</p>
-<h2 id="2-系统实现">2.系统实现</h2><h3 id="2-1结构设计图">2.1结构设计图</h3><p><img src="/caculating/design.png" alt=""></p>
-<h3 id="2-2接收数据">2.2接收数据</h3><ul>
-<li>服务器端每隔5s发送一次数据,数据为xml文件<h3 id="2-2-1数据格式">2.2.1数据格式</h3><pre><code> &lt;root&gt;
-     &lt;common&gt;
-         &lt;building_id&gt;<span class="number">510107</span>D004&lt;/building_id&gt;
-         &lt;gateway_id&gt;<span class="number">510107</span>D00401&lt;/gateway_id&gt;
-         &lt;type&gt;peroid&lt;/type&gt;
-     &lt;/common&gt;
-     &lt;data operation=<span class="string">" query/reply/report/continuous/continuous_ack"</span>&gt;
-         &lt;sequence&gt;<span class="number">2016</span>-<span class="number">05</span>-<span class="number">24</span>-<span class="number">10</span>-<span class="number">56</span>-<span class="number">46</span>&lt;/sequence&gt;
-         &lt;parser&gt;no&lt;/parser&gt;
-         &lt;time&gt;<span class="number">1464058606</span>&lt;/time&gt;
-         &lt;total&gt;<span class="number">0</span>&lt;/total&gt;
-         &lt;current&gt;<span class="number">0</span>&lt;/current&gt;
-         &lt;meter id=<span class="string">"510107D004010002"</span>&gt;
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000101"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.037370</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000102"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">223.499924</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000103"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">205.601120</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000104"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">98.742043</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000105"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">2.788278</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000106"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.323411</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-         &lt;/meter&gt;&lt;meter id=<span class="string">"510107D004010001"</span>&gt;
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000101"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.013402</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000102"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">224.974243</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000103"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">208.038010</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000104"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">98.111786</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000105"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">2.786295</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-              &lt;<span class="function"><span class="keyword">function</span> <span class="title">id</span>=</span><span class="string">"51010700000106"</span> <span class="built_in">error</span>=<span class="string">"0"</span> coding=<span class="string">"510107D00401A10"</span>&gt;<span class="number">0.307666</span>&lt;/<span class="function"><span class="keyword">function</span>&gt;</span>
-         &lt;/meter&gt;
-     &lt;/data&gt;
-&lt;/root&gt;
-</code></pre>
-      
-    </div>
-    <footer>
-      
-        <div class="alignleft">
-            <a href="/2016/07/04/caculating/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
-        </div>
-        
-        
-          <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2016/07/04/caculating/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/07/04/caculating/">&nbsp;
               </span>
             </a>
           </div>
