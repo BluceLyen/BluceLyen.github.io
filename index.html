@@ -99,10 +99,10 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2017-01-03T11:45:11.450Z"><a href="/2017/01/03/airflow_useage /">Mar., Ene. 3 2017, 7:45:11 pm</a></time>
+      <time datetime="2017-01-03T12:05:25.827Z"><a href="/2017/01/03/airflow_usage/">Mar., Ene. 3 2017, 8:05:25 pm</a></time>
 
   
-    <h1 class="title"><a href="/2017/01/03/airflow_useage /"></a></h1>
+    <h1 class="title"><a href="/2017/01/03/airflow_usage/"></a></h1>
   
 
 
@@ -114,7 +114,7 @@
       
         <h2 id="Airflow_usage">Airflow usage</h2><h3 id="1-airflow简介">1.airflow简介</h3><p>Airflow是一个工作流调度器，相对于传统的crontab任务管理，Airflow很好的为我们理清了复杂的任务依赖关系、监控任务执行的情况Airflow提供一个非常容易定义DAG的机制：一个开发者使用Python 脚本定义他的DAG。然后自动加载这个DAG到DAG引擎，为他的首次运行进行调度。修改一个DAG就像修改Python 脚本一样容易，airflow 是能进行数据pipeline的管理，甚至是可以当做更高级的cron job 来使用,airflow是用python写的，它能进行工作流的调度，提供更可靠的流程，并且自带UI</p>
 <h3 id="2-安装">2.安装</h3><p>airflow 需要一个主目录，默认为~ /airflow，也可以安装在任何你想安装的位置，建议在自己的主目录下主动创建一个airflow文件夹用于安装，安装成功后airflow.cfg配置文件，目录dags，以及日志logs都位于~ /airflow</p>
-<p>PS:dags目录没有则自行创建，所有的airflow python脚本都放置在此目录。文件系统默认的配置文件是从 airflow包的configuration.py文件中获取的，在设置了路径和airflow.cfg之后，配置将由airflow.cfg所替代。</p>
+<p>PS:dags目录没有则自行创建，所有的airflow python脚本都放置在此目录。文件系统默认的配置文件是从 airflow包的configuration.py文件中获取的，在设置了路径和airflow.cfg之后，配置将由airflow.cfg所替代</p>
 <pre><code><span class="comment">//设置airflow主目录，修改环境变量</span>
 <span class="keyword">export</span> AIRFLOW_HOME=~/airflow
 <span class="comment">//安装python-mysqldb</span>
@@ -153,7 +153,8 @@ smtp_port = <span class="number">25</span>
 smtp_password = [your email password]
 smtp_mail_from = [email username]
 </code></pre><h3 id="5-第一个简单的airflow">5.第一个简单的airflow</h3><p>使用BashOperator实现一个简单的airflow，更多Operator详见<a href="http://pythonhosted.org/airflow/code.html#operators" target="_blank" rel="external">Airflow官方文档 Operators</a></p>
-<h4 id="5-1编写airflow_python脚本_first_dag-py">5.1编写airflow python脚本 first_dag.py</h4><pre><code><span class="comment">#encoding:utf-8</span>
+<h4 id="5-1编写airflow_python脚本_first_dag-py">5.1编写airflow python脚本 first_dag.py</h4><p>一个DAG包含多个依赖关系的task，每个DAG和task都有自己独有的id</p>
+<pre><code><span class="comment">#encoding:utf-8</span>
 <span class="keyword">from</span> airflow <span class="keyword">import</span> DAG
 <span class="keyword">from</span> airflow.operators.bash_operator <span class="keyword">import</span> BashOperator
 <span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta
@@ -226,10 +227,10 @@ airflow test first_bash_dag print_date <span class="number">2017</span>-<span cl
 </ol>
 <p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/graph_view.png?raw=true" alt=""></p>
 <p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/tree_view.png?raw=true" alt=""></p>
-<p>PS：<br>web UI中其他功能就不一一赘述了，请自行了解</p>
-<h4 id="5-5关于schedule_interval">5.5关于schedule_interval</h4><p>schedule_interval被定义为一个DAG参数,并接收一个cron表达式,或者一个datetime。timedelta对象。<a href="http://pythonhosted.org/airflow/scheduler.html?highlight=cron" target="_blank" rel="external">详见Airflow官方文档</a></p>
+<p>PS: web UI中其他功能就不一一赘述了，请自行了解</p>
+<h4 id="5-5关于schedule_interval">5.5关于schedule_interval</h4><p>schedule_interval被定义为一个DAG参数,并接收一个cron表达式,或者一个datetime,timedelta对象,<a href="http://pythonhosted.org/airflow/scheduler.html?highlight=cron" target="_blank" rel="external">详见Airflow官方文档</a></p>
 <p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/interval.png?raw=ture" alt=""></p>
-<h3 id="6-HiveOperator">6.HiveOperator</h3><p>PS：本地应有hadoop与hive环境</p>
+<h3 id="6-HiveOperator">6.HiveOperator</h3><p>PS: 本地应有hadoop与hive环境</p>
 <pre><code>from airflow import DAG
 from airflow.operators.hive_operator import HiveOperator
 from datetime import datetime,timedelta
@@ -255,10 +256,11 @@ task_hive_cmd = <span class="string">"create table lel.wc_2 as select w.word as 
 task_hive = HiveOperator(task_id=<span class="string">'hive_task'</span>,
                       hql=task_hive_cmd,
                       dag=dag)
-</code></pre><h3 id="7-SSHHook远程提交ETL数据流">7.SSHHook远程提交ETL数据流</h3><p>使用SSHExecuteOperator远程提交bash命令实现data pipline,更多HOOk详见<a href="http://pythonhosted.org/airflow/code.html#module-airflow.hooks" target="_blank" rel="external">Airflow官方文档 HookS</a></p>
+</code></pre><h3 id="7-SSHHook远程提交ETL数据流">7.SSHHook远程提交ETL数据流</h3><p>使用SSHExecuteOperator远程提交bash命令实现data pipline,更多Hook详见<a href="http://pythonhosted.org/airflow/code.html#module-airflow.hooks" target="_blank" rel="external">Airflow官方文档 HookS</a></p>
 <h4 id="7-1_web_UI新建ssh_Connection">7.1 web UI新建ssh Connection</h4><p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/sshconn.png?raw=true" alt=""></p>
 <h4 id="7-2_ssh免密码登录">7.2 ssh免密码登录</h4><p><a href="http://chenlb.iteye.com/blog/211809" target="_blank" rel="external">配置ssh无密码远程登录</a></p>
-<h4 id="7-3_airflow_python_脚本编写">7.3 airflow python 脚本编写</h4><pre><code><span class="comment">#encoding:utf-8</span>
+<h4 id="7-3_airflow_python_脚本编写">7.3 airflow python 脚本编写</h4><p>场景:闲鱼数据入库，pyspark提交spark数据解析程序，hive更新迭代数据并入库</p>
+<pre><code><span class="comment">#encoding:utf-8</span>
 <span class="keyword">from</span> airflow <span class="keyword">import</span> DAG
 <span class="keyword">from</span> airflow.operators.bash_operator <span class="keyword">import</span> BashOperator
 <span class="keyword">from</span> datetime <span class="keyword">import</span> datetime,timedelta
@@ -306,7 +308,7 @@ pyspark = SSHExecuteOperator(
     output_encoding=<span class="string">'utf-8'</span>,
     env={<span class="string">"shell"</span>:<span class="string">"/bin/bash"</span>},
     dag=dag)
-
+<span class="comment">#hive和spark任务成功后邮件通知  </span>
 email = EmailOperator(task_id=<span class="string">'email'</span>,
                       to=[<span class="string">'lienlian@wolongdata.com'</span>],
                       subject=<span class="string">'airflow schedule hive and spark task'</span>,
@@ -390,7 +392,7 @@ full outer JOIN
 <span class="keyword">ON</span>
 t1.itemid = t2.itemid;
 EOF
-</code></pre><h4 id="6-5SHExecuteOperator注意事项">6.5SHExecuteOperator注意事项</h4><ol>
+</code></pre><h4 id="7-5SSHExecuteOperator注意事项">7.5SSHExecuteOperator注意事项</h4><ol>
 <li>使用SSHHook远程提交bash脚本运行hive或者spark的时候注意一定要使用绝对路径,比如:<br>/home/lel/hive/bin/hive ~/test.hql而不能直接使用hive ~/test.hql</li>
 </ol>
 
@@ -399,13 +401,13 @@ EOF
     <footer>
       
         <div class="alignleft">
-            <a href="/2017/01/03/airflow_useage /#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+            <a href="/2017/01/03/airflow_usage/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
         </div>
         
         
           <div class="alignright"> 
-            <a href="http://blucelyen.github.io/2017/01/03/airflow_useage /#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2017/01/03/airflow_useage /">&nbsp;
+            <a href="http://blucelyen.github.io/2017/01/03/airflow_usage/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2017/01/03/airflow_usage/">&nbsp;
               </span>
             </a>
           </div>
