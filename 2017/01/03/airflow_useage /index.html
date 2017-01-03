@@ -71,7 +71,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2017-01-03T09:15:50.993Z"><a href="/2017/01/03/airflow_useage/">Mar., Ene. 3 2017, 5:15:50 pm</a></time>
+      <time datetime="2017-01-03T11:45:11.450Z"><a href="/2017/01/03/airflow_useage /">Mar., Ene. 3 2017, 7:45:11 pm</a></time>
 
   
     <h1 class="title"></h1>
@@ -86,7 +86,7 @@
       
         <h2 id="Airflow_usage">Airflow usage</h2><h3 id="1-airflow简介">1.airflow简介</h3><p>Airflow是一个工作流调度器，相对于传统的crontab任务管理，Airflow很好的为我们理清了复杂的任务依赖关系、监控任务执行的情况Airflow提供一个非常容易定义DAG的机制：一个开发者使用Python 脚本定义他的DAG。然后自动加载这个DAG到DAG引擎，为他的首次运行进行调度。修改一个DAG就像修改Python 脚本一样容易，airflow 是能进行数据pipeline的管理，甚至是可以当做更高级的cron job 来使用,airflow是用python写的，它能进行工作流的调度，提供更可靠的流程，并且自带UI</p>
 <h3 id="2-安装">2.安装</h3><p>airflow 需要一个主目录，默认为~ /airflow，也可以安装在任何你想安装的位置，建议在自己的主目录下主动创建一个airflow文件夹用于安装，安装成功后airflow.cfg配置文件，目录dags，以及日志logs都位于~ /airflow</p>
-<p>ps:dags目录没有则自行创建，所有的airflow python脚本都放置在此目录。文件系统默认的配置文件是从 airflow包的configuration.py文件中获取的，在设置了路径和airflow.cfg之后，配置将由airflow.cfg所替代。</p>
+<p>PS:dags目录没有则自行创建，所有的airflow python脚本都放置在此目录。文件系统默认的配置文件是从 airflow包的configuration.py文件中获取的，在设置了路径和airflow.cfg之后，配置将由airflow.cfg所替代。</p>
 <pre><code><span class="comment">//设置airflow主目录，修改环境变量</span>
 <span class="keyword">export</span> AIRFLOW_HOME=~/airflow
 <span class="comment">//安装python-mysqldb</span>
@@ -98,8 +98,8 @@ pip install airflow[mysql,mysqlclient,hive,password,crypto]
 <span class="comment">//初始化数据库</span>
 airflow initdb
 <span class="comment">//开启web服务器, 默认端口号为8080</span>
-airflow webserver -p <span class="number">8080</span>
-</code></pre><p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/webUI.png?raw=true" alt="webUI"></p>
+airflow webserver -p <span class="number">8080</span> &amp;
+</code></pre><p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/webUI.png?raw=true" alt=""></p>
 <h3 id="3-配置mysql数据库">3.配置mysql数据库</h3><h4 id="3-1_创建mysql_airflow_用户以及数据库">3.1 创建mysql airflow 用户以及数据库</h4><pre><code><span class="operator"><span class="keyword">create</span> <span class="keyword">database</span> airflow;</span>
 <span class="operator"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">'airflow@localhost'</span> <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">"123"</span>;</span>
 <span class="operator"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> airflow.* <span class="keyword">to</span> airflow@localhost <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123'</span>;</span>
@@ -109,7 +109,10 @@ airflow webserver -p <span class="number">8080</span>
 sql_alchemy_conn=mysql:<span class="comment">//airflow:123@localhost:3306/airflow(修改数据库连接为mysql)</span>
 executor = <span class="function"><span class="title">LocalExecutor</span><span class="params">(设置executor为LocalExecutor)</span></span>
 airflow <span class="function"><span class="title">initdb</span><span class="params">(初始化数据库)</span></span>
-</code></pre><h4 id="3-3_在web_UI中新建本地mysql连接">3.3 在web UI中新建本地mysql连接</h4><p>web UI中找到Admin下的connections<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/mysqlconn.png?raw=true" alt="image"><br>新建connection，自命名Conn Id，选择连接类型为Mysql，Host为localhost，Schema为airflow，数据库登录名和密码和上边配置的数据库连接一致<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/mysqlconndetail.png?raw=true" alt="image"><br>Data Profiling下Ad Hoc Query简单查询符合条件的DAG<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/mysqlquery.png?raw=true" alt="image"></p>
+</code></pre><h4 id="3-3_在web_UI中新建本地mysql连接">3.3 在web UI中新建本地mysql连接</h4><p>浏览器输入  localhost:8080  打开Airflow web UI </p>
+<p>web UI中找到Admin下的connections<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/mysqlconn.png?raw=true" alt=""></p>
+<p>新建connection，自命名Conn Id，选择连接类型为Mysql，Host为localhost，Schema为airflow，数据库登录名和密码和上边配置的数据库连接一致<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/mysqlconndetail.png?raw=true" alt=""><br>Data Profiling下Ad Hoc Query简单查询符合条件的DAG</p>
+<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/mysqlquery.png?raw=true" alt=""></p>
 <h3 id="4-配置邮件服务">4.配置邮件服务</h3><p>邮件服务，方便data pipline中整个DAG调度中运行情况的邮件通知</p>
 <p>编辑airflow.cfg配置文件,更改邮件服务器为网易企业邮箱服务器，更改邮件用户名和密码</p>
 <pre><code>vim ~/airflow/airflow<span class="class">.cfg</span>
@@ -121,7 +124,8 @@ smtp_user = [email username] e<span class="class">.x</span>: lienlian@wolongdata
 smtp_port = <span class="number">25</span>
 smtp_password = [your email password]
 smtp_mail_from = [email username]
-</code></pre><h3 id="5-第一个简单的airflow">5.第一个简单的airflow</h3><h4 id="5-1编写airflow_python脚本_fist_dag-py">5.1编写airflow python脚本 fist_dag.py</h4><pre><code><span class="comment">#encoding:utf-8</span>
+</code></pre><h3 id="5-第一个简单的airflow">5.第一个简单的airflow</h3><p>使用BashOperator实现一个简单的airflow，更多Operator详见<a href="http://pythonhosted.org/airflow/code.html#operators" target="_blank" rel="external">Airflow官方文档 Operators</a></p>
+<h4 id="5-1编写airflow_python脚本_first_dag-py">5.1编写airflow python脚本 first_dag.py</h4><pre><code><span class="comment">#encoding:utf-8</span>
 <span class="keyword">from</span> airflow <span class="keyword">import</span> DAG
 <span class="keyword">from</span> airflow.operators.bash_operator <span class="keyword">import</span> BashOperator
 <span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta
@@ -138,7 +142,7 @@ default_args = {
     <span class="comment"># 'queue': 'bash_queue',</span>
     <span class="comment"># 'pool': 'backfill',</span>
     <span class="comment"># 'priority_weight': 10,</span>
-    <span class="comment"># 'end_date': datetime(2017, 1, ),</span>
+    <span class="comment"># 'end_date': datetime(2017, 1,2),</span>
 }  
 
 
@@ -151,7 +155,8 @@ dag = DAG(<span class="string">'first_bash_dag'</span>,default_args=default_args
 <span class="comment">#打印当前系统时间</span>
 bash_cmd_1 = <span class="string">'date'</span>
 <span class="comment">#列出当前目录所有文件与目录</span>
-bash_cmd_2 = <span class="string">'ls'</span>
+bash_cmd_2 = <span class="string">'ls ~/'</span>
+
 <span class="string">"""
 同时运行多条bash命令
 bash_multi = '(date;ls ~/;top)'
@@ -173,7 +178,7 @@ task_1.set_downstream(task_2)
 <li>python first_dag.py (python执行编写的脚本文件检查是否有语法错误)</li>
 <li>airflow initdb 重新初始化数据库</li>
 </ol>
-<p>初始化数据库后在web UI中你会看见新加载出来的DAG,也可以使用命令airflow list_dags查看当前处于active的DAG<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/first_dag.png?raw=true" alt="image"><br>将DAG状态更改为On状态并点击刷新，DAG就可以被airflow sceduler命令调度了，灰色长方形为调度时间<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/dagon_2.png?raw=true" alt="image"></p>
+<p>初始化数据库后在web UI中你会看见新加载出来的DAG,也可以使用命令airflow list_dags查看当前处于active的DAG<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/first_dag.png?raw=true" alt=""><br>将DAG状态更改为On状态并点击刷新，DAG就可以被airflow sceduler命令调度了，灰色长方形为调度时间<br><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/dagon_2.png?raw=true" alt=""></p>
 <h4 id="5-3测试DAG">5.3测试DAG</h4><pre><code><span class="preprocessor">#列出所有的DAG</span>
 airflow list_dags
 <span class="preprocessor">#列出特定DAG下的所有task</span>
@@ -187,18 +192,45 @@ airflow test first_bash_dag print_date <span class="number">2017</span>-<span cl
 <p>airflow scheduler [-d DAG_ID] -sd=/home/docs/airflow/dags  [-n NUM_RUNS]</p>
 <p>启动dag调度器, 注意启动调度器, 并不意味着dag会被马上触发, dag触发需要符合它自己的schedule规则.<br>参数NUM_RUNS, 如果指定的话, dag将在运行NUM_RUNS次后退出. 没有指定时, scheduler将一直运行.<br>参数DAG_ID可以设定, 也可以缺省, 含义分别是:<br>如果设定了DAG_ID, 则为该DAG_ID专门启动一个scheduler;<br>如果缺省DAG_ID, airflow会为每个dag(subdag除外)都启动一个scheduler</p>
 <p>2.DAG运行的日志保存在~/airflow/logs中,使用tree first_bash_dag查看目录结构</p>
-<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/logs.png?raw=true" alt="image"></p>
+<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/logs.png?raw=true" alt=""></p>
 <ol>
 <li>DAG 运行成功的web UI</li>
 </ol>
-<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/graph_view.png?raw=true" alt="image"></p>
-<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/tree_view.png?raw=true" alt="image"></p>
+<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/graph_view.png?raw=true" alt=""></p>
+<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/tree_view.png?raw=true" alt=""></p>
 <p>PS：<br>web UI中其他功能就不一一赘述了，请自行了解</p>
 <h4 id="5-5关于schedule_interval">5.5关于schedule_interval</h4><p>schedule_interval被定义为一个DAG参数,并接收一个cron表达式,或者一个datetime。timedelta对象。<a href="http://pythonhosted.org/airflow/scheduler.html?highlight=cron" target="_blank" rel="external">详见Airflow官方文档</a></p>
-<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/interval.png?raw=ture" alt="image"></p>
-<h3 id="6-远程提交数据ETL数据流">6.远程提交数据ETL数据流</h3><h4 id="6-1_web_UI新建ssh_Connection">6.1 web UI新建ssh Connection</h4><p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/sshconn.png?raw=true" alt="image"></p>
-<h4 id="6-2_ssh免密码登录">6.2 ssh免密码登录</h4><p><a href="http://chenlb.iteye.com/blog/211809" target="_blank" rel="external">配置ssh无密码远程登录</a></p>
-<h4 id="6-3_airflow_python_脚本编写">6.3 airflow python 脚本编写</h4><pre><code><span class="comment">#encoding:utf-8</span>
+<p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/interval.png?raw=ture" alt=""></p>
+<h3 id="6-HiveOperator">6.HiveOperator</h3><p>PS：本地应有hadoop与hive环境</p>
+<pre><code>from airflow import DAG
+from airflow.operators.hive_operator import HiveOperator
+from datetime import datetime,timedelta
+
+default_args = {
+    <span class="string">'owner'</span>: <span class="string">'lyen'</span>,
+    <span class="string">'depends_on_past'</span>: <span class="literal">False</span>,
+    <span class="string">'start_date'</span>: datetime(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">26</span>),
+    <span class="string">'email'</span>: [<span class="string">'lienlian@wolongdata.com'</span>],
+    <span class="string">'email_on_failure'</span>: <span class="literal">True</span>,
+    <span class="string">'email_on_retry'</span>: <span class="literal">False</span>,
+    <span class="preprocessor"># <span class="string">'retries'</span>: 1,</span>
+    <span class="preprocessor">#<span class="string">'retry_delay'</span>: timedelta(minutes=2),</span>
+    <span class="preprocessor">#<span class="string">'end_date'</span>: datetime(2016, 12, 21),</span>
+    <span class="preprocessor"># <span class="string">'queue'</span>: <span class="string">'bash_queue'</span>,</span>
+    <span class="preprocessor"># <span class="string">'pool'</span>: <span class="string">'backfill'</span>,</span>
+    <span class="preprocessor"># <span class="string">'priority_weight'</span>: 10,</span>
+}
+
+dag = DAG(<span class="string">'hive_operator'</span>,default_args=default_args,schedule_interval=<span class="string">'40 16 * * *'</span>)
+
+task_hive_cmd = <span class="string">"create table lel.wc_2 as select w.word as word,count(1) as count from (select explode(split(id,' ')) as word from lel.wc_text) w group by word order by count desc"</span>
+task_hive = HiveOperator(task_id=<span class="string">'hive_task'</span>,
+                      hql=task_hive_cmd,
+                      dag=dag)
+</code></pre><h3 id="7-SSHHook远程提交ETL数据流">7.SSHHook远程提交ETL数据流</h3><p>使用SSHExecuteOperator远程提交bash命令实现data pipline,更多HOOk详见<a href="http://pythonhosted.org/airflow/code.html#module-airflow.hooks" target="_blank" rel="external">Airflow官方文档 HookS</a></p>
+<h4 id="7-1_web_UI新建ssh_Connection">7.1 web UI新建ssh Connection</h4><p><img src="https://github.com/BluceLyen/BluceLyen.github.io/blob/master/image/sshconn.png?raw=true" alt=""></p>
+<h4 id="7-2_ssh免密码登录">7.2 ssh免密码登录</h4><p><a href="http://chenlb.iteye.com/blog/211809" target="_blank" rel="external">配置ssh无密码远程登录</a></p>
+<h4 id="7-3_airflow_python_脚本编写">7.3 airflow python 脚本编写</h4><pre><code><span class="comment">#encoding:utf-8</span>
 <span class="keyword">from</span> airflow <span class="keyword">import</span> DAG
 <span class="keyword">from</span> airflow.operators.bash_operator <span class="keyword">import</span> BashOperator
 <span class="keyword">from</span> datetime <span class="keyword">import</span> datetime,timedelta
@@ -254,7 +286,7 @@ email = EmailOperator(task_id=<span class="string">'email'</span>,
                       dag=dag)
 pyspark.set_downstream(hive)
 hive.set_downstream(email)
-</code></pre><h4 id="6-4相应的bash文件内容">6.4相应的bash文件内容</h4><p>xianyu_iteminfo_parse.sh</p>
+</code></pre><h4 id="7-4相应的bash文件内容">7.4相应的bash文件内容</h4><p>xianyu_iteminfo_parse.sh</p>
 <pre><code>#!/bin/bash
 <span class="keyword">source</span> ~/.bashrc
 <span class="keyword">date</span>
@@ -330,7 +362,10 @@ full outer JOIN
 <span class="keyword">ON</span>
 t1.itemid = t2.itemid;
 EOF
-</code></pre>
+</code></pre><h4 id="6-5SHExecuteOperator注意事项">6.5SHExecuteOperator注意事项</h4><ol>
+<li>使用SSHHook远程提交bash脚本运行hive或者spark的时候注意一定要使用绝对路径,比如:<br>/home/lel/hive/bin/hive ~/test.hql而不能直接使用hive ~/test.hql</li>
+</ol>
+
       
     </div>
     <footer>
@@ -371,7 +406,7 @@ EOF
 
   
       <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="/2017/01/03/airflow_useage/"></div>
+<div class="ds-thread" data-thread-key="/2017/01/03/airflow_useage /"></div>
 <!-- Duoshuo Comment END -->
   
 </section>
