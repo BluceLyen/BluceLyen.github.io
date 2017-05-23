@@ -1,0 +1,71 @@
+Index: airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.py	(revision 50a8d446799b168abee1bbcbe107553e22a0dea5)
++++ airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.py	(revision )
+@@ -16,12 +16,12 @@
+         last_day = (today + datetime.timedelta(days=-i - 1)).strftime('%Y%m%d')
+         last_2_days = (today + datetime.timedelta(days=-i - 2)).strftime('%Y%m%d')
+         # print exec_day, last_day, last_2_days
+-        command = "bash /home/wrt/sparkdata/lel/airflow/wrt/ec/tb/ec_shopitem_b_backfill.sh {last_day} {last_2_days}".format(
++        command = "bash /home/lel/sparkdata/airflow/wrt/ec/tb/ec_shopitem_b_backfill.sh {last_day} {last_2_days}".format(
+             last_day=last_day, last_2_days=last_2_days)
+         os.system(command)
+ 
+ def backfill_individually(last_day, last_update_day):
+-    command = "bash /home/wrt/sparkdata/lel/airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.sh {last_day} {last_update_day}".format(
++    command = "bash /home/lel/sparkdata/airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.sh {last_day} {last_update_day}".format(
+         last_day=last_day, last_update_day=last_update_day)
+     os.system(command)
+ 
+@@ -34,3 +34,5 @@
+     backfill_individually(last_day, last_update_day)
+     backfill_continuously(latest_day, days-1)
+ 
++
++backfill_continuously(1,6)
+Index: airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.sh	(revision 50a8d446799b168abee1bbcbe107553e22a0dea5)
++++ airflow/wrt/ec/shopitem_b/backfill/ec_shopitem_b_backfill.sh	(revision )
+@@ -1,6 +1,8 @@
+ #! /bin/bash
+ source ~/.bashrc
+ pre_path='/home/wrt/sparkdata'
++lastday=$1
++last_2_days=$2
+ 
+ hadoop fs -test -e /user/wrt/shopitem_tmp
+ if [ $? -eq 0 ] ;then
+@@ -10,14 +12,13 @@
+ fi
+ 
+ 
+-spark-submit  --executor-memory 6G  --driver-memory 6G  --total-executor-cores 60 \
+-$pre_path/wrt/data_base_process/t_base_shopitem_b.py $1 $2
++spark-submit  --driver-memory 4G --num-executors 20 --executor-memory 20G --executor-cores 5 \
++$pre_path/wrt/data_base_process/t_base_shopitem_b.py $lastday $last_2_days
+ 
+ hive<<EOF
+-use wlbase_dev;
+ set hive.merge.mapredfiles = true;
+ set hive.merge.mapfiles = true;
+-set hive.merge.size.per.task = 256*1000*1000;
+-set hive.merge.smallfiles.avgsize= 16000000;
+-LOAD DATA  INPATH '/user/wrt/shopitem_tmp' OVERWRITE INTO TABLE t_base_ec_shopitem_b PARTITION (ds='$1');
++set hive.merge.size.per.task = 240000000;
++set hive.merge.smallfiles.avgsize= 180000000;
++LOAD DATA  INPATH '/user/wrt/shopitem_tmp' OVERWRITE INTO TABLE wl_base.t_base_ec_shopitem_b PARTITION (ds='$lastday');
+ EOF
+Index: airflow/__init__.py
+===================================================================
+--- airflow/__init__.py	(revision 50a8d446799b168abee1bbcbe107553e22a0dea5)
++++ airflow/__init__.py	(revision 50a8d446799b168abee1bbcbe107553e22a0dea5)
+@@ -1,1 +0,0 @@
+-
+\ No newline at end of file

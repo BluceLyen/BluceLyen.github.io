@@ -1,0 +1,249 @@
+Index: airflow/wrt/ec/update_4_crawler/shopitem_bc_newid/shopitem_b_newid.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/update_4_crawler/shopitem_bc_newid/shopitem_b_newid.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/update_4_crawler/shopitem_bc_newid/shopitem_b_newid.sh	(revision )
+@@ -1,6 +1,8 @@
+ #!/usr/bin/env bash
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ insert overwrite table wl_analysis.t_wrt_caiji_shopitem_b_newid
+ select t1.item_id,t1.sold from
+ (select item_id,cast(sold as int) as sold from wl_base.t_base_ec_shopitem_b where ds = '20170220')t1
+Index: airflow/wrt/ec/shopitem_c/shopitem_c_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/shopitem_c/shopitem_c_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/shopitem_c/shopitem_c_import.sh	(revision )
+@@ -5,6 +5,8 @@
+ last_update_day=$2
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ use wl_base;
+ LOAD DATA  INPATH '/user/wrt/shopitem_c_tmp' OVERWRITE INTO TABLE t_base_ec_shopitem_c PARTITION (ds='00tmp');
+ insert OVERWRITE table t_base_ec_shopitem_c PARTITION(ds = $lastday)
+Index: airflow/wrt/ec/update_4_crawler/shopitem_bc_newid/shopitem_c_newid.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/update_4_crawler/shopitem_bc_newid/shopitem_c_newid.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/update_4_crawler/shopitem_bc_newid/shopitem_c_newid.sh	(revision )
+@@ -1,6 +1,8 @@
+ #!/usr/bin/env bash
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ insert overwrite table wl_analysis.t_wrt_caiji_shopitem_c_newid
+ select t1.item_id,t1.sold from
+ (select item_id,cast(sold as int) as sold from wl_base.t_base_ec_shopitem_c where ds = '20170220')t1
+Index: airflow/wrt/ec/itemsold/ec_itemsold_daysale_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/itemsold/ec_itemsold_daysale_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/itemsold/ec_itemsold_daysale_import.sh	(revision )
+@@ -5,7 +5,8 @@
+ 
+ 
+ hive<<EOF
+-set hive.merge.mapfiles=true;
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ LOAD DATA  INPATH '/user/wrt/daysale_tmp' OVERWRITE INTO TABLE wl_base.t_base_ec_item_daysale_dev_new PARTITION (ds=$last_2_days);
+ EOF
+ 
+Index: airflow/wrt/ec/item_and_shop_info/ec_iteminfo_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/item_and_shop_info/ec_iteminfo_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/item_and_shop_info/ec_iteminfo_import.sh	(revision )
+@@ -7,10 +7,10 @@
+ table=wl_base.t_base_ec_item_dev_new
+ 
+ hive<<EOF
+-
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ use wl_base;
+ LOAD DATA  INPATH "/user/wrt/temp/iteminfo_tmp" OVERWRITE INTO TABLE $table PARTITION(ds='00tmp');
+-
+ insert OVERWRITE table $table PARTITION(ds = $today)
+ select
+ case when t1.item_id is null then t2.item_id else t1.item_id end,
+Index: airflow/wrt/ec/itemsearch/itemsearch_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/itemsearch/itemsearch_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/itemsearch/itemsearch_import.sh	(revision )
+@@ -7,6 +7,8 @@
+ table=wl_base.t_base_item_search
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ insert OVERWRITE table $table PARTITION(ds = $lastday)
+ select
+ case when t1.nid is null then t2.nid else t1.nid end,
+\ No newline at end of file
+Index: airflow/lel/xianyu/itemcomment/xianyu_itemcomment_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/lel/xianyu/itemcomment/xianyu_itemcomment_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/lel/xianyu/itemcomment/xianyu_itemcomment_import.sh	(revision )
+@@ -9,6 +9,8 @@
+ table=wl_base.t_base_ec_xianyu_itemcomment
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ LOAD DATA  INPATH '/user/lel/temp/xianyu_itemcomment' OVERWRITE INTO TABLE $table PARTITION (ds='00tmp');
+ insert OVERWRITE table $table PARTITION(ds = $lastday)
+ select
+Index: airflow/wrt/ec/update_4_crawler/record_bc_feed_newid/record_b_feed.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/update_4_crawler/record_bc_feed_newid/record_b_feed.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/update_4_crawler/record_bc_feed_newid/record_b_feed.sh	(revision )
+@@ -4,8 +4,8 @@
+ last_update_date=$1
+ 
+ hive<<EOF
+-set hive.merge.mapfiles=true;
++set hive.merge.mapfiles= true;
+-set hive.merge.mapredfiles=true;
++set hive.merge.mapredfiles= true;
+ insert overwrite table wl_analysis.t_wrt_caiji_record_b_feed partition(ds='20170302')
+ select item_id,new_ds,sold from
+ (
+Index: airflow/wrt/ec/item_and_shop_info/ec_shopinfo_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/item_and_shop_info/ec_shopinfo_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/item_and_shop_info/ec_shopinfo_import.sh	(revision )
+@@ -7,6 +7,8 @@
+ table=wl_base.t_base_ec_shop_dev_new
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ LOAD DATA  INPATH "/user/wrt/temp/shopinfo_tmp" OVERWRITE INTO TABLE $table PARTITION(ds='00tmp');
+ insert OVERWRITE table $table PARTITION(ds = $today)
+ select
+Index: airflow/wrt/ec/itemsold/ec_itemsold_sale_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/itemsold/ec_itemsold_sale_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/itemsold/ec_itemsold_sale_import.sh	(revision )
+@@ -3,7 +3,8 @@
+ lastday=$1
+ 
+ hive<<EOF
+-set hive.merge.mapfiles=true;
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ LOAD DATA  INPATH '/user/wrt/sale_tmp' OVERWRITE INTO TABLE wl_base.t_base_ec_item_sold_dev PARTITION (ds=$lastday);
+ EOF
+ 
+Index: airflow/wrt/ec/update_4_crawler/item_info&search_update.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/update_4_crawler/item_info&search_update.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/update_4_crawler/item_info&search_update.sh	(revision )
+@@ -1,6 +1,8 @@
+ #!/usr/bin/env bash
+ 
+ hive<<EOF
++set hive.merge.mapfiles= true;
++set hive.merge.mapredfiles= true;
+ insert overwrite table wl_analysis.t_wrt_caiji_serach_newid
+ select t1.nid,t1.ct from
+ (select nid,cast(comment_count as int) as ct from wl_base.t_base_item_search where ds = '20170217' having ct is not null and ct > 0  )t1
+Index: airflow/wrt/ec/update_4_crawler/record_bc_feed_newid/record_c_feed.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/update_4_crawler/record_bc_feed_newid/record_c_feed.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/update_4_crawler/record_bc_feed_newid/record_c_feed.sh	(revision )
+@@ -4,8 +4,8 @@
+ last_update_date=$1
+ 
+ hive<<EOF
+-set hive.merge.mapfiles=true;
++set hive.merge.mapfiles= true;
+-set hive.merge.mapredfiles=true;
++set hive.merge.mapredfiles= true;
+ insert overwrite table wl_analysis.t_wrt_caiji_record_c_feed partition(ds='20170302')
+ select item_id,new_ds,sold from
+ (
+\ No newline at end of file
+Index: airflow/stat/stat.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/stat/stat.sh	(revision )
++++ airflow/stat/stat.sh	(revision )
+@@ -0,0 +1,4 @@
++#!/usr/bin/env bash
++
++date=`hadoop fs -ls /hive/warehouse/wl_base.db/t_base_ec_item_dev_new | awk -F '=' '{if($2 ~ /^[0-9]+$/)print $2}' | sort -r |awk 'NR==1{print $0}'`
++echo $date
+\ No newline at end of file
+Index: airflow/lel/xianyu/iteminfo/xianyu_iteminfo_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/lel/xianyu/iteminfo/xianyu_iteminfo_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/lel/xianyu/iteminfo/xianyu_iteminfo_import.sh	(revision )
+@@ -12,8 +12,6 @@
+ hive<<EOF
+ set hive.merge.mapfiles= true;
+ set hive.merge.mapredfiles= true;
+-set hive.merge.size.per.task=240000000;
+-set hive.merge.smallfiles.avgsize=180000000;
+ LOAD DATA  INPATH '/user/lel/temp/xianyu_iteminfo' OVERWRITE INTO TABLE $table PARTITION (ds='00tmp');
+ insert OVERWRITE table $table PARTITION(ds = $lastday)
+ select
+\ No newline at end of file
+Index: airflow/wrt/ec/shopitem_b/shopitem_b_import.sh
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- airflow/wrt/ec/shopitem_b/shopitem_b_import.sh	(revision f6928d481340aa9635a49bf1e858965c6bf85616)
++++ airflow/wrt/ec/shopitem_b/shopitem_b_import.sh	(revision )
+@@ -6,7 +6,5 @@
+ hive<<EOF
+ set hive.merge.mapredfiles = true;
+ set hive.merge.mapfiles = true;
+-set hive.merge.size.per.task = 240000000;
+-set hive.merge.smallfiles.avgsize= 180000000;
+ LOAD DATA  INPATH '/user/wrt/shopitem_tmp' OVERWRITE INTO TABLE wl_base.t_base_ec_shopitem_b PARTITION (ds=$lastday);
+ EOF
