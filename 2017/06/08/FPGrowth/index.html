@@ -72,7 +72,7 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-12-02T03:33:28.052Z"><a href="/2016/12/02/FPGrowth/">Vie., Dic. 2 2016, 11:33:28 am</a></time>
+      <time datetime="2017-06-08T01:58:37.939Z"><a href="/2017/06/08/FPGrowth/">Jue., Jun. 8 2017, 9:58:37 am</a></time>
 
   
     <h1 class="title">FPGrowth算法</h1>
@@ -99,7 +99,7 @@
 <p>4.置信度（Confidence）</p>
 <p>置信度表示在先决条件X发生的条件下，关联结果Y发生的概率：</p>
 <p>这是生成强关联规则的第二个门槛，衡量了所考察的关联规则在“质”上的可靠性。相似的，我们需要对置信度设定最小阈值（mincon）来实现进一步筛选。</p>
-<p>具体的，当设定置信度的最小阈值为70%时，置信度为800/1000=80%，而的置信度为800/2000=40%，被剔除。</p>
+<p>具体的，当设定置信度的最小阈值为70%时，{尿布，啤酒}中尿布置信度为800/1000=80%，而啤酒的置信度为800/2000=40%，被剔除。</p>
 <p>5.提升度（lift）</p>
 <p>提升度表示在含有X的条件下同时含有Y的可能性与没有X这个条件下项集中含有Y的可能性之比：公式为confidence(artichok =&gt; cracker)/support(cracker) = 80%/50% = 1.6。该指标与置信度同样衡量规则的可靠性，可以看作是置信度的一种互补指标。</p>
 <h4 id="算法原理">算法原理</h4><h5 id="原理">原理</h5><p>FP-Growth(频繁模式增长)算法采取分治策略：将提供频繁项集的数据库压缩到一棵频繁模式树（FP-Tree），但仍保留项集关联信息；该算法和Apriori算法最大的不同有两点：第一，不产生候选集，第二，只需要两次遍历数据库，大大提高了效率。因为FP树蕴涵了所有的频繁项集,所以其后的频繁项集的挖掘只需要在FP树上进行,而不需要再扫描数据库.</p>
@@ -182,10 +182,8 @@
           <div class="clearfix"></div>
           <nav id="pagination">
   
-    <a href="/2016/12/02/caculating/" class="alignleft prev"><i class="fa fa-long-arrow-left"></i>Next</a>
   
-  
-    <a href="/2016/12/02/GraphX应用案例/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
+    <a href="/2016/12/02/TriangleCount/" class="alignright next">Prev<i class="fa fa-long-arrow-right"></i></a>
   
   <div class="clearfix"></div>
 </nav>
@@ -201,7 +199,7 @@
 
   
       <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="/2016/12/02/FPGrowth/"></div>
+<div class="ds-thread" data-thread-key="/2017/06/08/FPGrowth/"></div>
 <!-- Duoshuo Comment END -->
   
 </section>
